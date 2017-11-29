@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
 const _ = require("lodash");
+const colors = require("colors/safe");
 const POLL_MSEC = 250;
 const ColorWire = {
     red: 3,
@@ -29,6 +30,7 @@ function panelWireIsPluggedInto(color) {
     });
     return panel || null;
 }
+console.log(`polling every ${colors.bold(String(POLL_MSEC))} ms`);
 let old = null;
 while (1) {
     const m = Object.entries(ColorWire).map(([colorName, pin]) => {
@@ -39,6 +41,18 @@ while (1) {
         };
     });
     if (!_.isEqual(old, m)) {
+        m.forEach(({ color, state }) => {
+            let colorFn;
+            if (color === 'red')
+                colorFn = colors.red;
+            else if (color === 'yellow')
+                colorFn = colors.yellow;
+            else if (color === 'blue')
+                colorFn = colors.blue;
+            else
+                colorFn = console.log;
+            console.log(`${colorFn('red')} => ${state}`);
+        });
         console.log(m);
         old = m;
     }

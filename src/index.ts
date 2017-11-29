@@ -1,5 +1,6 @@
 import * as rpio from 'rpio'
 import * as _ from 'lodash'
+import * as colors from 'colors/safe'
 
 const POLL_MSEC = 250
 
@@ -42,6 +43,8 @@ function panelWireIsPluggedInto(color: ColorPin): Panel | null {
   return panel || null
 }
 
+console.log(`polling every ${colors.bold(String(POLL_MSEC))} ms`)
+
 let old = null
 while (1) {
   const m = Object.entries(ColorWire).map(([colorName, pin]) => {
@@ -52,6 +55,14 @@ while (1) {
     }
   })
   if (!_.isEqual(old, m)) {
+    m.forEach(({color, state}) => {
+      let colorFn: Function
+      if (color === 'red') colorFn = colors.red
+      else if (color === 'yellow') colorFn = colors.yellow
+      else if (color === 'blue') colorFn = colors.blue
+      else colorFn = console.log
+      console.log(`${colorFn('red')} => ${state}`)
+    })
     console.log(m)
     old = m
   }
