@@ -9,7 +9,7 @@ const POLL_MSEC = 250
 console.log('Ganglia Daemon is reborn!\n')
 console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`)
 console.log(`${colors.bold('Server')}: ${SERVER_URL}`)
-const socket = io(SERVER_URL)
+const socket = io(SERVER_URL, { reconnection: true })
 
 type WireColor = 'red' | 'blue' | 'yellow'
 type WirePin = 3 | 5 | 7
@@ -137,18 +137,18 @@ const mockAssignments: Array<Assignment> = [
 ]
 
 let assignments: Array<Assignment> = []
-while (1) {
-  const newAssignments = _.map(wires, (pin, color: WireColor) => {
-    const panel = panelWireIsPluggedInto(pin as WirePin)
-    return { color, panel }
-  })
-  if (!_.isEqual(assignments, newAssignments)) {
-    assignments = newAssignments
-    printAssignments(assignments)
-    dispatchEvents(mockAssignments)
-  }
-  rpio.msleep(POLL_MSEC)
-}
+// while (1) {
+//   const newAssignments = _.map(wires, (pin, color: WireColor) => {
+//     const panel = panelWireIsPluggedInto(pin as WirePin)
+//     return { color, panel }
+//   })
+//   if (!_.isEqual(assignments, newAssignments)) {
+//     assignments = newAssignments
+//     printAssignments(assignments)
+//     dispatchEvents(mockAssignments)
+//   }
+//   rpio.msleep(POLL_MSEC)
+// }
 socket.on('connect', () => {
   console.log('Connected to server')
 })
