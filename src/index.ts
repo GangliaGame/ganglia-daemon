@@ -8,7 +8,7 @@ const POLL_MSEC = 250
 
 console.log('Ganglia Daemon is reborn!\n')
 console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`)
-console.log(`${colors.bold('Server')}: ${SERVER_URL}\n`)
+console.log(`${colors.bold('Server')}: ${SERVER_URL}`)
 const socket = io(SERVER_URL)
 
 type WireColor = 'red' | 'blue' | 'yellow'
