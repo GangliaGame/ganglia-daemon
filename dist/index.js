@@ -76,8 +76,9 @@ function getConnections() {
     function poll() {
         const newConnections = getConnections();
         const diff = _.differenceWith(connections, newConnections, _.isEqual);
+        console.log(diff);
         if (!_.isEmpty(diff)) {
-            console.log(diff);
+            console.log('HI!');
             connections = newConnections;
         }
     }
