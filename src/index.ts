@@ -104,11 +104,11 @@ type Event = {
 
 function events(assignments: Array<Assignment>): Array<Event> {
   return _.chain(assignments)
-    // .filter(({panel}) => panel !== null)
-    .groupBy(({panel}) => panel ? panel.name : 'unplugged')
+    .filter(({panel}) => panel !== null)
+    .groupBy(({panel}) => panel!.name)
     .map((a, name) => ({
         name,
-        toData: name === 'unplugged' ? () => {} : a[0].panel!.toData,
+        toData: a[0].panel!.toData,
         colors: _.map(a, 'color'),
     }))
     .map(({name, toData, colors}) => ({

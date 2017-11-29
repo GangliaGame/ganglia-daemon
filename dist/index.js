@@ -80,10 +80,11 @@ function printAssignments(assignments) {
 }
 function events(assignments) {
     return _.chain(assignments)
-        .groupBy(({ panel }) => panel ? panel.name : 'unplugged')
+        .filter(({ panel }) => panel !== null)
+        .groupBy(({ panel }) => panel.name)
         .map((a, name) => ({
         name,
-        toData: name === 'unplugged' ? () => { } : a[0].panel.toData,
+        toData: a[0].panel.toData,
         colors: _.map(a, 'color'),
     }))
         .map(({ name, toData, colors }) => ({
