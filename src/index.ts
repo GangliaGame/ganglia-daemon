@@ -136,8 +136,9 @@ const mockAssignments: Array<Assignment> = [
   },
 ]
 
+
 let assignments: Array<Assignment> = []
-while (1) {
+function poll() {
   const newAssignments = _.map(wires, (pin, color: WireColor) => {
     const panel = panelWireIsPluggedInto(pin as WirePin)
     return { color, panel }
@@ -147,8 +148,10 @@ while (1) {
     printAssignments(assignments)
     dispatchEvents(mockAssignments)
   }
-  rpio.msleep(POLL_MSEC)
 }
+
+setInterval(poll, POLL_MSEC)
+
 socket.on('connect', () => {
   console.log('Connected to server')
 })
