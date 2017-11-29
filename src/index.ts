@@ -10,8 +10,17 @@ const ColorWire = {
   yellow: 7,
 }
 
-type WeaponPin = 11 | 13 | 15
-const weaponPins: Array<WeaponPin> = [11, 13, 15]
+type Pin = number
+type Panel = {
+  name: string
+  pins: Array<Pin>
+}
+const panels: Array<Panel> = [
+  {
+    name: 'weapons',
+    pins: [11, 13, 15],
+  },
+]
 
 // Set up color wires for writing
 Object.values(ColorWire).forEach(pin => {
@@ -19,22 +28,30 @@ Object.values(ColorWire).forEach(pin => {
   rpio.pud(pin, rpio.PULL_DOWN);
 })
 
-// Set up weapon pins for reading
-weaponPins.forEach(pin => rpio.open(pin, rpio.INPUT))
+// Set up all pins for reading
+_.flatten(_.map(panels, 'pins')).forEach(pin => rpio.open(pin, rpio.INPUT))
 
-function portWireIsPluggedInto(color: ColorPin): WeaponPin | null {
+function panelWireIsPluggedInto(color: ColorPin): Panel | null {
   Object.values(ColorWire).forEach(pin => (
     rpio.write(pin, rpio.LOW)
   ))
   rpio.write(color, rpio.HIGH)
-  return weaponPins.find(pin => Boolean(rpio.read(pin))) || null
+  const panel = _.find(panels, ({name, pins}) => {
+    return pins.some(pin => Boolean(rpio.read(pin)))
+  })
+  return panel || null
 }
 
 let old = null
 while (1) {
-  const m = Object.entries(ColorWire).map(([name, pin]) => ({
-    [name]: portWireIsPluggedInto(pin as ColorPin)
-  }))
+  const m = Object.entries(ColorWire).map(([name, pin]) => {
+    const panel = panelWireIsPluggedInto(pin as ColorPin)
+    if (panel) {
+      return { [name]: panel.name }
+    } else {
+      return  { [name]: null }
+    }
+  })
   if (!_.isEqual(old, m)) {
     console.log(m)
     old = m
