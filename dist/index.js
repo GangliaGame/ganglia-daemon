@@ -105,19 +105,18 @@ const mockAssignments = [
     },
 ];
 let assignments = [];
-// while (1) {
-const newAssignments = _.map(wires, (pin, color) => {
-    const panel = panelWireIsPluggedInto(pin);
-    return { color, panel };
-});
-if (!_.isEqual(assignments, newAssignments)) {
-    assignments = newAssignments;
-    printAssignments(assignments);
-    dispatchEvents(mockAssignments);
-    // console.log(proc(assignments))
+while (1) {
+    const newAssignments = _.map(wires, (pin, color) => {
+        const panel = panelWireIsPluggedInto(pin);
+        return { color, panel };
+    });
+    if (!_.isEqual(assignments, newAssignments)) {
+        assignments = newAssignments;
+        printAssignments(assignments);
+        dispatchEvents(mockAssignments);
+    }
+    rpio.msleep(POLL_MSEC);
 }
-// rpio.msleep(POLL_MSEC)
-// }
 socket.on('connect', () => {
     console.log('connected!');
 });
