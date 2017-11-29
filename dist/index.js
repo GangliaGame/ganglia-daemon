@@ -22,7 +22,7 @@ function portWireIsPluggedInto(color) {
 }
 while (1) {
     const m = Object.entries(ColorWire).map(([name, pin]) => ({
-        name: portWireIsPluggedInto(pin)
+        [name]: portWireIsPluggedInto(pin)
     }));
     console.log(m);
     rpio.msleep(POLL_MSEC);

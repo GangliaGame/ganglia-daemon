@@ -31,7 +31,7 @@ function portWireIsPluggedInto(color: ColorPin): WeaponPin | null {
 
 while (1) {
   const m = Object.entries(ColorWire).map(([name, pin]) => ({
-    name: portWireIsPluggedInto(pin as ColorPin)
+    [name]: portWireIsPluggedInto(pin as ColorPin)
   }))
   console.log(m)
   rpio.msleep(POLL_MSEC)
