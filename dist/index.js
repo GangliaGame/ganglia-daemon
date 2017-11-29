@@ -95,7 +95,7 @@ function events(assignments) {
 }
 function dispatchEvents(assignments) {
     const es = events(assignments);
-    console.log(es);
+    // console.log(es)
     // forEach(({name, data}) => socket.emit(name, data))
 }
 let assignments = [];

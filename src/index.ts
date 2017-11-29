@@ -120,7 +120,7 @@ function events(assignments: Array<Assignment>): Array<Event> {
 
 function dispatchEvents(assignments: Array<Assignment>): void {
   const es = events(assignments)
-  console.log(es)
+  // console.log(es)
   // forEach(({name, data}) => socket.emit(name, data))
 }
 
