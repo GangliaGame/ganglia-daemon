@@ -2,7 +2,7 @@ import * as rpio from 'rpio'
 import * as _ from 'lodash'
 import * as colors from 'colors/safe'
 
-const clearConsole = () => process.stdout.write('\033c')
+const clearConsole = () => process.stdout.write('\x1Bc')
 
 const POLL_MSEC = 250
 

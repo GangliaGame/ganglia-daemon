@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
 const _ = require("lodash");
 const colors = require("colors/safe");
-const clearConsole = () => process.stdout.write('\033c');
+const clearConsole = () => process.stdout.write('\x1Bc');
 const POLL_MSEC = 250;
 const ColorWire = {
     red: 3,
