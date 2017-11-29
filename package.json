@@ -1,0 +1,22 @@
+{
+  "name": "ganglia-daemon",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "Avi Romanoff <avi@romanoff.me>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "rpio": "^0.9.19",
+    "typescript": "^2.6.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "serve": "node dist/index.js",
+    "watch": "nodemon -e ts --exec 'npm run start'"
+  },
+  "devDependencies": {
+    "@types/rpio": "^0.0.1",
+    "nodemon": "^1.12.1"
+  }
+}
