@@ -80,13 +80,10 @@ function getConnections(): Array<Connection> {
   function poll() {
     const newConnections = getConnections()
     const diff = _.differenceWith(connections, newConnections, _.isEqual)
-    console.log('old')
-    console.log(connections)
-    console.log('new')
-    console.log(newConnections)
-    console.log('diff')
-    console.log(diff)
-    connections = newConnections
+    if (!_.isEmpty(diff)) {
+      console.log(diff)
+      connections = newConnections
+    }
   }
 
   // Begin polling
