@@ -79,10 +79,13 @@ function getConnections(): Array<Connection> {
   let connections: Array<Connection> = getConnections()
   function poll() {
     const newConnections = getConnections()
-    const diff = _.differenceWith(connections, newConnections, _.isEqual)
+    const diff = _.differenceWith(newConnections, connections, _.isEqual)
     if (!_.isEmpty(diff)) {
       console.log(diff)
       connections = newConnections
+      // connections.map(connection => {
+      //   console.
+      // })
     }
   }
 
