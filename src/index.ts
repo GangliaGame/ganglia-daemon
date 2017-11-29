@@ -83,9 +83,13 @@ function getConnections(): Array<Connection> {
     if (!_.isEmpty(diff)) {
       console.log(diff)
       connections = newConnections
-      // connections.map(connection => {
-      //   console.
-      // })
+      diff.map(({color, panel}) => {
+        if (panel === null) {
+          console.log(`unplug ${color} from previous panel`)
+        } else {
+          console.log(`plug ${color} into panel ${panel.name}`)
+        }
+      })
     }
   }
 
