@@ -44,12 +44,11 @@ function panelWireIsPluggedInto(color: ColorPin): Panel | null {
 
 let old = null
 while (1) {
-  const m = Object.entries(ColorWire).map(([name, pin]) => {
+  const m = Object.entries(ColorWire).map(([colorName, pin]) => {
     const panel = panelWireIsPluggedInto(pin as ColorPin)
-    if (panel) {
-      return { [name]: panel.name }
-    } else {
-      return  { [name]: null }
+    return {
+      color: colorName,
+      state: panel ? panel.name : null,
     }
   })
   if (!_.isEqual(old, m)) {
