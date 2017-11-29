@@ -16,9 +16,7 @@ Object.values(ColorWire).forEach(pin => {
 // Set up weapon pins for reading
 weaponPins.forEach(pin => rpio.open(pin, rpio.INPUT));
 function checkColor(color) {
-    rpio.write(ColorWire.red, rpio.LOW);
-    rpio.write(ColorWire.blue, rpio.LOW);
-    rpio.write(ColorWire.yellow, rpio.LOW);
+    Object.values(ColorWire).forEach(pin => (rpio.write(pin, rpio.LOW)));
     rpio.write(color, rpio.HIGH);
     return weaponPins.find(pin => Boolean(rpio.read(pin))) || null;
 }
