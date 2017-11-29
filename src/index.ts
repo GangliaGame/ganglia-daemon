@@ -61,9 +61,8 @@ while (1) {
       else if (color === 'yellow') colorFn = colors.yellow
       else if (color === 'blue') colorFn = colors.blue
       else colorFn = console.log
-      console.log(`${colorFn('red')} => ${state}`)
+      console.log(`${colorFn(color)} => ${state}`)
     })
-    console.log(m)
     old = m
   }
   rpio.msleep(POLL_MSEC)
