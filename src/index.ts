@@ -46,11 +46,11 @@ const panels: Array<Panel> = [
     pins: [36, 38, 40],
     toData: colors => colors.length
   },
-  {
-    name: 'communications',
-    pins: [27],
-    toData: colors => colors.length > 0
-  },
+  // {
+  //   name: 'communications',
+  //   pins: [27],
+  //   toData: colors => colors.length > 0
+  // },
 ]
 
 // Set up color wires for writing
