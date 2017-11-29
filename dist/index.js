@@ -104,6 +104,7 @@ function poll() {
         const panel = panelWireIsPluggedInto(pin);
         return { color, panel };
     });
+    console.log(_.difference(newAssignments, assignments));
     if (!_.isEqual(assignments, newAssignments)) {
         assignments = newAssignments;
         printAssignments(assignments);
