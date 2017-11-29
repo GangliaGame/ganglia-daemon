@@ -132,7 +132,7 @@ function poll() {
   })
   if (!_.isEqual(assignments, newAssignments)) {
     _.zip(assignments, newAssignments)
-    .filter(([prev, cur]) => cur.panel === null)
+    .filter(([prev, cur]) => prev.panel && cur.panel === null)
     .map(([prev, cur]) => {
       console.log(prev.panel!.name, ' unplugged')
     })
