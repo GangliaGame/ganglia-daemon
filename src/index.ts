@@ -79,7 +79,7 @@ function getConnections(): Array<Connection> {
   let connections: Array<Connection> = getConnections()
   function poll() {
     const newConnections = getConnections()
-    const diff = _.difference(connections, newConnections)
+    const diff = _.differenceWith(connections, newConnections, _.isEqual)
     console.log('old')
     console.log(connections)
     console.log('new')
