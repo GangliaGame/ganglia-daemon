@@ -130,10 +130,10 @@ function poll() {
     const panel = panelWireIsPluggedInto(pin as WirePin)
     return { color, panel }
   })
-  if (!_.isEqual(assignments, newAssignments) && !_.isEmpty(newAssignments)) {
+  if (!_.isEqual(assignments, newAssignments)) {
     console.log(_.zip(assignments, newAssignments))
     _.zip(assignments, newAssignments)
-    .filter(([prev, cur]) => prev.panel && cur.panel === null)
+    .filter(([prev, cur]) => prev && prev.panel && cur.panel === null)
     .map(([prev, cur]) => {
       console.log(prev.panel!.name, ' unplugged')
     })
