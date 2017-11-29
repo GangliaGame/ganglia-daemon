@@ -122,7 +122,7 @@ function poll() {
     if (!_.isEqual(assignments, newAssignments)) {
         assignments = newAssignments;
         printAssignments(assignments);
-        dispatchEvents(mockAssignments);
+        // dispatchEvents(mockAssignments)
     }
 }
 setInterval(poll, POLL_MSEC);
