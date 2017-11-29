@@ -80,6 +80,11 @@ function getConnections(): Array<Connection> {
   function poll() {
     const newConnections = getConnections()
     const diff = _.difference(connections, newConnections)
+    console.log('old')
+    console.log(connections)
+    console.log('new')
+    console.log(newConnections)
+    console.log('diff')
     console.log(diff)
     connections = newConnections
   }
