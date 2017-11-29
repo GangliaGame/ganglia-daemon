@@ -131,7 +131,12 @@ function poll() {
     return { color, panel }
   })
   if (!_.isEqual(assignments, newAssignments)) {
-    console.log(_.difference(newAssignments, assignments))
+    const d = _.difference(newAssignments, assignments)
+    d.forEach(({color, panel}) => {
+      if (panel === null) {
+        console.log(`${panel} now empty`)
+      }
+    })
     assignments = newAssignments
     printAssignments(assignments)
     dispatchEvents(assignments)
