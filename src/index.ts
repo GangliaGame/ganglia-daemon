@@ -36,11 +36,11 @@ const panels: Array<Panel> = [
     pins: [19, 21, 23],
     toData: colors => colors
   },
-  {
-    name: 'propulsion',
-    pins: [8, 10],
-    toData: colors => colors.length
-  },
+  // {
+  //   name: 'propulsion',
+  //   pins: [8, 10],
+  //   toData: colors => colors.length
+  // },
   {
     name: 'regen',
     pins: [36, 38, 40],
