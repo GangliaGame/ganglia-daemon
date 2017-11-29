@@ -1,77 +1,16 @@
 import * as rpio from 'rpio'
 import * as _ from 'lodash'
-import * as io from 'socket.io-client'
 import * as colors from 'colors/safe'
-
-const SERVER_URL = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000'
+import {WirePin, WireColor, Wire, Panel, Connection, Event} from './types'
+import { Client } from './client'
+import { panels } from './panels'
 const POLL_MSEC = 250
-
-console.log('Ganglia Daemon is reborn!\n')
-console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`)
-console.log(`${colors.bold('Server')}: ${SERVER_URL}`)
-const socket = io(SERVER_URL, { reconnection: true })
-
-type WireColor = 'red' | 'blue' | 'yellow'
-type WirePin = 3 | 5 | 7
-type Wire = { [C in WireColor]: WirePin }
-
-type Assignment = {
-  color: WireColor
-  panel: Panel | null
-}
-
-type Pin = number
-type Panel = {
-  name: string
-  pins: Array<Pin>
-  toData: (colors: Array<WireColor>) => any
-}
 
 const wires: Wire = {
   red: 3,
   blue: 5,
   yellow: 7,
 }
-
-const panels: Array<Panel> = [
-  {
-    name: 'weapons',
-    pins: [11, 13, 15],
-    toData: colors => colors
-  },
-  {
-    name: 'shields',
-    pins: [19, 21, 23],
-    toData: colors => colors
-  },
-  {
-    name: 'propulsion',
-    pins: [35, 37],
-    toData: colors => colors.length
-  },
-  {
-    name: 'regen',
-    pins: [36, 38, 40],
-    toData: colors => colors.length
-  },
-  {
-    name: 'communications',
-    pins: [27],
-    toData: colors => colors.length > 0
-  }
-]
-
-// Set up color wires for writing
-Object.values(wires).forEach(pin => {
-  rpio.open(pin, rpio.OUTPUT, rpio.LOW)
-  rpio.pud(pin, rpio.PULL_DOWN);
-})
-
-// Set up all pins for reading
-_.flatten(_.map(panels, 'pins')).forEach(pin => {
-  rpio.open(pin, rpio.INPUT)
-  rpio.pud(pin, rpio.PULL_DOWN);
-})
 
 function panelWireIsPluggedInto(pin: WirePin): Panel | null {
   // Set all wire pins to LOW
@@ -85,7 +24,7 @@ function panelWireIsPluggedInto(pin: WirePin): Panel | null {
   return panel || null
 }
 
-function printAssignments(assignments: Array<Assignment>) {
+function printConnections(assignments: Array<Connection>) {
   console.log('\n')
   assignments.forEach(({color, panel}) => {
     let colorFn: Function
@@ -97,12 +36,7 @@ function printAssignments(assignments: Array<Assignment>) {
   })
 }
 
-type Event = {
-  name: string,
-  data: object,
-}
-
-function events(assignments: Array<Assignment>): Array<Event> {
+function getEvents(assignments: Array<Connection>): Array<Event> {
   return _.chain(assignments)
     .filter(({panel}) => panel !== null)
     .groupBy(({panel}) => panel!.name)
@@ -118,34 +52,41 @@ function events(assignments: Array<Assignment>): Array<Event> {
     .value()
 }
 
-function dispatchEvents(assignments: Array<Assignment>): void {
-  events(assignments).forEach(({name, data}) => socket.emit(name, data))
-}
-
-let assignments: Array<Assignment> = []
-function poll() {
-  const newAssignments = _.map(wires, (pin, color: WireColor) => {
-    const panel = panelWireIsPluggedInto(pin as WirePin)
+function getConnections(): Array<Connection> {
+  return _.map(wires, (pin: WirePin, color: WireColor) => {
+    const panel = panelWireIsPluggedInto(pin)
     return { color, panel }
   })
-  if (!_.isEqual(assignments, newAssignments)) {
-    _.zip(assignments, newAssignments)
-    .filter(([prev, cur]) => prev && prev.panel && cur.panel === null)
-    .forEach(([prev, cur]) => {
-      socket.emit(prev.panel!.name, prev.panel!.toData([]))
-    })
-    assignments = newAssignments
-    printAssignments(assignments)
-    dispatchEvents(assignments)
-  }
 }
 
-setInterval(poll, POLL_MSEC)
+(function main() {
+  const serverUrl = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000'
+  const client = new Client(serverUrl)
 
-socket.on('connect', () => {
-  console.log('Connected to server')
-})
+  // Set up color wires for writing
+  Object.values(wires).forEach(pin => {
+    rpio.open(pin, rpio.OUTPUT, rpio.LOW)
+    rpio.pud(pin, rpio.PULL_DOWN);
+  });
 
-socket.on('disconnect', () => {
-  console.warn('Disconnected from server')
-})
+  // Set up all pins for reading
+  _.flatten(_.map(panels, 'pins')).forEach(pin => {
+    rpio.open(pin, rpio.INPUT)
+    rpio.pud(pin, rpio.PULL_DOWN);
+  });
+
+  // Periodically check for new connections
+  let connections: Array<Connection> = getConnections()
+  function poll() {
+    const newConnections = getConnections()
+    const diff = _.difference(connections, newConnections)
+    console.log(diff)
+  }
+
+  // Begin polling
+  setInterval(poll, POLL_MSEC);
+
+  console.log('Ganglia Daemon is reborn!\n')
+  console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`)
+  console.log(`${colors.bold('Server')}: ${serverUrl}`)
+})()
