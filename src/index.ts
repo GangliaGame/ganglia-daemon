@@ -33,7 +33,7 @@ const panels: Array<Panel> = [
   },
   {
     name: 'shields',
-    pins: [19, 21, 23],
+    pins: [19, 21],
     toData: colors => colors
   },
   // {
@@ -65,7 +65,7 @@ _.flatten(_.map(panels, 'pins')).forEach(pin => rpio.open(pin, rpio.INPUT))
 function panelWireIsPluggedInto(pin: WirePin): Panel | null {
   // Set all wire pins to LOW
   Object.values(wires).forEach(p => rpio.write(p, rpio.LOW))
-  // Set the one we're testing to HIGH
+  // Set the we're testing in to HIGH
   rpio.write(pin, rpio.HIGH)
   // Find the panel that the wire is plugged into
   const panel = _.find(panels, ({name, pins}) => {
