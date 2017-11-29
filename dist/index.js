@@ -9,9 +9,10 @@ const ColorWire = {
 };
 const weaponPins = [11, 13, 15];
 // Set up color wires for writing
-rpio.open(ColorWire.red, rpio.OUTPUT, rpio.LOW);
-rpio.open(ColorWire.blue, rpio.OUTPUT, rpio.LOW);
-rpio.open(ColorWire.yellow, rpio.OUTPUT, rpio.LOW);
+Object.values(ColorWire).forEach(pin => {
+    rpio.open(pin, rpio.OUTPUT, rpio.LOW);
+    rpio.pud(pin, rpio.PULL_DOWN);
+});
 // Set up weapon pins for reading
 weaponPins.forEach(pin => rpio.open(pin, rpio.INPUT));
 function checkColor(color) {
