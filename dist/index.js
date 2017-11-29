@@ -4,9 +4,12 @@ const rpio = require("rpio");
 const _ = require("lodash");
 const io = require("socket.io-client");
 const colors = require("colors/safe");
-const socket = io('http://localhost:9000');
-const clearConsole = () => process.stdout.write('\x1Bc');
+const SERVER_URL = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000';
 const POLL_MSEC = 250;
+console.log('Ganglia Daemon is reborn!\n');
+console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`);
+console.log(`${colors.bold('Server')}: ${SERVER_URL}\n`);
+const socket = io(SERVER_URL);
 const wires = {
     red: 3,
     blue: 5,
@@ -60,7 +63,6 @@ function panelWireIsPluggedInto(pin) {
     });
     return panel || null;
 }
-console.log(`polling every ${colors.bold(String(POLL_MSEC))} ms`);
 function printAssignments(assignments) {
     console.log('\n');
     assignments.forEach(({ color, panel }) => {
@@ -122,12 +124,12 @@ while (1) {
     rpio.msleep(POLL_MSEC);
 }
 socket.on('connect', () => {
-    console.log('connected!');
+    console.log('Connected to server');
 });
 // socket.on('event', data => {
 //
 // })
 socket.on('disconnect', () => {
-    console.log('disconnected!');
+    console.warn('Disconnected from server');
 });
 //# sourceMappingURL=index.js.map
