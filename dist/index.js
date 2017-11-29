@@ -20,14 +20,14 @@ const panels = [
     },
     {
         name: 'shields',
-        pins: [19, 21],
+        pins: [19, 21, 23],
         toData: colors => colors
     },
-    // {
-    //   name: 'propulsion',
-    //   pins: [8, 10],
-    //   toData: colors => colors.length
-    // },
+    {
+        name: 'propulsion',
+        pins: [35, 37],
+        toData: colors => colors.length
+    },
     {
         name: 'regen',
         pins: [36, 38, 40],
@@ -35,7 +35,7 @@ const panels = [
     },
     {
         name: 'communications',
-        pins: [16],
+        pins: [27],
         toData: colors => colors.length > 0
     },
 ];
