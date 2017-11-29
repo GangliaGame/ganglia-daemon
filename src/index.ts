@@ -57,13 +57,13 @@ while (1) {
     }
   })
   if (!_.isEqual(old, m)) {
+    clearConsole()
     m.forEach(({color, state}) => {
       let colorFn: Function
       if (color === 'red') colorFn = colors.red
       else if (color === 'yellow') colorFn = colors.yellow
       else if (color === 'blue') colorFn = colors.blue
       else colorFn = console.log
-      clearConsole()
       console.log(`${colorFn(color)} => ${state}`)
     })
     old = m
