@@ -118,7 +118,9 @@ function events(assignments: Array<Assignment>): Array<Event> {
 }
 
 function dispatchEvents(assignments: Array<Assignment>): void {
-  events(assignments).forEach(({name, data}) => socket.emit(name, data))
+  const es = events(assignments)
+  console.log(es)
+  es.forEach(({name, data}) => socket.emit(name, data))
 }
 
 const mockAssignments: Array<Assignment> = [
@@ -136,21 +138,22 @@ const mockAssignments: Array<Assignment> = [
   },
 ]
 
+// let assignments: Array<Assignment> = []
+// function poll() {
+//   const newAssignments = _.map(wires, (pin, color: WireColor) => {
+//     const panel = panelWireIsPluggedInto(pin as WirePin)
+//     return { color, panel }
+//   })
+//   if (!_.isEqual(assignments, newAssignments)) {
+//     assignments = newAssignments
+//     printAssignments(assignments)
+//     dispatchEvents(mockAssignments)
+//   }
+// }
+//
+// setInterval(poll, POLL_MSEC)
 
-let assignments: Array<Assignment> = []
-function poll() {
-  const newAssignments = _.map(wires, (pin, color: WireColor) => {
-    const panel = panelWireIsPluggedInto(pin as WirePin)
-    return { color, panel }
-  })
-  if (!_.isEqual(assignments, newAssignments)) {
-    assignments = newAssignments
-    printAssignments(assignments)
-    dispatchEvents(mockAssignments)
-  }
-}
-
-setInterval(poll, POLL_MSEC)
+dispatchEvents(mockAssignments)
 
 socket.on('connect', () => {
   console.log('Connected to server')

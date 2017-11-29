@@ -94,7 +94,9 @@ function events(assignments) {
         .value();
 }
 function dispatchEvents(assignments) {
-    events(assignments).forEach(({ name, data }) => socket.emit(name, data));
+    const es = events(assignments);
+    console.log(es);
+    es.forEach(({ name, data }) => socket.emit(name, data));
 }
 const mockAssignments = [
     {
@@ -110,19 +112,21 @@ const mockAssignments = [
         panel: panels[1],
     },
 ];
-let assignments = [];
-function poll() {
-    const newAssignments = _.map(wires, (pin, color) => {
-        const panel = panelWireIsPluggedInto(pin);
-        return { color, panel };
-    });
-    if (!_.isEqual(assignments, newAssignments)) {
-        assignments = newAssignments;
-        printAssignments(assignments);
-        dispatchEvents(mockAssignments);
-    }
-}
-setInterval(poll, POLL_MSEC);
+// let assignments: Array<Assignment> = []
+// function poll() {
+//   const newAssignments = _.map(wires, (pin, color: WireColor) => {
+//     const panel = panelWireIsPluggedInto(pin as WirePin)
+//     return { color, panel }
+//   })
+//   if (!_.isEqual(assignments, newAssignments)) {
+//     assignments = newAssignments
+//     printAssignments(assignments)
+//     dispatchEvents(mockAssignments)
+//   }
+// }
+//
+// setInterval(poll, POLL_MSEC)
+dispatchEvents(mockAssignments);
 socket.on('connect', () => {
     console.log('Connected to server');
 });
