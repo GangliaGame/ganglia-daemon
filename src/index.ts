@@ -118,9 +118,7 @@ function events(assignments: Array<Assignment>): Array<Event> {
 }
 
 function dispatchEvents(assignments: Array<Assignment>): void {
-  const es = events(assignments)
-  console.log(es)
-  es.forEach(({name, data}) => socket.emit(name, data))
+  events(assignments).forEach(({name, data}) => socket.emit(name, data))
 }
 //
 // const mockAssignments: Array<Assignment> = [
@@ -147,7 +145,7 @@ function poll() {
   if (!_.isEqual(assignments, newAssignments)) {
     assignments = newAssignments
     printAssignments(assignments)
-    // dispatchEvents(mockAssignments)
+    dispatchEvents(assignments)
   }
 }
 
