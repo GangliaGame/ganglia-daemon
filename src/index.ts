@@ -27,10 +27,10 @@ const panels: Array<Panel> = [
     name: 'shields',
     pins: [19, 21, 23],
   },
-  {
-    name: 'propulsion',
-    pins: [8, 10],
-  },
+  // {
+  //   name: 'propulsion',
+  //   pins: [8, 10],
+  // },
   {
     name: 'regen',
     pins: [36, 38, 40],
