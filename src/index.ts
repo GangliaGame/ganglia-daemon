@@ -46,11 +46,11 @@ const panels: Array<Panel> = [
     pins: [36, 38, 40],
     toData: colors => colors.length
   },
-  // {
-  //   name: 'communications',
-  //   pins: [27],
-  //   toData: colors => colors.length > 0
-  // },
+  {
+    name: 'communications',
+    pins: [27],
+    toData: colors => colors.length > 0
+  },
 ]
 
 // Set up color wires for writing
@@ -60,7 +60,10 @@ Object.values(wires).forEach(pin => {
 })
 
 // Set up all pins for reading
-_.flatten(_.map(panels, 'pins')).forEach(pin => rpio.open(pin, rpio.INPUT))
+_.flatten(_.map(panels, 'pins')).forEach(pin => {
+  rpio.open(pin, rpio.INPUT)
+  rpio.pud(pin, rpio.PULL_DOWN);
+})
 
 function panelWireIsPluggedInto(pin: WirePin): Panel | null {
   // Set all wire pins to LOW
