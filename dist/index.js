@@ -16,27 +16,27 @@ const panels = [
     {
         name: 'weapons',
         pins: [11, 13, 15],
-        handler: colors => colors
+        toData: colors => colors
     },
     {
         name: 'shields',
         pins: [19, 21, 23],
-        handler: colors => colors
+        toData: colors => colors
     },
     {
         name: 'propulsion',
         pins: [8, 10],
-        handler: colors => colors.length
+        toData: colors => colors.length
     },
     {
         name: 'regen',
         pins: [36, 38, 40],
-        handler: colors => colors.length
+        toData: colors => colors.length
     },
     {
         name: 'communications',
         pins: [16],
-        handler: colors => colors.length > 0
+        toData: colors => colors.length > 0
     },
 ];
 // Set up color wires for writing
@@ -78,12 +78,12 @@ function events(assignments) {
         .groupBy(({ panel }) => panel.name)
         .map((a, name) => ({
         name,
-        handler: a[0].panel.handler,
+        toData: a[0].panel.toData,
         colors: _.map(a, 'color'),
     }))
-        .map(({ name, handler, colors }) => ({
+        .map(({ name, toData, colors }) => ({
         name,
-        data: handler(colors)
+        data: toData(colors)
     }))
         .value();
 }
@@ -111,7 +111,6 @@ const newAssignments = _.map(wires, (pin, color) => {
     return { color, panel };
 });
 if (!_.isEqual(assignments, newAssignments)) {
-    // clearConsole()
     assignments = newAssignments;
     printAssignments(assignments);
     dispatchEvents(mockAssignments);
