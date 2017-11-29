@@ -59,6 +59,7 @@ function panelWireIsPluggedInto(pin) {
 }
 console.log(`polling every ${colors.bold(String(POLL_MSEC))} ms`);
 function printAssignments(assignments) {
+    console.log('\n');
     assignments.forEach(({ color, panel }) => {
         let colorFn;
         if (color === 'red')

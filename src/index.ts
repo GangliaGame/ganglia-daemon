@@ -82,6 +82,7 @@ type Assignment = {
 }
 
 function printAssignments(assignments: Array<Assignment>) {
+  console.log('\n')
   assignments.forEach(({color, panel}) => {
     let colorFn: Function
     if (color === 'red') colorFn = colors.red
