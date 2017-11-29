@@ -21,7 +21,7 @@ Object.values(ColorWire).forEach(pin => {
 // Set up weapon pins for reading
 weaponPins.forEach(pin => rpio.open(pin, rpio.INPUT))
 
-function checkColor(color: ColorPin): WeaponPin | null {
+function portWireIsPluggedInto(color: ColorPin): WeaponPin | null {
   Object.values(ColorWire).forEach(pin => (
     rpio.write(pin, rpio.LOW)
   ))
@@ -30,9 +30,9 @@ function checkColor(color: ColorPin): WeaponPin | null {
 }
 
 while (1) {
-  Object.entries(ColorWire).forEach(([name, pin]) => {
-    const colorPin = checkColor(pin as ColorPin)
-    console.log(`${name}: ${colorPin}`)
-  })
+  const m = Object.entries(ColorWire).map(([name, pin]) => ({
+    name: portWireIsPluggedInto(pin as ColorPin)
+  }))
+  console.log(m)
   rpio.msleep(POLL_MSEC)
 }
