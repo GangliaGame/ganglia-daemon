@@ -105,12 +105,16 @@ function poll() {
         return { color, panel };
     });
     if (!_.isEqual(assignments, newAssignments)) {
-        const d = _.difference(newAssignments, assignments);
-        d.forEach(({ color, panel }) => {
-            if (panel === null) {
-                console.log(`${panel} now empty`);
-            }
+        _.zip(assignments, newAssignments)
+            .filter(([prev, cur]) => cur.panel === null)
+            .map(([prev, cur]) => {
+            console.log(prev.panel.name, ' unplugged');
         });
+        // d.forEach(({color, panel}) => {
+        //   if (panel === null) {
+        //     console.log(`${panel} now empty`)
+        //   }
+        // })
         assignments = newAssignments;
         printAssignments(assignments);
         dispatchEvents(assignments);
