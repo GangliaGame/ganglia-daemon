@@ -1,5 +1,7 @@
 import * as rpio from 'rpio'
 
+const POLL_MSEC = 250
+
 enum ColorWire {
   red = 3,
   blue = 5,
@@ -28,12 +30,7 @@ function checkColor(color: ColorWire): WeaponPin | null {
 while (1) {
   [3,5,7].forEach((color: ColorWire) => {
     const colorPin = checkColor(color)
-    console.log(colorPin)
+    console.log(`red: ${colorPin}`)
   })
-  rpio.msleep(250)
+  rpio.msleep(POLL_MSEC)
 }
-
-rpio.open(11, rpio.INPUT);
-console.log('Pin 11 is currently set ' + (rpio.read(11) ? 'high' : 'low'));
-
-// console.log('hello!')
