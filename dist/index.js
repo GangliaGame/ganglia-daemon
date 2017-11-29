@@ -15,6 +15,10 @@ const panels = [
         name: 'weapons',
         pins: [11, 13, 15],
     },
+    {
+        name: 'shields',
+        pins: [19, 21, 23],
+    },
 ];
 // Set up color wires for writing
 Object.values(ColorWire).forEach(pin => {

@@ -23,6 +23,10 @@ const panels: Array<Panel> = [
     name: 'weapons',
     pins: [11, 13, 15],
   },
+  {
+    name: 'shields',
+    pins: [19, 21, 23],
+  },
 ]
 
 // Set up color wires for writing
