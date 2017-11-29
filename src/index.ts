@@ -119,9 +119,7 @@ function events(assignments: Array<Assignment>): Array<Event> {
 }
 
 function dispatchEvents(assignments: Array<Assignment>): void {
-  const es = events(assignments)
-  // console.log(es)
-  // forEach(({name, data}) => socket.emit(name, data))
+  events(assignments).forEach(({name, data}) => socket.emit(name, data))
 }
 
 let assignments: Array<Assignment> = []
@@ -131,17 +129,11 @@ function poll() {
     return { color, panel }
   })
   if (!_.isEqual(assignments, newAssignments)) {
-    console.log(_.zip(assignments, newAssignments))
     _.zip(assignments, newAssignments)
     .filter(([prev, cur]) => prev && prev.panel && cur.panel === null)
-    .map(([prev, cur]) => {
-      console.log(prev.panel!.name, ' unplugged')
+    .forEach(([prev, cur]) => {
+      socket.emit(prev.panel!.name, prev.panel!.toData([]))
     })
-    // d.forEach(({color, panel}) => {
-    //   if (panel === null) {
-    //     console.log(`${panel} now empty`)
-    //   }
-    // })
     assignments = newAssignments
     printAssignments(assignments)
     dispatchEvents(assignments)
