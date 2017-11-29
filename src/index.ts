@@ -2,6 +2,8 @@ import * as rpio from 'rpio'
 import * as _ from 'lodash'
 import * as colors from 'colors/safe'
 
+const clearConsole = () => process.stdout.write('\033c')
+
 const POLL_MSEC = 250
 
 type ColorPin = 3 | 5 | 7
@@ -61,6 +63,7 @@ while (1) {
       else if (color === 'yellow') colorFn = colors.yellow
       else if (color === 'blue') colorFn = colors.blue
       else colorFn = console.log
+      clearConsole()
       console.log(`${colorFn(color)} => ${state}`)
     })
     old = m

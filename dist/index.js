@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
 const _ = require("lodash");
 const colors = require("colors/safe");
+const clearConsole = () => process.stdout.write('\033c');
 const POLL_MSEC = 250;
 const ColorWire = {
     red: 3,
@@ -51,6 +52,7 @@ while (1) {
                 colorFn = colors.blue;
             else
                 colorFn = console.log;
+            clearConsole();
             console.log(`${colorFn(color)} => ${state}`);
         });
         old = m;
