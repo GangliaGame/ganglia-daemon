@@ -15,10 +15,9 @@ type WireColor = 'red' | 'blue' | 'yellow'
 type WirePin = 3 | 5 | 7
 type Wire = { [C in WireColor]: WirePin }
 
-const wires: Wire = {
-  red: 3,
-  blue: 5,
-  yellow: 7,
+type Assignment = {
+  color: WireColor
+  panel: Panel | null
 }
 
 type Pin = number
@@ -27,6 +26,13 @@ type Panel = {
   pins: Array<Pin>
   toData: (colors: Array<WireColor>) => any
 }
+
+const wires: Wire = {
+  red: 3,
+  blue: 5,
+  yellow: 7,
+}
+
 const panels: Array<Panel> = [
   {
     name: 'weapons',
@@ -52,7 +58,7 @@ const panels: Array<Panel> = [
     name: 'communications',
     pins: [27],
     toData: colors => colors.length > 0
-  },
+  }
 ]
 
 // Set up color wires for writing
@@ -79,11 +85,6 @@ function panelWireIsPluggedInto(pin: WirePin): Panel | null {
   return panel || null
 }
 
-type Assignment = {
-  color: WireColor
-  panel: Panel | null
-}
-
 function printAssignments(assignments: Array<Assignment>) {
   console.log('\n')
   assignments.forEach(({color, panel}) => {
@@ -103,11 +104,11 @@ type Event = {
 
 function events(assignments: Array<Assignment>): Array<Event> {
   return _.chain(assignments)
-    .filter(({panel}) => panel !== null)
-    .groupBy(({panel}) => panel!.name)
+    // .filter(({panel}) => panel !== null)
+    .groupBy(({panel}) => panel ? panel.name : 'unplugged')
     .map((a, name) => ({
         name,
-        toData: a[0].panel!.toData,
+        toData: name === 'unplugged' ? () => {} : a[0].panel!.toData,
         colors: _.map(a, 'color'),
     }))
     .map(({name, toData, colors}) => ({
@@ -118,23 +119,10 @@ function events(assignments: Array<Assignment>): Array<Event> {
 }
 
 function dispatchEvents(assignments: Array<Assignment>): void {
-  events(assignments).forEach(({name, data}) => socket.emit(name, data))
+  const es = events(assignments)
+  console.log(es)
+  // forEach(({name, data}) => socket.emit(name, data))
 }
-//
-// const mockAssignments: Array<Assignment> = [
-//   {
-//     color: 'red',
-//     panel: panels[0],
-//   },
-//   {
-//     color: 'blue',
-//     panel: panels[2],
-//   },
-//   {
-//     color: 'yellow',
-//     panel: panels[1],
-//   },
-// ]
 
 let assignments: Array<Assignment> = []
 function poll() {
@@ -154,10 +142,7 @@ setInterval(poll, POLL_MSEC)
 socket.on('connect', () => {
   console.log('Connected to server')
 })
-// socket.on('event', data => {
-//
-// })
+
 socket.on('disconnect', () => {
   console.warn('Disconnected from server')
-
 })

@@ -40,7 +40,7 @@ const panels = [
         name: 'communications',
         pins: [27],
         toData: colors => colors.length > 0
-    },
+    }
 ];
 // Set up color wires for writing
 Object.values(wires).forEach(pin => {
@@ -80,11 +80,10 @@ function printAssignments(assignments) {
 }
 function events(assignments) {
     return _.chain(assignments)
-        .filter(({ panel }) => panel !== null)
-        .groupBy(({ panel }) => panel.name)
+        .groupBy(({ panel }) => panel ? panel.name : 'unplugged')
         .map((a, name) => ({
         name,
-        toData: a[0].panel.toData,
+        toData: name === 'unplugged' ? () => { } : a[0].panel.toData,
         colors: _.map(a, 'color'),
     }))
         .map(({ name, toData, colors }) => ({
@@ -94,23 +93,10 @@ function events(assignments) {
         .value();
 }
 function dispatchEvents(assignments) {
-    events(assignments).forEach(({ name, data }) => socket.emit(name, data));
+    const es = events(assignments);
+    console.log(es);
+    // forEach(({name, data}) => socket.emit(name, data))
 }
-//
-// const mockAssignments: Array<Assignment> = [
-//   {
-//     color: 'red',
-//     panel: panels[0],
-//   },
-//   {
-//     color: 'blue',
-//     panel: panels[2],
-//   },
-//   {
-//     color: 'yellow',
-//     panel: panels[1],
-//   },
-// ]
 let assignments = [];
 function poll() {
     const newAssignments = _.map(wires, (pin, color) => {
@@ -127,9 +113,6 @@ setInterval(poll, POLL_MSEC);
 socket.on('connect', () => {
     console.log('Connected to server');
 });
-// socket.on('event', data => {
-//
-// })
 socket.on('disconnect', () => {
     console.warn('Disconnected from server');
 });
