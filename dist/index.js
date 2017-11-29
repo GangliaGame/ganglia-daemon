@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
+const _ = require("lodash");
 const POLL_MSEC = 250;
 const ColorWire = {
     red: 3,
@@ -20,11 +21,15 @@ function portWireIsPluggedInto(color) {
     rpio.write(color, rpio.HIGH);
     return weaponPins.find(pin => Boolean(rpio.read(pin))) || null;
 }
+let old = null;
 while (1) {
     const m = Object.entries(ColorWire).map(([name, pin]) => ({
         [name]: portWireIsPluggedInto(pin)
     }));
-    console.log(m);
+    if (!_.isEqual(old, m)) {
+        console.log(m);
+        old = m;
+    }
     rpio.msleep(POLL_MSEC);
 }
 //# sourceMappingURL=index.js.map

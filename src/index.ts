@@ -1,4 +1,5 @@
 import * as rpio from 'rpio'
+import * as _ from 'lodash'
 
 const POLL_MSEC = 250
 
@@ -29,10 +30,14 @@ function portWireIsPluggedInto(color: ColorPin): WeaponPin | null {
   return weaponPins.find(pin => Boolean(rpio.read(pin))) || null
 }
 
+let old = null
 while (1) {
   const m = Object.entries(ColorWire).map(([name, pin]) => ({
     [name]: portWireIsPluggedInto(pin as ColorPin)
   }))
-  console.log(m)
+  if (!_.isEqual(old, m)) {
+    console.log(m)
+    old = m
+  }
   rpio.msleep(POLL_MSEC)
 }
