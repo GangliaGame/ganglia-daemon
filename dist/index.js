@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
 const POLL_MSEC = 250;
-var ColorWire;
-(function (ColorWire) {
-    ColorWire[ColorWire["red"] = 3] = "red";
-    ColorWire[ColorWire["blue"] = 5] = "blue";
-    ColorWire[ColorWire["yellow"] = 7] = "yellow";
-})(ColorWire || (ColorWire = {}));
+const ColorWire = {
+    red: 3,
+    blue: 5,
+    yellow: 7,
+};
 const weaponPins = [11, 13, 15];
 // Set up color wires for writing
 rpio.open(ColorWire.red, rpio.OUTPUT, rpio.LOW);
@@ -23,9 +22,9 @@ function checkColor(color) {
     return weaponPins.find(pin => Boolean(rpio.read(pin))) || null;
 }
 while (1) {
-    [3, 5, 7].forEach((color) => {
-        const colorPin = checkColor(color);
-        console.log(`red: ${colorPin}`);
+    Object.entries(ColorWire).forEach(([name, pin]) => {
+        const colorPin = checkColor(pin);
+        console.log(`${name}: ${colorPin}`);
     });
     rpio.msleep(POLL_MSEC);
 }
