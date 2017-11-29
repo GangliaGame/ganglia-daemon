@@ -130,8 +130,8 @@ function poll() {
     const panel = panelWireIsPluggedInto(pin as WirePin)
     return { color, panel }
   })
-  console.log(_.difference(newAssignments, assignments))
   if (!_.isEqual(assignments, newAssignments)) {
+    console.log(_.difference(newAssignments, assignments))
     assignments = newAssignments
     printAssignments(assignments)
     dispatchEvents(assignments)
