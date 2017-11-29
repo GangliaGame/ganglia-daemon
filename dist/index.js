@@ -77,6 +77,7 @@ function getConnections() {
         const newConnections = getConnections();
         const diff = _.difference(connections, newConnections);
         console.log(diff);
+        connections = newConnections;
     }
     // Begin polling
     setInterval(poll, POLL_MSEC);
