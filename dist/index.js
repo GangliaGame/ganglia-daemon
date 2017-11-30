@@ -67,6 +67,17 @@ function eventForPanelWithColors(panel, colors) {
         data: panel.toData(colors),
     };
 }
+function setLightForPanelWithColors(panel, colors, numLights) {
+    const lights = panel.toLights(colors);
+    let pixelData = new Uint32Array(numLights);
+    _.times(numLights, i => {
+        const light = lights.find(light => light.index === i);
+        if (!light)
+            return;
+        pixelData[i] = light.color;
+    });
+    ws281x.render(pixelData);
+}
 // Returns the colors of the wires plugged into panel
 function colorsForPanel(connections, panel) {
     return connections
@@ -106,31 +117,13 @@ function colorsForPanel(connections, panel) {
             // Connection added to panel
             if (panel) {
                 const allColors = colorsForPanel(connections, panel);
-                const lights = panel.toLights(allColors);
-                console.log('lights', lights);
-                let pixelData = new Uint32Array(numLights);
-                _.times(numLights, i => {
-                    const light = lights.find(light => light.index === i);
-                    if (!light)
-                        return;
-                    pixelData[i] = light.color;
-                });
-                ws281x.render(pixelData);
+                setLightForPanelWithColors(panel, allColors, numLights);
                 return eventForPanelWithColors(panel, allColors);
             }
             // Connection removed, find the panel it was previously connected to and remove it
             const previousConnection = prevConnections.find((conn) => conn.color === color);
             const allColors = colorsForPanel(connections, previousConnection.panel);
-            const lights = previousConnection.panel.toLights(allColors);
-            console.log('lights', lights);
-            let pixelData = new Uint32Array(numLights);
-            _.times(numLights, i => {
-                const light = lights.find(light => light.index === i);
-                if (!light)
-                    return;
-                pixelData[i] = light.color;
-            });
-            ws281x.render(pixelData);
+            setLightForPanelWithColors(previousConnection.panel, allColors, numLights);
             return eventForPanelWithColors(previousConnection.panel, allColors);
         });
         events.map(event => client.emit(event));
