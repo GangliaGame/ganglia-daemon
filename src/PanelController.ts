@@ -29,7 +29,7 @@ export class PanelController {
     this.setup()
 
     // Begin polling for wire connections
-    setInterval(this.poll, pollRateMsec)
+    setInterval(this.poll.bind(this), pollRateMsec)
   }
 
   private setup(): void {

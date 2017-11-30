@@ -13,7 +13,7 @@ class ButtonController {
         this.setup();
         this.prevPresses = this.getPresses();
         // Begin polling for wire connections
-        setInterval(this.poll, pollRateMsec);
+        setInterval(this.poll.bind(this), pollRateMsec);
     }
     setup() {
         // Set up button pins for reading

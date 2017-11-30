@@ -15,7 +15,7 @@ class PanelController {
         this.panels = panels;
         this.setup();
         // Begin polling for wire connections
-        setInterval(this.poll, pollRateMsec);
+        setInterval(this.poll.bind(this), pollRateMsec);
     }
     setup() {
         // Set up wire pins for writing
