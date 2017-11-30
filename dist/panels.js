@@ -81,13 +81,10 @@ class CommunicationsPanel {
         return colors.length > 0;
     }
     updateLights(colors) {
-        if (colors.length === 0) {
-            this.lights = [];
-        }
-        this.lights = [{
-                index: this.lightIndicies[0],
-                color: types_1.LightColor.red,
-            }];
+        this.lights = _.times(colors.length, i => ({
+            index: this.lightIndicies[i],
+            color: types_1.LightColor.green,
+        }));
     }
 }
 const panels = [

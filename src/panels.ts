@@ -84,13 +84,10 @@ class CommunicationsPanel implements Panel {
   }
 
   public updateLights(colors: WireColor[]): void {
-    if (colors.length === 0) {
-      this.lights = []
-    }
-    this.lights = [{
-      index: this.lightIndicies[0],
-      color: LightColor.red,
-    }]
+    this.lights = _.times(colors.length, i => ({
+      index: this.lightIndicies[i],
+      color: LightColor.green,
+    }))
   }
 }
 
