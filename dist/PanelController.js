@@ -54,6 +54,12 @@ class PanelController {
             else {
                 // Connection removed, find the panel it was previously connected to and remove it
                 const previousConnection = this.prevConnections.find((conn) => conn.color === color);
+                // If the previous connection doesn't exist, it's because
+                // it was plugged in before the daemon was started. That's fine,
+                // just skip it!
+                if (!previousConnection) {
+                    return;
+                }
                 panelToUse = previousConnection.panel;
             }
             const allColors = this.colorsForPanel(connections, panelToUse);
