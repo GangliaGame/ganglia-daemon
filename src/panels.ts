@@ -58,14 +58,14 @@ class RepairsPanel implements Panel {
   public readonly lightIndicies = [8, 9, 10]
 
   public toData(colors: WireColor[]) {
+    return colors.length
+  }
+
+  public toLights(colors: WireColor[]) {
     return _.times(colors.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.purple,
     }))
-  }
-
-  public toLights(colors: WireColor[]) {
-    return []
   }
 }
 

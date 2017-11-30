@@ -57,13 +57,13 @@ class RepairsPanel {
         this.lightIndicies = [8, 9, 10];
     }
     toData(colors) {
+        return colors.length;
+    }
+    toLights(colors) {
         return _.times(colors.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.purple,
         }));
-    }
-    toLights(colors) {
-        return [];
     }
 }
 class CommunicationsPanel {
