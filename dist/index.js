@@ -22,21 +22,6 @@ function panelWireIsPluggedInto(pin) {
     });
     return panel || null;
 }
-function printConnections(assignments) {
-    console.log('\n');
-    assignments.forEach(({ color, panel }) => {
-        let colorFn;
-        if (color === 'red')
-            colorFn = colors.red;
-        else if (color === 'yellow')
-            colorFn = colors.yellow;
-        else if (color === 'blue')
-            colorFn = colors.blue;
-        else
-            colorFn = console.log;
-        console.log(`${colorFn(color)} => ${panel ? panel.name : ''}`);
-    });
-}
 function getConnections() {
     return _.map(wires, (pin, color) => {
         const panel = panelWireIsPluggedInto(pin);
@@ -61,6 +46,11 @@ function getConnections() {
         console.log('will emit:');
         console.log(panel.name, panel.toData(colors));
     }
+    function colorsForPanel(connections, panel) {
+        return connections
+            .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
+            .map(connection => connection.color);
+    }
     // Periodically check for new connections
     let prevConnections = getConnections();
     function poll() {
@@ -76,15 +66,17 @@ function getConnections() {
                     console.log('INVALID STATE');
                     return;
                 }
-                const allColors = connections
-                    .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
-                    .map(connection => connection.color);
+                // const allColors = connections
+                //   .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
+                //   .map(connection => connection.color)
+                const allColors = colorsForPanel(connections, previousConnection.panel);
                 notify(previousConnection.panel, allColors);
             }
             else {
-                const allColors = connections
-                    .filter(conn => conn.panel && conn.panel.name === panel.name)
-                    .map(connection => connection.color);
+                // const allColors = connections
+                //   .filter(conn => conn.panel && conn.panel.name === panel.name)
+                //   .map(connection => connection.color)
+                const allColors = colorsForPanel(connections, panel);
                 notify(panel, allColors);
             }
         });
