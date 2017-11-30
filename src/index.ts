@@ -71,7 +71,7 @@ function getConnections(): Array<Connection> {
     newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
       const allColors = connections
         .filter(connection => (
-          connection.panel && connection.panel.name === panel.name
+          connection.panel && panel.name && connection.panel.name === panel.name
         ))
         .map(connection => connection.color)
       if (panel === null) {

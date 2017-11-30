@@ -66,7 +66,7 @@ function getConnections() {
             return;
         newConnections.map(({ color, panel }) => {
             const allColors = connections
-                .filter(connection => (connection.panel && connection.panel.name === panel.name))
+                .filter(connection => (connection.panel && panel.name && connection.panel.name === panel.name))
                 .map(connection => connection.color);
             if (panel === null) {
                 const previousConnection = prevConnections.find((conn) => conn.color === color);
