@@ -42,9 +42,13 @@ function getConnections() {
         rpio.pud(pin, rpio.PULL_DOWN);
     });
     // Notify the server that the panel has changed
-    function notify(panel, colors) {
+    function eventForPanelWithColors(panel, colors) {
         console.log('will emit:');
         console.log(panel.name, panel.toData(colors));
+        return {
+            name: panel.name,
+            data: panel.toData(colors),
+        };
     }
     function colorsForPanel(connections, panel) {
         return connections
@@ -59,26 +63,20 @@ function getConnections() {
         // If there were no new connections, just return early
         if (_.isEmpty(newConnections))
             return;
-        newConnections.map(({ color, panel }) => {
-            if (panel === null) {
-                const previousConnection = prevConnections.find((conn) => conn.color === color);
-                if (!previousConnection || !previousConnection.panel) {
-                    console.log('INVALID STATE');
-                    return;
-                }
-                // const allColors = connections
-                //   .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
-                //   .map(connection => connection.color)
-                const allColors = colorsForPanel(connections, previousConnection.panel);
-                notify(previousConnection.panel, allColors);
-            }
-            else {
-                // const allColors = connections
-                //   .filter(conn => conn.panel && conn.panel.name === panel.name)
-                //   .map(connection => connection.color)
+        // Create a serialized event for every new connection we just discovered
+        const events = newConnections.map(({ color, panel }) => {
+            // Connection added to panel
+            if (panel) {
                 const allColors = colorsForPanel(connections, panel);
-                notify(panel, allColors);
+                return eventForPanelWithColors(panel, allColors);
             }
+            // Connection removed, find the panel it was previously connected to and remove it
+            const previousConnection = prevConnections.find((conn) => conn.color === color);
+            // Sanity check — this will never happen.
+            if (!previousConnection || !previousConnection.panel)
+                return;
+            const allColors = colorsForPanel(connections, previousConnection.panel);
+            return eventForPanelWithColors(previousConnection.panel, allColors);
         });
         prevConnections = connections;
     }
