@@ -108,6 +108,13 @@ function colorsForPanel(connections, panel) {
                 const allColors = colorsForPanel(connections, panel);
                 const lights = panel.toLights(allColors);
                 console.log('lights', lights);
+                let pixelData = new Uint32Array(numLights);
+                _.times(numLights, i => {
+                    const light = lights.find(light => light.index === i);
+                    if (!light)
+                        return;
+                    pixelData[i] = light.color;
+                });
                 return eventForPanelWithColors(panel, allColors);
             }
             // Connection removed, find the panel it was previously connected to and remove it
@@ -115,6 +122,13 @@ function colorsForPanel(connections, panel) {
             const allColors = colorsForPanel(connections, previousConnection.panel);
             const lights = previousConnection.panel.toLights(allColors);
             console.log('lights', lights);
+            let pixelData = new Uint32Array(numLights);
+            _.times(numLights, i => {
+                const light = lights.find(light => light.index === i);
+                if (!light)
+                    return;
+                pixelData[i] = light.color;
+            });
             return eventForPanelWithColors(previousConnection.panel, allColors);
         });
         events.map(event => client.emit(event));
