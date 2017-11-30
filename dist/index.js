@@ -89,7 +89,7 @@ function colorsForPanel(connections, panel) {
         console.log(`A = ${A}`);
         A = newA;
     }
-    setInterval(checkButton, 100);
+    setInterval(checkButton, 50);
     console.log('Ganglia Daemon is reborn!\n');
     console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`);
     console.log(`${colors.bold('Server')}: ${serverUrl}`);
