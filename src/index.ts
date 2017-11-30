@@ -69,15 +69,14 @@ function getConnections(): Array<Connection> {
     if (_.isEmpty(newConnections)) return
 
     newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
-      const allColors = connections
-        .filter(connection => (
-          connection.panel && panel.name && connection.panel.name === panel.name
-        ))
-        .map(connection => connection.color)
+
       if (panel === null) {
         const previousConnection: Connection | undefined = prevConnections.find((conn: Connection) => conn.color === color)
         if (previousConnection && previousConnection.panel) {
           console.log(`unplug ${color} from previous panel, which was ${previousConnection.panel.name}`)
+          const allColors = connections
+            .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
+            .map(connection => connection.color)
           console.log('will emit:')
           console.log(previousConnection.panel.name, previousConnection.panel.toData(allColors))
           // client.emit(panel.name, panel.toData(allColors))
@@ -85,6 +84,9 @@ function getConnections(): Array<Connection> {
           console.warn(`${color} wire unplugged, but there is no record of it being plugged-in previously. (no-op)`)
         }
       } else {
+        const allColors = connections
+          .filter(conn => conn.panel && conn.panel.name === panel.name)
+          .map(connection => connection.color)
         console.log('will emit:')
         console.log(panel.name, panel.toData(allColors))
         // client.emit(panel.name, panel.toData(allColors))
