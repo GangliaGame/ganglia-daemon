@@ -63,7 +63,7 @@ function getConnections(): Array<Connection> {
   let prevConnections: Array<Connection> = getConnections()
   function poll() {
     const connections = getConnections()
-    const newConnections: Array<Connection> = _.differenceWith(prevConnections, connections, _.isEqual)
+    const newConnections: Array<Connection> = _.differenceWith(connections, prevConnections, _.isEqual)
 
     // If there were no new connections, just return early
     if (_.isEmpty(newConnections)) return
