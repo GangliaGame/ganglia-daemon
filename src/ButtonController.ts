@@ -11,7 +11,7 @@ export class ButtonController {
   public readonly pollRateMsec: number
   public readonly buttons: Button[]
   public readonly onEvent: (event: Event) => void
-  private prevPresses: Press[]
+  private prevPresses: Press[] = []
 
   constructor(buttons: Button[], eventHandler: (event: Event) => void, pollRateMsec = 50) {
     this.pollRateMsec = pollRateMsec
@@ -19,9 +19,7 @@ export class ButtonController {
     this.buttons = buttons
     this.setup()
 
-    this.prevPresses = this.getPresses()
-
-    // Begin polling for wire connections
+    // Begin polling for button connections
     setInterval(this.poll.bind(this), pollRateMsec)
   }
 

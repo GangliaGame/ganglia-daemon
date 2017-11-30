@@ -7,12 +7,12 @@ function isButtonPressed(button) {
 }
 class ButtonController {
     constructor(buttons, eventHandler, pollRateMsec = 50) {
+        this.prevPresses = [];
         this.pollRateMsec = pollRateMsec;
         this.onEvent = eventHandler;
         this.buttons = buttons;
         this.setup();
-        this.prevPresses = this.getPresses();
-        // Begin polling for wire connections
+        // Begin polling for button connections
         setInterval(this.poll.bind(this), pollRateMsec);
     }
     setup() {

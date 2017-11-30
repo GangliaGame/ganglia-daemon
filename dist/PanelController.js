@@ -9,11 +9,14 @@ const wires = {
 };
 class PanelController {
     constructor(panels, eventHandler, lightsHandler, pollRateMsec = 250) {
+        this.panels = [];
+        this.prevConnections = [];
         this.pollRateMsec = pollRateMsec;
         this.onEvent = eventHandler;
         this.onLights = lightsHandler;
         this.panels = panels;
         this.setup();
+        this.prevConnections = this.getConnections();
         // Begin polling for wire connections
         setInterval(this.poll.bind(this), pollRateMsec);
     }

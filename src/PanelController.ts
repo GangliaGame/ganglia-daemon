@@ -11,10 +11,10 @@ const wires: Wire = {
 export class PanelController {
 
   public readonly pollRateMsec: number
-  public readonly panels: Panel[]
+  public readonly panels: Panel[] = []
   public readonly onEvent: (event: Event) => void
   public readonly onLights: (lights: Light[]) => void
-  private prevConnections: Connection[]
+  private prevConnections: Connection[] = []
 
   constructor(
     panels: Panel[],
@@ -28,6 +28,7 @@ export class PanelController {
     this.panels = panels
     this.setup()
 
+    this.prevConnections = this.getConnections()
     // Begin polling for wire connections
     setInterval(this.poll.bind(this), pollRateMsec)
   }
