@@ -27,7 +27,7 @@ const LightController_1 = require("./LightController");
     console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Server')}: ${serverUrl}\n`);
-    console.info(`${colors.underline('Ganglia Daemon is reborn!\n')}`);
+    console.info(`${colors.cyan('Ganglia Daemon is reborn!\n')}`);
     process.on('SIGINT', () => {
         lightController.teardown();
         process.nextTick(() => process.exit(0));
