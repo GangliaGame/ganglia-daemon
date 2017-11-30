@@ -20,7 +20,7 @@ const buttons = [
     }
 ];
 function isButtonPressed(button) {
-    return Boolean(rpio.read(button.pin));
+    return rpio.read(button.pin) ? false : true;
 }
 function panelWireIsPluggedInto(pin) {
     // Set all wire pins to LOW

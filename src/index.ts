@@ -29,7 +29,7 @@ const buttons: Array<Button> = [
 ]
 
 function isButtonPressed(button: Button): boolean {
-  return Boolean(rpio.read(button.pin))
+  return rpio.read(button.pin) ? false : true
 }
 
 function panelWireIsPluggedInto(pin: WirePin): Panel | null {
