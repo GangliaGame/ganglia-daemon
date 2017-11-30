@@ -68,9 +68,12 @@ function getConnections(): Array<Connection> {
     // If there were no new connections, just return early
     if (_.isEmpty(newConnections)) return
 
+    console.log(newConnections)
     newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
       if (panel === null) {
         const previousConnection: Connection | undefined = prevConnections.find((conn: Connection) => conn.color === color)
+        console.log('previousConnection')
+        console.log(previousConnection)
         if (previousConnection && previousConnection.panel) {
           console.log(`unplug ${color} from previous panel, which was ${previousConnection.panel.name}`)
         } else {
