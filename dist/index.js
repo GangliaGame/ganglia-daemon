@@ -39,6 +39,15 @@ function getConnections() {
         return { color, panel };
     });
 }
+function getPresses() {
+    return _.map(buttons, button => {
+        const isPressed = isButtonPressed(button);
+        return {
+            name: button.name,
+            kind: (isPressed ? 'press' : 'release'),
+        };
+    });
+}
 // Create an event based on the panel and wires
 function eventForPanelWithColors(panel, colors) {
     return {
@@ -92,15 +101,15 @@ function colorsForPanel(connections, panel) {
         events.map(event => client.emit(event));
         prevConnections = connections;
     }
-    let prev = false;
+    // Periodically check for new connections
+    let prevPresses = getPresses();
     function pollButtons() {
-        buttons.map(button => {
-            const cur = isButtonPressed(button);
-            if (prev == cur)
-                return;
-            console.log(`${button.name} => ${cur ? 'pressed' : 'released'}`);
-            prev = cur;
-        });
+        const presses = getPresses();
+        const newPresses = _.differenceWith(presses, prevPresses, _.isEqual);
+        // If there were no new connections, just return early
+        if (_.isEmpty(newPresses))
+            return;
+        console.log(newPresses);
     }
     // Begin polling for wire connections
     setInterval(pollWires, WIRE_POLL_MSEC);

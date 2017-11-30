@@ -20,6 +20,11 @@ type Button = {
   toData: (cur: boolean, prev: boolean) => any
 }
 
+type Press = {
+  name: string
+  kind: 'press' | 'release'
+}
+
 const buttons: Array<Button> = [
   {
     name: 'fire',
@@ -48,6 +53,16 @@ function getConnections(): Array<Connection> {
   return _.map(wires, (pin: WirePin, color: WireColor) => {
     const panel = panelWireIsPluggedInto(pin)
     return { color, panel }
+  })
+}
+
+function getPresses(): Array<Press> {
+  return _.map(buttons, button => {
+    const isPressed = isButtonPressed(button)
+    return {
+      name: button.name,
+      kind: (isPressed ? 'press' : 'release') as 'press' | 'release',
+    }
   })
 }
 
@@ -114,14 +129,15 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     prevConnections = connections
   }
 
-  let prev = false
+  // Periodically check for new connections
+  let prevPresses: Array<Press> = getPresses()
   function pollButtons() {
-    buttons.map(button => {
-      const cur = isButtonPressed(button)
-      if (prev == cur) return
-      console.log(`${button.name} => ${cur ? 'pressed' : 'released'}`)
-      prev = cur
-    })
+    const presses = getPresses()
+    const newPresses: Array<Connection> = _.differenceWith(presses, prevPresses, _.isEqual)
+
+    // If there were no new connections, just return early
+    if (_.isEmpty(newPresses)) return
+    console.log(newPresses)
   }
 
   // Begin polling for wire connections
