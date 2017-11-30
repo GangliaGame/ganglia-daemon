@@ -91,7 +91,7 @@ function colorsForPanel(connections, panel) {
         rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
     });
     // Initialize lights
-    const numLights = _.flatten(_.map(panels_1.panels, 'lightIndicies')).length;
+    const numLights = 15 || _.flatten(_.map(panels_1.panels, 'lightIndicies')).length;
     console.log(`numLightss: ${numLights}`);
     ws281x.init(numLights);
     // Periodically check for new connections

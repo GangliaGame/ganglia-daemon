@@ -117,7 +117,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   })
 
   // Initialize lights
-  const numLights = _.flatten(_.map(panels, 'lightIndicies')).length
+  const numLights = 15 || _.flatten(_.map(panels, 'lightIndicies')).length
   console.log(`numLightss: ${numLights}`)
   ws281x.init(numLights)
 
