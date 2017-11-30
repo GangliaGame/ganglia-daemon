@@ -56,6 +56,11 @@ function getConnections() {
         rpio.open(pin, rpio.INPUT);
         rpio.pud(pin, rpio.PULL_DOWN);
     });
+    // Notify the server that the panel has changed
+    function notify(panel, colors) {
+        console.log('will emit:');
+        console.log(panel.name, panel.toData(colors));
+    }
     // Periodically check for new connections
     let prevConnections = getConnections();
     function poll() {
@@ -67,26 +72,20 @@ function getConnections() {
         newConnections.map(({ color, panel }) => {
             if (panel === null) {
                 const previousConnection = prevConnections.find((conn) => conn.color === color);
-                if (previousConnection && previousConnection.panel) {
-                    console.log(`unplug ${color} from previous panel, which was ${previousConnection.panel.name}`);
-                    const allColors = connections
-                        .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
-                        .map(connection => connection.color);
-                    console.log('will emit:');
-                    console.log(previousConnection.panel.name, previousConnection.panel.toData(allColors));
-                    // client.emit(panel.name, panel.toData(allColors))
+                if (!previousConnection || !previousConnection.panel) {
+                    console.log('INVALID STATE');
+                    return;
                 }
-                else {
-                    console.warn(`${color} wire unplugged, but there is no record of it being plugged-in previously. (no-op)`);
-                }
+                const allColors = connections
+                    .filter(conn => conn.panel && previousConnection.panel && conn.panel.name === previousConnection.panel.name)
+                    .map(connection => connection.color);
+                notify(previousConnection.panel, allColors);
             }
             else {
                 const allColors = connections
                     .filter(conn => conn.panel && conn.panel.name === panel.name)
                     .map(connection => connection.color);
-                console.log('will emit:');
-                console.log(panel.name, panel.toData(allColors));
-                // client.emit(panel.name, panel.toData(allColors))
+                notify(panel, allColors);
             }
         });
         prevConnections = connections;
