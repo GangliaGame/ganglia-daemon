@@ -16,8 +16,6 @@ class PanelController {
         this.onLights = lightsHandler;
         this.panels = panels;
         this.setup();
-        // Get initial connections (already plugged in when the code started)
-        this.prevConnections = this.getConnections();
         // Begin polling for wire connections
         setInterval(this.poll.bind(this), pollRateMsec);
     }
