@@ -15,7 +15,7 @@ class Client {
     }
     emit(event) {
         const { name, data } = event;
-        console.log(`name => ${data}`);
+        console.log(`${name} => ${data}`);
         this.socket.emit(name, data);
     }
 }
