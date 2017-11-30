@@ -85,6 +85,8 @@ function getConnections() {
                 }
                 else {
                     console.log(`plug ${color} into panel ${panel.name}`);
+                    console.log('connections');
+                    console.log(connections);
                     const allColors = connections.filter(connection => {
                         connection.panel && connection.panel.name === panel.name;
                     });
