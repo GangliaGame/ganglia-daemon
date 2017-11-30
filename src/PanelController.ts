@@ -90,7 +90,7 @@ export class PanelController {
       const event = this.eventForPanelWithColors(panelToUse, allColors)
       this.onEvent(event)
 
-      const lights: Light[] = panelToUse.toLights(allColors)
+      const lights: Light[] = panel.toLights(allColors)
       this.onLights(lights, kind)
     })
 

@@ -68,7 +68,7 @@ class PanelController {
             const allColors = this.colorsForPanel(connections, panelToUse);
             const event = this.eventForPanelWithColors(panelToUse, allColors);
             this.onEvent(event);
-            const lights = panelToUse.toLights(allColors);
+            const lights = panel.toLights(allColors);
             this.onLights(lights, kind);
         });
         this.prevConnections = connections;
