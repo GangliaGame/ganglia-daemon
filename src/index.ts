@@ -31,7 +31,7 @@ const buttons: Array<Button> = [
   {
     name: 'fire',
     pin: 8,
-    toData: state => state === 'pressed' ? 'start' : 'stop', // XXX: Server support!
+    toData: state => state === 'pressed' ? 'start' : 'stop', // XXX: Frontend support!
   },
   {
     name: 'move-up',

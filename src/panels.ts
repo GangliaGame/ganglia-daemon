@@ -17,7 +17,7 @@ const panels: Array<Panel> = [
     toData: colors => colors.length
   },
   {
-    name: 'regen',
+    name: 'repairs',
     pins: [36, 38, 40],
     toData: colors => colors.length
   },
