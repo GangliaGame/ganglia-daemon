@@ -22,7 +22,7 @@ export class LightController {
   }
 
   private updateLights() {
-    console.log(lights)
+    console.log(this.lights)
     const pixelData = new Uint32Array(this.numLights)
     _.times(this.numLights, i => {
       const light = this.lights.find(({index}) => index === i)
