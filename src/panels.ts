@@ -1,50 +1,50 @@
 import * as _ from 'lodash'
-import { WireColor, Pin, Light, Panel, LightColor, LightIndex } from './types'
+import { WireColor, Light, Panel, LightColor } from './types'
 
 class WeaponsPanel implements Panel {
-  name = 'weapons'
-  pins = [11, 13, 15]
-  lightIndicies = [0, 1, 2]
+  public readonly name = 'weapons'
+  public readonly pins = [11, 13, 15]
+  public readonly lightIndicies = [0, 1, 2]
 
-  toData(colors: Array<WireColor>) {
+  public toData(colors: WireColor[]) {
     return colors
   }
 
-  toLights(colors: Array<WireColor>): Array<Light> {
+  public toLights(colors: WireColor[]): Light[] {
     return colors.map((color, i) => ({
       index: this.lightIndicies[i],
-      color: LightColor[color]
+      color: LightColor[color],
     }))
   }
 }
 
 class ShieldsPanel implements Panel {
-  name = 'shields'
-  pins = [19, 21, 23]
-  lightIndicies = [3, 4, 5]
+  public readonly name = 'shields'
+  public readonly pins = [19, 21, 23]
+  public readonly lightIndicies = [3, 4, 5]
 
-  toData(colors: Array<WireColor>) {
+  public toData(colors: WireColor[]) {
     return colors
   }
 
-  toLights(colors: Array<WireColor>): Array<Light> {
+  public toLights(colors: WireColor[]): Light[] {
     return colors.map((color, i) => ({
       index: this.lightIndicies[i],
-      color: LightColor[color]
+      color: LightColor[color],
     }))
   }
 }
 
 class PropulsionPanel implements Panel {
-  name = 'propulsion'
-  pins = [35, 37]
-  lightIndicies = [6, 7]
+  public readonly name = 'propulsion'
+  public readonly pins = [35, 37]
+  public readonly lightIndicies = [6, 7]
 
-  toData(colors: Array<WireColor>) {
+  public toData(colors: WireColor[]) {
     return colors.length
   }
 
-  toLights(colors: Array<WireColor>) {
+  public toLights(colors: WireColor[]) {
     return _.times(colors.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.orange,
@@ -53,33 +53,35 @@ class PropulsionPanel implements Panel {
 }
 
 class RepairsPanel implements Panel {
-  name = 'repairs'
-  pins = [36, 38, 40]
-  lightIndicies = [8, 9, 10]
+  public readonly name = 'repairs'
+  public readonly pins = [36, 38, 40]
+  public readonly lightIndicies = [8, 9, 10]
 
-  toData(colors: Array<WireColor>) {
+  public toData(colors: WireColor[]) {
     return _.times(colors.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.purple,
     }))
   }
 
-  toLights(colors: Array<WireColor>) {
+  public toLights(colors: WireColor[]) {
     return []
   }
 }
 
 class CommunicationsPanel implements Panel {
-  name = 'communications'
-  pins = [27]
-  lightIndicies = [11]
+  public readonly name = 'communications'
+  public readonly pins = [27]
+  public readonly lightIndicies = [11]
 
-  toData(colors: Array<WireColor>) {
+  public toData(colors: WireColor[]) {
     return colors.length > 0
   }
 
-  toLights(colors: Array<WireColor>) {
-    if (colors.length === 0) return []
+  public toLights(colors: WireColor[]) {
+    if (colors.length === 0) {
+      return []
+    }
     return [{
       index: this.lightIndicies[0],
       color: LightColor.red,
@@ -87,12 +89,12 @@ class CommunicationsPanel implements Panel {
   }
 }
 
-const panels: Array<Panel> = [
-  new WeaponsPanel,
-  new ShieldsPanel,
-  new PropulsionPanel,
-  new RepairsPanel,
-  new CommunicationsPanel,
+const panels: Panel[] = [
+  new WeaponsPanel(),
+  new ShieldsPanel(),
+  new PropulsionPanel(),
+  new RepairsPanel(),
+  new CommunicationsPanel(),
 ]
 
 export { panels }

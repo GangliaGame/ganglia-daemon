@@ -14,7 +14,7 @@ class WeaponsPanel {
     toLights(colors) {
         return colors.map((color, i) => ({
             index: this.lightIndicies[i],
-            color: types_1.LightColor[color]
+            color: types_1.LightColor[color],
         }));
     }
 }
@@ -30,7 +30,7 @@ class ShieldsPanel {
     toLights(colors) {
         return colors.map((color, i) => ({
             index: this.lightIndicies[i],
-            color: types_1.LightColor[color]
+            color: types_1.LightColor[color],
         }));
     }
 }
@@ -76,8 +76,9 @@ class CommunicationsPanel {
         return colors.length > 0;
     }
     toLights(colors) {
-        if (colors.length === 0)
+        if (colors.length === 0) {
             return [];
+        }
         return [{
                 index: this.lightIndicies[0],
                 color: types_1.LightColor.red,
@@ -85,11 +86,11 @@ class CommunicationsPanel {
     }
 }
 const panels = [
-    new WeaponsPanel,
-    new ShieldsPanel,
-    new PropulsionPanel,
-    new RepairsPanel,
-    new CommunicationsPanel,
+    new WeaponsPanel(),
+    new ShieldsPanel(),
+    new PropulsionPanel(),
+    new RepairsPanel(),
+    new CommunicationsPanel(),
 ];
 exports.panels = panels;
 //# sourceMappingURL=panels.js.map

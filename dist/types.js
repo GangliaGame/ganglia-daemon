@@ -12,4 +12,12 @@ var LightColor;
 class Panel {
 }
 exports.Panel = Panel;
+// export abstract class PolledController<T, E> {
+//   public readonly pollRateMsec: number
+//   public readonly onEvent: (event: Event) => void
+//   protected abstract poll(): void
+//   protected abstract setup(): void
+//
+//   constructor(objects: T[], )
+// }
 //# sourceMappingURL=types.js.map

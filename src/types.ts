@@ -17,24 +17,47 @@ export enum LightColor {
 
 export type LightIndex = number
 
-export type Light = {
+export interface Light {
   index: LightIndex
   color: LightColor
 }
+
 export abstract class Panel {
-  readonly name: string
-  readonly pins: Array<Pin>
-  readonly lightIndicies: Array<LightIndex>
-  abstract toData(colors: Array<WireColor>): any
-  abstract toLights(colors: Array<WireColor>): Array<Light>
+  public readonly name: string
+  public readonly pins: Pin[]
+  public readonly lightIndicies: LightIndex[]
+  public abstract toData(colors: WireColor[]): any
+  public abstract toLights(colors: WireColor[]): Light[]
 }
 
-export type Connection = {
+export interface Connection {
   color: WireColor
   panel: Panel | null
 }
 
-export type Event = {
+export interface Event {
   name: string
   data: object
 }
+
+export type ButtonState = 'pressed' | 'released'
+
+export interface Button {
+  name: string
+  pin: Pin
+  toData: (state: ButtonState) => any
+}
+
+export interface Press {
+  button: Button
+  state: ButtonState
+}
+
+// export abstract class PolledController<T, E> {
+//   public readonly pollRateMsec: number
+//   public readonly onEvent: (event: Event) => void
+//   protected abstract poll(): void
+//   protected abstract setup(): void
+//
+//   constructor(objects: T[], )
+// }
