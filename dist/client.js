@@ -13,7 +13,8 @@ class Client {
     onDisconnect() {
         console.warn('Disconnected from server');
     }
-    emit(name, data) {
+    emit(event) {
+        const { name, data } = event;
         this.socket.emit(name, data);
     }
 }

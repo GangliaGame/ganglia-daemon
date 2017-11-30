@@ -1,4 +1,5 @@
 import * as io from 'socket.io-client'
+import { Event } from './types'
 
 export class Client {
 
@@ -18,7 +19,8 @@ export class Client {
     console.warn('Disconnected from server')
   }
 
-  public emit(name: string, data: any) {
+  public emit(event: Event) {
+    const { name, data } = event
     this.socket.emit(name, data)
   }
 

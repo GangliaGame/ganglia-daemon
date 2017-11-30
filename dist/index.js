@@ -28,6 +28,19 @@ function getConnections() {
         return { color, panel };
     });
 }
+// Create an event based on the panel and wires
+function eventForPanelWithColors(panel, colors) {
+    return {
+        name: panel.name,
+        data: panel.toData(colors),
+    };
+}
+// Returns the colors of the wires plugged into panel
+function colorsForPanel(connections, panel) {
+    return connections
+        .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
+        .map(connection => connection.color);
+}
 (function main() {
     const serverUrl = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000';
     const client = new client_1.Client(serverUrl);
@@ -41,20 +54,6 @@ function getConnections() {
         rpio.open(pin, rpio.INPUT);
         rpio.pud(pin, rpio.PULL_DOWN);
     });
-    // Notify the server that the panel has changed
-    function eventForPanelWithColors(panel, colors) {
-        console.log('will emit:');
-        console.log(panel.name, panel.toData(colors));
-        return {
-            name: panel.name,
-            data: panel.toData(colors),
-        };
-    }
-    function colorsForPanel(connections, panel) {
-        return connections
-            .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
-            .map(connection => connection.color);
-    }
     // Periodically check for new connections
     let prevConnections = getConnections();
     function poll() {
@@ -72,12 +71,10 @@ function getConnections() {
             }
             // Connection removed, find the panel it was previously connected to and remove it
             const previousConnection = prevConnections.find((conn) => conn.color === color);
-            // Sanity check — this will never happen.
-            if (!previousConnection || !previousConnection.panel)
-                return;
             const allColors = colorsForPanel(connections, previousConnection.panel);
             return eventForPanelWithColors(previousConnection.panel, allColors);
         });
+        events.map(event => client.emit(event));
         prevConnections = connections;
     }
     // Begin polling
