@@ -101,7 +101,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     console.log(rpio.read(pin))
   }
 
-  rpio.poll(8, pollcb, rpio.POLL_LOW);
+  rpio.poll(8, pollcb);
   // rpio.poll(10, pollcb);
 
   console.log('Ganglia Daemon is reborn!\n')
