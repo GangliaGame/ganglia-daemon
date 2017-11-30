@@ -6,13 +6,14 @@ class WeaponsPanel {
     constructor() {
         this.name = 'weapons';
         this.pins = [11, 13, 15];
+        this.lights = [];
         this.lightIndicies = [0, 1, 2];
     }
     toData(colors) {
         return colors;
     }
-    toLights(colors) {
-        return colors.map((color, i) => ({
+    updateLights(colors) {
+        this.lights = colors.map((color, i) => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor[color],
         }));
@@ -22,13 +23,14 @@ class ShieldsPanel {
     constructor() {
         this.name = 'shields';
         this.pins = [19, 21, 23];
+        this.lights = [];
         this.lightIndicies = [3, 4, 5];
     }
     toData(colors) {
         return colors;
     }
-    toLights(colors) {
-        return colors.map((color, i) => ({
+    updateLights(colors) {
+        this.lights = colors.map((color, i) => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor[color],
         }));
@@ -38,13 +40,14 @@ class PropulsionPanel {
     constructor() {
         this.name = 'propulsion';
         this.pins = [35, 37];
+        this.lights = [];
         this.lightIndicies = [6, 7];
     }
     toData(colors) {
         return colors.length;
     }
-    toLights(colors) {
-        return _.times(colors.length, i => ({
+    updateLights(colors) {
+        this.lights = _.times(colors.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.purple,
         }));
@@ -54,13 +57,14 @@ class RepairsPanel {
     constructor() {
         this.name = 'repairs';
         this.pins = [36, 38, 40];
+        this.lights = [];
         this.lightIndicies = [8, 9, 10];
     }
     toData(colors) {
         return colors.length;
     }
-    toLights(colors) {
-        return _.times(colors.length, i => ({
+    updateLights(colors) {
+        this.lights = _.times(colors.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.green,
         }));
@@ -70,16 +74,17 @@ class CommunicationsPanel {
     constructor() {
         this.name = 'communications';
         this.pins = [27];
+        this.lights = [];
         this.lightIndicies = [11];
     }
     toData(colors) {
         return colors.length > 0;
     }
-    toLights(colors) {
+    updateLights(colors) {
         if (colors.length === 0) {
-            return [];
+            this.lights = [];
         }
-        return [{
+        this.lights = [{
                 index: this.lightIndicies[0],
                 color: types_1.LightColor.red,
             }];

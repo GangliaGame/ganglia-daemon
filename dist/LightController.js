@@ -8,13 +8,8 @@ class LightController {
         this.numLights = numLights;
         this.setup();
     }
-    addLights(lights) {
-        this.lights.push(...lights);
-        this.updateLights();
-    }
-    removeLights(lights) {
-        console.log('removing lights', lights);
-        _.pullAllBy(this.lights, lights, 'index');
+    setLights(lights) {
+        this.lights = lights;
         this.updateLights();
     }
     teardown() {

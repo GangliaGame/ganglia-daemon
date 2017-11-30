@@ -3,26 +3,28 @@ import { Event } from './types'
 
 export class Client {
 
- socket: SocketIOClient.Socket
+  public readonly url: string
+  private socket: SocketIOClient.Socket
 
   constructor(url: string) {
+    this.url = url
     this.socket = io(url, { reconnection: true })
     this.socket.on('connect', this.onConnect.bind(this))
     this.socket.on('disconnect', this.onDisconnect.bind(this))
   }
 
+  public emit(event: Event) {
+    const { name, data } = event
+    console.info(`${name} => ${data}`)
+    this.socket.emit(name, data)
+  }
+
   private onConnect() {
-    console.log('Connected to server')
+    console.info('Connected to server')
   }
 
   private onDisconnect() {
     console.warn('Disconnected from server')
-  }
-
-  public emit(event: Event) {
-    const { name, data } = event
-    console.log(`${name} => ${data}`)
-    this.socket.emit(name, data)
   }
 
 }

@@ -9,29 +9,26 @@ const ButtonController_1 = require("./ButtonController");
 const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
-    const serverUrl = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000';
-    const client = new client_1.Client(serverUrl);
-    function onEvent(event) {
-        client.emit(event);
-    }
-    function onLightsAddedOrRemoved(lights, kind) {
-        if (kind === 'add') {
-            lightController.addLights(lights);
-        }
-        else {
-            lightController.removeLights(lights);
-        }
-    }
+    // Create a client to interact with the server
+    const client = new client_1.Client(process.env.GANGLIA_SERVER_URL || 'http://localhost:9000');
     // Create a panel controller to manage plugging and unplugging wires into panels
-    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent, onLightsAddedOrRemoved);
+    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent);
     // Create a button controller to manage button presses
     const buttonController = new ButtonController_1.ButtonController(buttons_1.buttons, onEvent);
     // Create a light controller
     const numLights = lodash_1.flatten(panels_1.panels.map(p => p.lightIndicies)).length;
     const lightController = new LightController_1.LightController(numLights);
+    function updateLights() {
+        const allLights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
+        lightController.setLights(allLights);
+    }
+    function onEvent(event) {
+        client.emit(event);
+        updateLights();
+    }
     console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`);
-    console.info(`${colors.bold('Server')}: ${serverUrl}\n`);
+    console.info(`${colors.bold('Server')}: ${client.url}\n`);
     console.info(`${colors.cyan('Ganglia Daemon is reborn!\n')}`);
     process.on('SIGINT', () => {
         lightController.teardown();

@@ -8,7 +8,6 @@ const wires: Wire = {
   yellow: 7,
 }
 
-type LightsHandler = (lights: Light[], kind: 'add' | 'remove') => void
 type EventHandler = (event: Event) => void
 
 export class PanelController {
@@ -16,18 +15,15 @@ export class PanelController {
   public readonly pollRateMsec: number
   public readonly panels: Panel[] = []
   public readonly onEvent: EventHandler
-  public readonly onLights: LightsHandler
   private prevConnections: Connection[] = []
 
   constructor(
     panels: Panel[],
     eventHandler: EventHandler,
-    lightsHandler: LightsHandler,
     pollRateMsec = 250,
   ) {
     this.pollRateMsec = pollRateMsec
     this.onEvent = eventHandler
-    this.onLights = lightsHandler
     this.panels = panels
     this.setup()
 
@@ -68,11 +64,9 @@ export class PanelController {
     // Dispatch server events and change lights based on new connections
     newConnections.forEach(({color, panel}) => {
       let panelToUse: Panel
-      let kind: 'add' | 'remove'
       if (panel) {
         // Connection added, use the panel it was added to
         panelToUse = panel
-        kind = 'add'
       } else {
         // Connection removed, find the panel it was previously connected to and remove it
         const previousConnection = this.prevConnections.find((conn: Connection) => conn.color === color)
@@ -83,15 +77,11 @@ export class PanelController {
           return
         }
         panelToUse = previousConnection.panel!
-        kind = 'remove'
       }
       const allColors = this.colorsForPanel(connections, panelToUse)
 
       const event = this.eventForPanelWithColors(panelToUse, allColors)
       this.onEvent(event)
-
-      const lights: Light[] = panel.toLights(allColors)
-      this.onLights(lights, kind)
     })
 
     this.prevConnections = connections
