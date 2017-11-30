@@ -11,7 +11,8 @@ export enum LightColor {
   green = 0x00ff00,
   blue = 0x0000ff,
   yellow = 0xff9a00,
-  purple = 800080
+  orange = 0xffa500,
+  purple = 800080,
 }
 
 export type LightIndex = number
