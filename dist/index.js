@@ -87,7 +87,7 @@ function colorsForPanel(connections, panel) {
         var state = rpio.read(pin) ? 'pressed' : 'released';
         console.log('Button event on P%d (button currently %s)', pin, state);
     }
-    rpio.poll(8, pollcb, rpio.PULL_DOWN);
+    rpio.poll(8, pollcb, rpio.POLL_LOW);
     // rpio.poll(10, pollcb);
     console.log('Ganglia Daemon is reborn!\n');
     console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`);
