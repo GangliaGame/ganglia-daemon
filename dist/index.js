@@ -149,4 +149,8 @@ function colorsForPanel(connections, panel) {
         ws281x.render(pixelData);
     }, 100);
 })();
+process.on('SIGINT', () => {
+    ws281x.reset();
+    process.nextTick(() => process.exit(0));
+});
 //# sourceMappingURL=index.js.map

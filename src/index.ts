@@ -187,3 +187,8 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   }, 100)
 
 })()
+
+process.on('SIGINT', () => {
+  ws281x.reset()
+  process.nextTick(() => process.exit(0))
+})
