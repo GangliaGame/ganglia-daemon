@@ -79,13 +79,16 @@ function colorsForPanel(connections, panel) {
     }
     // Begin polling
     setInterval(poll, POLL_MSEC);
-    const buttonPin = 8;
-    rpio.open(8, rpio.INPUT, rpio.PULL_UP);
+    const pinA = 8;
+    const pinB = 10;
+    rpio.open(8, rpio.INPUT, rpio.PULL_DOWN);
+    rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
     function pollcb(pin) {
         var state = rpio.read(pin) ? 'pressed' : 'released';
         console.log('Button event on P%d (button currently %s)', pin, state);
     }
     rpio.poll(8, pollcb);
+    rpio.poll(10, pollcb);
     console.log('Ganglia Daemon is reborn!\n');
     console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`);
     console.log(`${colors.bold('Server')}: ${serverUrl}`);
