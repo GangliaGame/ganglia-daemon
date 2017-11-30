@@ -46,7 +46,7 @@ class PropulsionPanel {
     toLights(colors) {
         return _.times(colors.length, i => ({
             index: this.lightIndicies[i],
-            color: types_1.LightColor.orange,
+            color: types_1.LightColor.purple,
         }));
     }
 }
@@ -62,7 +62,7 @@ class RepairsPanel {
     toLights(colors) {
         return _.times(colors.length, i => ({
             index: this.lightIndicies[i],
-            color: types_1.LightColor.purple,
+            color: types_1.LightColor.green,
         }));
     }
 }

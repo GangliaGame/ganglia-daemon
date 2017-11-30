@@ -47,7 +47,7 @@ class PropulsionPanel implements Panel {
   public toLights(colors: WireColor[]) {
     return _.times(colors.length, i => ({
       index: this.lightIndicies[i],
-      color: LightColor.orange,
+      color: LightColor.purple,
     }))
   }
 }
@@ -64,7 +64,7 @@ class RepairsPanel implements Panel {
   public toLights(colors: WireColor[]) {
     return _.times(colors.length, i => ({
       index: this.lightIndicies[i],
-      color: LightColor.purple,
+      color: LightColor.green,
     }))
   }
 }

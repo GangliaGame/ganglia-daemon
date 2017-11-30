@@ -47,9 +47,11 @@ class PanelController {
         // Dispatch server events and change lights based on new connections
         newConnections.forEach(({ color, panel }) => {
             let panelToUse;
+            let kind;
             if (panel) {
                 // Connection added, use the panel it was added to
                 panelToUse = panel;
+                kind = 'add';
             }
             else {
                 // Connection removed, find the panel it was previously connected to and remove it
@@ -61,13 +63,14 @@ class PanelController {
                     return;
                 }
                 panelToUse = previousConnection.panel;
+                kind = 'remove';
             }
             const allColors = this.colorsForPanel(connections, panelToUse);
             // Create a serialized event for every new connection we just discovered
             const event = this.eventForPanelWithColors(panelToUse, allColors);
             const lights = panelToUse.toLights(allColors);
             this.onEvent(event);
-            this.onLights(lights);
+            this.onLights(lights, kind);
         });
         this.prevConnections = connections;
     }

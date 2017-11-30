@@ -5,25 +5,36 @@ const ws281x = require('rpi-ws281x-native') // tslint:disable-line
 export class LightController {
 
   public readonly numLights: number
+  private readonly lights: Light[] = []
 
   constructor(numLights: number) {
     this.numLights = numLights
     this.setup()
   }
 
-  public setLights(lights: Light[]) {
+  public addLights(lights: Light[]): void {
+    this.lights.push(...lights)
+    this.updateLights()
+  }
+
+  public removeLights(lights: Light[]): void {
+    _.pullAll(this.lights, lights)
+    this.updateLights()
+  }
+
+  public teardown(): void {
+    ws281x.reset()
+  }
+
+  private updateLights() {
     const pixelData = new Uint32Array(this.numLights)
     _.times(this.numLights, i => {
-      const light = lights.find(({index}) => index === i)
+      const light = this.lights.find(({index}) => index === i)
       if (light) {
         pixelData[i] = light.color
       }
     })
     ws281x.render(pixelData)
-  }
-
-  public teardown(): void {
-    ws281x.reset()
   }
 
   private setup(): void {

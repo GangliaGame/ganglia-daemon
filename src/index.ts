@@ -16,12 +16,16 @@ import { LightController } from './LightController'
     client.emit(event)
   }
 
-  function onLights(lights: Light[]) {
-    lightController.setLights(lights)
+  function onLightsAddedOrRemoved(lights: Light[], kind: 'add' | 'remove') {
+    if (kind === 'add') {
+      lightController.addLights(lights)
+    } else {
+      lightController.removeLights(lights)
+    }
   }
 
   // Create a panel controller to manage plugging and unplugging wires into panels
-  const panelController = new PanelController(panels, onEvent, onLights)
+  const panelController = new PanelController(panels, onEvent, onLightsAddedOrRemoved)
 
   // Create a button controller to manage button presses
   const buttonController = new ButtonController(buttons, onEvent)

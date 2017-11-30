@@ -14,11 +14,16 @@ const LightController_1 = require("./LightController");
     function onEvent(event) {
         client.emit(event);
     }
-    function onLights(lights) {
-        lightController.setLights(lights);
+    function onLightsAddedOrRemoved(lights, kind) {
+        if (kind === 'add') {
+            lightController.addLights(lights);
+        }
+        else {
+            lightController.removeLights(lights);
+        }
     }
     // Create a panel controller to manage plugging and unplugging wires into panels
-    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent, onLights);
+    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent, onLightsAddedOrRemoved);
     // Create a button controller to manage button presses
     const buttonController = new ButtonController_1.ButtonController(buttons_1.buttons, onEvent);
     // Create a light controller
