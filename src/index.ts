@@ -119,7 +119,8 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     buttons.map(button => {
       const cur = isButtonPressed(button)
       if (prev == cur) return
-      console.log(`${button.name} => ${cur ? 'pressed' : 'released'}}`)
+      console.log(`${button.name} => ${cur ? 'pressed' : 'released'}`)
+      prev = cur
     })
   }
 

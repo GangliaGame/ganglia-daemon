@@ -98,7 +98,8 @@ function colorsForPanel(connections, panel) {
             const cur = isButtonPressed(button);
             if (prev == cur)
                 return;
-            console.log(`${button.name} => ${cur ? 'pressed' : 'released'}}`);
+            console.log(`${button.name} => ${cur ? 'pressed' : 'released'}`);
+            prev = cur;
         });
     }
     // Begin polling for wire connections
