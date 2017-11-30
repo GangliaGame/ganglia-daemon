@@ -90,9 +90,9 @@ function getConnections(): Array<Connection> {
           console.log(`plug ${color} into panel ${panel.name}`)
           console.log('connections')
           console.log(connections)
-          const allColors = connections.filter(connection => {
+          const allColors = connections.filter(connection => (
             connection.panel && connection.panel.name === panel.name
-          })
+          ))
           console.log('allColors', allColors)
           // const event = pane
         }
