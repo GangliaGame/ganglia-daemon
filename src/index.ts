@@ -36,22 +36,6 @@ function printConnections(assignments: Array<Connection>) {
   })
 }
 
-function getEvents(assignments: Array<Connection>): Array<Event> {
-  return _.chain(assignments)
-    .filter(({panel}) => panel !== null)
-    .groupBy(({panel}) => panel!.name)
-    .map((a, name) => ({
-        name,
-        toData: a[0].panel!.toData,
-        colors: _.map(a, 'color'),
-    }))
-    .map(({name, toData, colors}) => ({
-      name,
-      data: toData(colors)
-    }))
-    .value()
-}
-
 function getConnections(): Array<Connection> {
   return _.map(wires, (pin: WirePin, color: WireColor) => {
     const panel = panelWireIsPluggedInto(pin)
@@ -76,32 +60,39 @@ function getConnections(): Array<Connection> {
   });
 
   // Periodically check for new connections
-  let connections: Array<Connection> = getConnections()
+  let prevConnections: Array<Connection> = getConnections()
   function poll() {
-    const newConnections = getConnections()
-    const diff = _.differenceWith(newConnections, connections, _.isEqual)
-    if (!_.isEmpty(diff)) {
-      // console.log(diff)
-      connections = newConnections
-      diff.map(({color, panel}: {color: WireColor, panel: Panel}) => {
-        if (panel === null) {
-          console.log(`unplug ${color} from previous panel`)
+    const connections = getConnections()
+    const newConnections: Array<Connection> = _.differenceWith(prevConnections, connections, _.isEqual)
+
+    // If there were no new connections, just return early
+    if (_.isEmpty(newConnections)) return
+
+    newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
+      if (panel === null) {
+        const previousConnection: Connection | undefined = prevConnections.find((conn: Connection) => conn.color === color)
+        if (previousConnection && previousConnection.panel) {
+          console.log(`unplug ${color} from previous panel, which was ${previousConnection.panel.name}`)
         } else {
-          console.log(`plug ${color} into panel ${panel.name}`)
-          // console.log('connections')
-          // console.log(connections)
-          const allColors = connections
-            .filter(connection => (
-              connection.panel && connection.panel.name === panel.name
-            ))
-            .map(connection => connection.color);
-          // client.emit(panel.name, panel.toData(allColors))
-          console.log('will emit:')
-          console.log(panel.name, panel.toData(allColors))
-          // const event = pane
+          console.warn('wire unplugged with invalid previous connection, this is a no-op')
         }
-      })
-    }
+      } else {
+        // console.log(`plug ${color} into panel ${panel.name}`)
+        // console.log('connections')
+        // console.log(connections)
+        const allColors = connections
+          .filter(connection => (
+            connection.panel && connection.panel.name === panel.name
+          ))
+          .map(connection => connection.color);
+        client.emit(panel.name, panel.toData(allColors))
+        // console.log('will emit:')
+        // console.log(panel.name, panel.toData(allColors))
+        // const event = pane
+      }
+    })
+
+    prevConnections = connections
   }
 
   // Begin polling
