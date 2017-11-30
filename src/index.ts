@@ -68,30 +68,26 @@ function getConnections(): Array<Connection> {
     // If there were no new connections, just return early
     if (_.isEmpty(newConnections)) return
 
-    console.log(newConnections)
     newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
+      const allColors = connections
+        .filter(connection => (
+          connection.panel && connection.panel.name === panel.name
+        ))
+        .map(connection => connection.color)
       if (panel === null) {
         const previousConnection: Connection | undefined = prevConnections.find((conn: Connection) => conn.color === color)
-        console.log('previousConnection')
-        console.log(previousConnection)
         if (previousConnection && previousConnection.panel) {
           console.log(`unplug ${color} from previous panel, which was ${previousConnection.panel.name}`)
+          console.log('will emit:')
+          console.log(previousConnection.panel.name, previousConnection.panel.toData(allColors))
+          // client.emit(panel.name, panel.toData(allColors))
         } else {
-          console.warn('wire unplugged with invalid previous connection, this is a no-op')
+          console.warn(`${color} wire unplugged, but there is no record of it being plugged-in previously. (no-op)`)
         }
       } else {
-        // console.log(`plug ${color} into panel ${panel.name}`)
-        // console.log('connections')
-        // console.log(connections)
-        const allColors = connections
-          .filter(connection => (
-            connection.panel && connection.panel.name === panel.name
-          ))
-          .map(connection => connection.color);
-        client.emit(panel.name, panel.toData(allColors))
-        // console.log('will emit:')
-        // console.log(panel.name, panel.toData(allColors))
-        // const event = pane
+        console.log('will emit:')
+        console.log(panel.name, panel.toData(allColors))
+        // client.emit(panel.name, panel.toData(allColors))
       }
     })
 
