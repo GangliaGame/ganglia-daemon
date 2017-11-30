@@ -18,7 +18,7 @@ class LightController {
         ws281x.render(pixelData);
     }
     teardown() {
-        console.info('tearing down lights');
+        ws281x.reset();
     }
     setup() {
         ws281x.init(this.numLights);

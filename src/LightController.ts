@@ -23,7 +23,7 @@ export class LightController {
   }
 
   public teardown(): void {
-    console.info('tearing down lights')
+    ws281x.reset()
   }
 
   private setup(): void {
