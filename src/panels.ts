@@ -4,7 +4,7 @@ import { WireColor, Pin, Light, Panel, LightColor, LightIndex } from './types'
 class WeaponsPanel implements Panel {
   name = 'weapons'
   pins = [11, 13, 15]
-  lightIndicies: [0, 1, 2]
+  lightIndicies = [0, 1, 2]
 
   toData(colors: Array<WireColor>) {
     return colors
@@ -21,7 +21,7 @@ class WeaponsPanel implements Panel {
 class ShieldsPanel implements Panel {
   name = 'shields'
   pins = [19, 21, 23]
-  lightIndicies: [0, 1, 2]
+  lightIndicies = [3, 4, 5]
 
   toData(colors: Array<WireColor>) {
     return colors
@@ -38,7 +38,7 @@ class ShieldsPanel implements Panel {
 class PropulsionPanel implements Panel {
   name = 'propulsion'
   pins = [35, 37]
-  lightIndicies: [0, 1, 2]
+  lightIndicies = [6, 7]
 
   toData(colors: Array<WireColor>) {
     return colors.length
@@ -52,7 +52,7 @@ class PropulsionPanel implements Panel {
 class RepairsPanel implements Panel {
   name = 'repairs'
   pins = [36, 38, 40]
-  lightIndicies: [0, 1, 2]
+  lightIndicies = [8, 9, 10]
 
   toData(colors: Array<WireColor>) {
     return colors.length
@@ -66,7 +66,7 @@ class RepairsPanel implements Panel {
 class CommunicationsPanel implements Panel {
   name = 'communications'
   pins = [27]
-  lightIndicies: [0, 1, 2]
+  lightIndicies = [11]
 
   toData(colors: Array<WireColor>) {
     return colors.length > 0

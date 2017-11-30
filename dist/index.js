@@ -91,8 +91,7 @@ function colorsForPanel(connections, panel) {
         rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
     });
     // Initialize lights
-    const numLights = 15 || _.flatten(_.map(panels_1.panels, 'lightIndicies')).length;
-    console.log(`numLightss: ${numLights}`);
+    const numLights = _.flatten(panels_1.panels.map(p => p.lightIndicies)).length;
     ws281x.init(numLights);
     // Periodically check for new connections
     let prevConnections = getConnections();
@@ -107,11 +106,15 @@ function colorsForPanel(connections, panel) {
             // Connection added to panel
             if (panel) {
                 const allColors = colorsForPanel(connections, panel);
+                const lights = panel.toLights(allColors);
+                console.log('lights', lights);
                 return eventForPanelWithColors(panel, allColors);
             }
             // Connection removed, find the panel it was previously connected to and remove it
             const previousConnection = prevConnections.find((conn) => conn.color === color);
             const allColors = colorsForPanel(connections, previousConnection.panel);
+            const lights = previousConnection.panel.toLights(allColors);
+            console.log('lights', lights);
             return eventForPanelWithColors(previousConnection.panel, allColors);
         });
         events.map(event => client.emit(event));
@@ -140,29 +143,7 @@ function colorsForPanel(connections, panel) {
     console.log(`${colors.bold('Wire poll rate')}: ${1000 / WIRE_POLL_MSEC} Hz`);
     console.log(`${colors.bold('Button poll rate')}: ${1000 / BUTTON_POLL_MSEC} Hz`);
     console.log(`${colors.bold('Server')}: ${serverUrl}`);
-    // ---- animation-loop
-    let pixelData = new Uint32Array(numLights);
-    setInterval(function () {
-        // _.times(numLights, i => {
-        pixelData[0] = 0xff0000;
-        pixelData[1] = 0xff9a00;
-        pixelData[2] = 0x0000ff;
-        pixelData[3] = 0xff0000;
-        pixelData[4] = 0xff9a00;
-        pixelData[5] = 0x0000ff;
-        pixelData[6] = 0xff0000;
-        pixelData[7] = 0xff9a00;
-        pixelData[8] = 0x0000ff;
-        pixelData[9] = 0xff0000;
-        pixelData[10] = 0xff9a00;
-        pixelData[11] = 0x0000ff;
-        pixelData[12] = 0xff0000;
-        pixelData[13] = 0xff9a00;
-        pixelData[14] = 0x0000ff;
-        // })
-        ws281x.render(pixelData);
-    }, 100);
-})();
+});
 process.on('SIGINT', () => {
     ws281x.reset();
     process.nextTick(() => process.exit(0));

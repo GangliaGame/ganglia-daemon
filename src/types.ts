@@ -4,19 +4,6 @@ export type WirePin = 3 | 5 | 7
 
 export type Wire = { [C in WireColor]: WirePin }
 
-export abstract class Panel {
-  readonly name: string
-  readonly pins: Array<Pin>
-  readonly lightIndicies: Array<LightIndex>
-  abstract toData(colors: Array<WireColor>): any
-  abstract toLights(colors: Array<WireColor>): Array<Light>
-}
-
-export type Connection = {
-  color: WireColor
-  panel: Panel | null
-}
-
 export type Pin = number
 
 export enum LightColor {
@@ -32,6 +19,18 @@ export type LightIndex = number
 export type Light = {
   index: LightIndex
   color: LightColor
+}
+export abstract class Panel {
+  readonly name: string
+  readonly pins: Array<Pin>
+  readonly lightIndicies: Array<LightIndex>
+  abstract toData(colors: Array<WireColor>): any
+  abstract toLights(colors: Array<WireColor>): Array<Light>
+}
+
+export type Connection = {
+  color: WireColor
+  panel: Panel | null
 }
 
 export type Event = {

@@ -1,8 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Panel {
-}
-exports.Panel = Panel;
 var LightColor;
 (function (LightColor) {
     LightColor[LightColor["red"] = 16711680] = "red";
@@ -11,4 +8,7 @@ var LightColor;
     LightColor[LightColor["yellow"] = 16776960] = "yellow";
     LightColor[LightColor["off"] = 0] = "off";
 })(LightColor = exports.LightColor || (exports.LightColor = {}));
+class Panel {
+}
+exports.Panel = Panel;
 //# sourceMappingURL=types.js.map
