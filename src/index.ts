@@ -93,7 +93,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   setInterval(poll, POLL_MSEC)
 
   const buttonPin = 8
-  rpio.open(8, rpio.INPUT, rpio.PULL_DOWN);
+  rpio.open(8, rpio.INPUT, rpio.PULL_UP);
 
   function pollcb(pin: number) {
     var state = rpio.read(pin) ? 'pressed' : 'released';

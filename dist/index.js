@@ -80,7 +80,7 @@ function colorsForPanel(connections, panel) {
     // Begin polling
     setInterval(poll, POLL_MSEC);
     const buttonPin = 8;
-    rpio.open(8, rpio.INPUT, rpio.PULL_DOWN);
+    rpio.open(8, rpio.INPUT, rpio.PULL_UP);
     function pollcb(pin) {
         var state = rpio.read(pin) ? 'pressed' : 'released';
         console.log('Button event on P%d (button currently %s)', pin, state);
