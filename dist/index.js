@@ -85,6 +85,11 @@ function getConnections() {
                 }
                 else {
                     console.log(`plug ${color} into panel ${panel.name}`);
+                    const allColors = connections.filter(connection => {
+                        connection.panel && connection.panel.name === panel.name;
+                    });
+                    console.log('allColors', allColors);
+                    // const event = pane
                 }
             });
         }

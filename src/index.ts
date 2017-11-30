@@ -88,6 +88,11 @@ function getConnections(): Array<Connection> {
           console.log(`unplug ${color} from previous panel`)
         } else {
           console.log(`plug ${color} into panel ${panel.name}`)
+          const allColors = connections.filter(connection => {
+            connection.panel && connection.panel.name === panel.name
+          })
+          console.log('allColors', allColors)
+          // const event = pane
         }
       })
     }
