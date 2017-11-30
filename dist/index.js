@@ -81,7 +81,7 @@ function colorsForPanel(connections, panel) {
     setInterval(poll, POLL_MSEC);
     const pinA = 8;
     // const pinB = 10
-    rpio.open(8, rpio.INPUT, rpio.PULL_UP);
+    rpio.open(8, rpio.INPUT, rpio.PULL_DOWN);
     // rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
     function pollcb(pin) {
         var state = rpio.read(pin) ? 'pressed' : 'released';
