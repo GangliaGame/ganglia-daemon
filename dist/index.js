@@ -105,6 +105,7 @@ function colorsForPanel(connections, panel) {
     let prevPresses = getPresses();
     function pollButtons() {
         const presses = getPresses();
+        console.log(presses);
         const newPresses = _.differenceWith(presses, prevPresses, _.isEqual);
         // If there were no new connections, just return early
         if (_.isEmpty(newPresses))
