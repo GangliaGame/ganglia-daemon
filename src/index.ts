@@ -178,7 +178,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   console.log(`${colors.bold('Wire poll rate')}: ${1000 / WIRE_POLL_MSEC} Hz`)
   console.log(`${colors.bold('Button poll rate')}: ${1000 / BUTTON_POLL_MSEC} Hz`)
   console.log(`${colors.bold('Server')}: ${serverUrl}`)
-})
+})()
 
 process.on('SIGINT', () => {
   ws281x.reset()
