@@ -9,7 +9,6 @@ import { PanelController } from './PanelController'
 import { LightController } from './LightController'
 
 (function main() {
-  console.log(process.env)
   const serverUrl = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000'
   const client = new Client(serverUrl)
 

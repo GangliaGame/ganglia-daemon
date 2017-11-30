@@ -9,7 +9,6 @@ const ButtonController_1 = require("./ButtonController");
 const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
-    console.log(process.env);
     const serverUrl = process.env.GANGLIA_SERVER_URL || 'http://localhost:9000';
     const client = new client_1.Client(serverUrl);
     function onEvent(event) {
