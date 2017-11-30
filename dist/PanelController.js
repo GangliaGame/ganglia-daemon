@@ -61,7 +61,7 @@ class PanelController {
             const allColors = this.colorsForPanel(connections, panelToUse);
             // Create a serialized event for every new connection we just discovered
             const event = this.eventForPanelWithColors(panelToUse, allColors);
-            const lights = panel.toLights(allColors);
+            const lights = panelToUse.toLights(allColors);
             this.onEvent(event);
             this.onLights(lights);
         });

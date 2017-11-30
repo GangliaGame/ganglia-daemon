@@ -76,9 +76,9 @@ export class PanelController {
         panelToUse = previousConnection.panel!
       }
       const allColors = this.colorsForPanel(connections, panelToUse)
-    // Create a serialized event for every new connection we just discovered
+      // Create a serialized event for every new connection we just discovered
       const event = this.eventForPanelWithColors(panelToUse, allColors)
-      const lights: Light[] = panel.toLights(allColors)
+      const lights: Light[] = panelToUse.toLights(allColors)
       this.onEvent(event)
       this.onLights(lights)
     })
