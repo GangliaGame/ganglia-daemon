@@ -94,8 +94,8 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
 
   const pinA = 8
   const pinB = 10
-  rpio.open(8, rpio.INPUT, rpio.PULL_UP);
-  rpio.open(10, rpio.INPUT, rpio.PULL_UP);
+  rpio.open(8, rpio.INPUT, rpio.PULL_DOWN);
+  rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
 
   function pollcb(pin: number) {
     var state = rpio.read(pin) ? 'pressed' : 'released';
