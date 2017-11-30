@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const _ = require("lodash");
 const types_1 = require("./types");
 class WeaponsPanel {
     constructor() {
@@ -53,7 +54,10 @@ class RepairsPanel {
         this.lightIndicies = [8, 9, 10];
     }
     toData(colors) {
-        return colors.length;
+        return _.times(colors.length, i => ({
+            index: this.lightIndicies[i],
+            color: types_1.LightColor.purple,
+        }));
     }
     toLights(colors) {
         return [];

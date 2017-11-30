@@ -6,7 +6,7 @@ var LightColor;
     LightColor[LightColor["green"] = 65280] = "green";
     LightColor[LightColor["blue"] = 255] = "blue";
     LightColor[LightColor["yellow"] = 16751104] = "yellow";
-    LightColor[LightColor["off"] = 0] = "off";
+    LightColor[LightColor["purple"] = 800080] = "purple";
 })(LightColor = exports.LightColor || (exports.LightColor = {}));
 class Panel {
 }
