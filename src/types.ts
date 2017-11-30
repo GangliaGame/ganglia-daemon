@@ -10,7 +10,7 @@ export enum LightColor {
   red = 0xff0000,
   green = 0x00ff00,
   blue = 0x0000ff,
-  yellow = 0xffff00,
+  yellow = 0xff9a00,
   off = 0x000000
 }
 
