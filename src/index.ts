@@ -14,22 +14,24 @@ const wires: Wire = {
   yellow: 7,
 }
 
+type ButtonState = 'pressed' | 'released'
+
 type Button = {
   name: string
   pin: Pin
-  toData: (cur: boolean, prev: boolean) => any
+  toData: (state: ButtonState) => any
 }
 
 type Press = {
-  name: string
-  kind: 'press' | 'release'
+  button: Button
+  state: ButtonState
 }
 
 const buttons: Array<Button> = [
   {
     name: 'fire',
     pin: 8,
-    toData: cur => cur,
+    toData: state => state,
   }
 ]
 
@@ -60,8 +62,8 @@ function getPresses(): Array<Press> {
   return _.map(buttons, button => {
     const isPressed = isButtonPressed(button)
     return {
-      name: button.name,
-      kind: (isPressed ? 'press' : 'release') as 'press' | 'release',
+      button,
+      state: (isPressed ? 'pressed' : 'released') as ButtonState,
     }
   })
 }
@@ -112,7 +114,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     if (_.isEmpty(newConnections)) return
 
     // Create a serialized event for every new connection we just discovered
-    const events = newConnections.map(({color, panel}: {color: WireColor, panel: Panel}) => {
+    const events = newConnections.map(({color, panel}) => {
       // Connection added to panel
       if (panel) {
         const allColors = colorsForPanel(connections, panel)
@@ -125,7 +127,6 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     })
 
     events.map(event => client.emit(event))
-
     prevConnections = connections
   }
 
@@ -133,11 +134,17 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   let prevPresses: Array<Press> = getPresses()
   function pollButtons() {
     const presses = getPresses()
-    const newPresses: Array<Connection> = _.differenceWith(presses, prevPresses, _.isEqual)
+    const newPresses: Array<Press> = _.differenceWith(presses, prevPresses, _.isEqual)
 
-    // If there were no new connections, just return early
+    // If there were no new presses, just return early
     if (_.isEmpty(newPresses)) return
-    console.log(newPresses)
+
+    const events = newPresses.map(({button, state}) => ({
+      name: button.name,
+      data: button.toData(state),
+    }))
+
+    events.map(event => client.emit(event))
     prevPresses = presses
   }
 

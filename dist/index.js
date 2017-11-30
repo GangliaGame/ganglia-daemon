@@ -16,7 +16,7 @@ const buttons = [
     {
         name: 'fire',
         pin: 8,
-        toData: cur => cur,
+        toData: state => state,
     }
 ];
 function isButtonPressed(button) {
@@ -43,8 +43,8 @@ function getPresses() {
     return _.map(buttons, button => {
         const isPressed = isButtonPressed(button);
         return {
-            name: button.name,
-            kind: (isPressed ? 'press' : 'release'),
+            button,
+            state: (isPressed ? 'pressed' : 'released'),
         };
     });
 }
@@ -106,10 +106,14 @@ function colorsForPanel(connections, panel) {
     function pollButtons() {
         const presses = getPresses();
         const newPresses = _.differenceWith(presses, prevPresses, _.isEqual);
-        // If there were no new connections, just return early
+        // If there were no new presses, just return early
         if (_.isEmpty(newPresses))
             return;
-        console.log(newPresses);
+        const events = newPresses.map(({ button, state }) => ({
+            name: button.name,
+            data: button.toData(state),
+        }));
+        events.map(event => client.emit(event));
         prevPresses = presses;
     }
     // Begin polling for wire connections
