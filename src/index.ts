@@ -19,7 +19,7 @@ type ButtonState = 'pressed' | 'released'
 type Button = {
   name: string
   pin: Pin
-  onlyForState: 'pressed'
+  onlyForState: ButtonState
   toData: (state: ButtonState) => any
 }
 
