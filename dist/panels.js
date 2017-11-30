@@ -83,7 +83,7 @@ class CommunicationsPanel {
     updateLights(colors) {
         this.lights = _.times(colors.length, i => ({
             index: this.lightIndicies[i],
-            color: types_1.LightColor.green,
+            color: types_1.LightColor.red,
         }));
     }
 }
