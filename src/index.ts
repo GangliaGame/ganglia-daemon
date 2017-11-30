@@ -93,17 +93,17 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   setInterval(poll, POLL_MSEC)
 
   const pinA = 8
-  // const pinB = 10
   rpio.open(8, rpio.INPUT, rpio.PULL_UP);
-  // rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
 
-  function pollcb(pin: number) {
-    rpio.msleep(20)
-    console.log(rpio.read(pin))
+  let A = 0
+  function checkButton() {
+    const newA = rpio.read(pinA)
+    if (newA === A) return
+    console.log(`A = ${A}`)
+    A = newA
   }
 
-  rpio.poll(8, pollcb);
-  // rpio.poll(10, pollcb);
+  setInterval(checkButton, 100)
 
   console.log('Ganglia Daemon is reborn!\n')
   console.log(`${colors.bold('Poll rate')}: ${1000 / POLL_MSEC} Hz`)
