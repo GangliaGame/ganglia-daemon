@@ -77,7 +77,7 @@ function getConnections() {
         const newConnections = getConnections();
         const diff = _.differenceWith(newConnections, connections, _.isEqual);
         if (!_.isEmpty(diff)) {
-            console.log(diff);
+            // console.log(diff)
             connections = newConnections;
             diff.map(({ color, panel }) => {
                 if (panel === null) {
@@ -85,12 +85,14 @@ function getConnections() {
                 }
                 else {
                     console.log(`plug ${color} into panel ${panel.name}`);
-                    console.log('connections');
-                    console.log(connections);
+                    // console.log('connections')
+                    // console.log(connections)
                     const allColors = connections
                         .filter(connection => (connection.panel && connection.panel.name === panel.name))
                         .map(connection => connection.color);
-                    console.log('allColors', allColors);
+                    // client.emit(panel.name, panel.toData(allColors))
+                    console.log('will emit:');
+                    console.log(panel.name, panel.toData(allColors));
                     // const event = pane
                 }
             });
