@@ -142,11 +142,12 @@ function colorsForPanel(connections, panel) {
     console.log(`${colors.bold('Server')}: ${serverUrl}`);
     // ---- animation-loop
     let pixelData = new Uint32Array(numLights);
+    var offset = 9;
     setInterval(function () {
-        let i = numLights;
-        while (i--) {
-            pixelData[i] = 0xffffff;
+        for (let i = 0; i < numLights; i++) {
+            pixelData[i] = 0xff00ff;
         }
+        offset = (offset + 1) % 256;
         console.log(pixelData);
         ws281x.render(pixelData);
     }, 100);
