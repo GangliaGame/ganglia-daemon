@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import * as rpio from 'rpio'
-import { WirePin, WireColor, Light, Wire, Panel, Connection, Event } from './types'
+import { WirePin, WireColor, Wire, Panel, Connection, Event } from './types'
 
 const wires: Wire = {
   red: 3,
