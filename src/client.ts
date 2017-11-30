@@ -21,6 +21,7 @@ export class Client {
 
   public emit(event: Event) {
     const { name, data } = event
+    console.log(`name => ${data}`)
     this.socket.emit(name, data)
   }
 
