@@ -86,10 +86,11 @@ export class PanelController {
         kind = 'remove'
       }
       const allColors = this.colorsForPanel(connections, panelToUse)
-      // Create a serialized event for every new connection we just discovered
+
       const event = this.eventForPanelWithColors(panelToUse, allColors)
-      const lights: Light[] = panelToUse.toLights(allColors)
       this.onEvent(event)
+
+      const lights: Light[] = panelToUse.toLights(allColors)
       this.onLights(lights, kind)
     })
 

@@ -13,7 +13,8 @@ class LightController {
         this.updateLights();
     }
     removeLights(lights) {
-        _.pullAll(this.lights, lights);
+        console.log('removing lights', lights);
+        _.pullAllBy(this.lights, lights, 'index');
         this.updateLights();
     }
     teardown() {

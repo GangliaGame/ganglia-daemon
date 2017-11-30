@@ -18,7 +18,8 @@ export class LightController {
   }
 
   public removeLights(lights: Light[]): void {
-    _.pullAll(this.lights, lights)
+    console.log('removing lights', lights)
+    _.pullAllBy(this.lights, lights, 'index')
     this.updateLights()
   }
 
