@@ -79,8 +79,8 @@ export class PanelController {
         panelToUse = previousConnection.panel!
       }
       const allColors = this.colorsForPanel(connections, panelToUse)
-
       const event = this.eventForPanelWithColors(panelToUse, allColors)
+      panelToUse.updateLights(allColors)
       this.onEvent(event)
     })
 
