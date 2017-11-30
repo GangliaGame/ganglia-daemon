@@ -12,6 +12,8 @@ class ButtonController {
         this.onEvent = eventHandler;
         this.buttons = buttons;
         this.setup();
+        // Get initial pressed (before code started)
+        this.prevPresses = this.getPresses();
         // Begin polling for button connections
         setInterval(this.poll.bind(this), pollRateMsec);
     }
