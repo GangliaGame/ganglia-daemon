@@ -133,12 +133,12 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   let prevPresses: Array<Press> = getPresses()
   function pollButtons() {
     const presses = getPresses()
-    console.log(presses)
     const newPresses: Array<Connection> = _.differenceWith(presses, prevPresses, _.isEqual)
 
     // If there were no new connections, just return early
     if (_.isEmpty(newPresses)) return
     console.log(newPresses)
+    prevPresses = presses
   }
 
   // Begin polling for wire connections
