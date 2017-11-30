@@ -98,7 +98,9 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   // rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
 
   function pollcb(pin: number) {
-    console.log(rpio.read(pin))
+    rpio.msleep(20)
+    if(rpio.read(pin)) return
+    console.log('button')
   }
 
   rpio.poll(8, pollcb);

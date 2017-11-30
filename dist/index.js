@@ -84,7 +84,10 @@ function colorsForPanel(connections, panel) {
     rpio.open(8, rpio.INPUT, rpio.PULL_UP);
     // rpio.open(10, rpio.INPUT, rpio.PULL_DOWN);
     function pollcb(pin) {
-        console.log(rpio.read(pin));
+        rpio.msleep(20);
+        if (rpio.read(pin))
+            return;
+        console.log('button');
     }
     rpio.poll(8, pollcb);
     // rpio.poll(10, pollcb);
