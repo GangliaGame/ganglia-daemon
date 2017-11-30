@@ -9,6 +9,7 @@
     "@types/socket.io-client": "^1.4.32",
     "colors": "^1.1.2",
     "lodash": "^4.17.4",
+    "rpi-ws281x-native": "^0.8.2",
     "rpio": "^0.9.19",
     "socket.io-client": "^2.0.4",
     "typescript": "^2.6.2"

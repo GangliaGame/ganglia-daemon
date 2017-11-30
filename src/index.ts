@@ -4,6 +4,8 @@ import * as colors from 'colors/safe'
 import {WirePin, WireColor, Wire, Pin, Panel, Connection, Event} from './types'
 import { Client } from './client'
 import { panels } from './panels'
+const ws281x = require('rpi-ws281x-native')
+// import  * as ws281x from
 
 const WIRE_POLL_MSEC = 250
 const BUTTON_POLL_MSEC = 50
@@ -31,7 +33,7 @@ const buttons: Array<Button> = [
   {
     name: 'fire',
     pin: 8,
-    toData: state => state === 'pressed' ? 'start' : 'stop', // XXX: Frontend support!
+    toData: state => state === 'pressed' ? 'start' : 'stop', // XXX: Server support!
   },
   {
     name: 'move-up',
@@ -114,6 +116,10 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     rpio.open(pin, rpio.INPUT, rpio.PULL_UP)
   })
 
+  // Initialize lights
+  const numLights = 1 || _.flatten(_.map(panels, 'lightIndicies')).length
+  ws281x.init(numLights)
+
   // Periodically check for new connections
   let prevConnections: Array<Connection> = getConnections()
   function pollWires() {
@@ -168,4 +174,20 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
   console.log(`${colors.bold('Wire poll rate')}: ${1000 / WIRE_POLL_MSEC} Hz`)
   console.log(`${colors.bold('Button poll rate')}: ${1000 / BUTTON_POLL_MSEC} Hz`)
   console.log(`${colors.bold('Server')}: ${serverUrl}`)
+
+
+  // ---- animation-loop
+  let pixelData = new Uint32Array(numLights)
+  let offset = 0
+  setInterval(function () {
+    let i = numLights
+    while(i--) {
+        pixelData[i] = 0
+    }
+    pixelData[offset] = 0xffffff
+
+    offset = (offset + 1) % numLights
+    ws281x.render(pixelData)
+  }, 100)
+
 })()
