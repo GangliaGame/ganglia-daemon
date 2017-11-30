@@ -115,6 +115,7 @@ function colorsForPanel(connections, panel) {
                         return;
                     pixelData[i] = light.color;
                 });
+                ws281x.render(pixelData);
                 return eventForPanelWithColors(panel, allColors);
             }
             // Connection removed, find the panel it was previously connected to and remove it
@@ -129,6 +130,7 @@ function colorsForPanel(connections, panel) {
                     return;
                 pixelData[i] = light.color;
             });
+            ws281x.render(pixelData);
             return eventForPanelWithColors(previousConnection.panel, allColors);
         });
         events.map(event => client.emit(event));
