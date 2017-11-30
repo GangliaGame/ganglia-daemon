@@ -92,7 +92,7 @@ function colorsForPanel(connections, panel) {
     });
     // Initialize lights
     const numLights = 1 || _.flatten(_.map(panels_1.panels, 'lightIndicies')).length;
-    ws281x.init(numLights);
+    ws281x.init(numLights, { gpioPin: 18 });
     // Periodically check for new connections
     let prevConnections = getConnections();
     function pollWires() {

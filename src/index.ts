@@ -118,7 +118,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
 
   // Initialize lights
   const numLights = 1 || _.flatten(_.map(panels, 'lightIndicies')).length
-  ws281x.init(numLights)
+  ws281x.init(numLights, { gpioPin: 18 })
 
   // Periodically check for new connections
   let prevConnections: Array<Connection> = getConnections()
