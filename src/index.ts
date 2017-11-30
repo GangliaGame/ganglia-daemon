@@ -19,7 +19,6 @@ type ButtonState = 'pressed' | 'released'
 type Button = {
   name: string
   pin: Pin
-  onlyForState: ButtonState
   toData: (state: ButtonState) => any
 }
 
@@ -32,9 +31,18 @@ const buttons: Array<Button> = [
   {
     name: 'fire',
     pin: 8,
-    onlyForState: 'pressed',
-    toData: state => state,
-  }
+    toData: state => state === 'pressed' ? 'start' : 'stop', // XXX: Server support!
+  },
+  {
+    name: 'move-up',
+    pin: 16,
+    toData: state => state === 'pressed' ? 'start' : 'stop',
+  },
+  {
+    name: 'move-down',
+    pin: 18,
+    toData: state => state === 'pressed' ? 'start' : 'stop',
+  },
 ]
 
 function isButtonPressed(button: Button): boolean {
@@ -141,12 +149,10 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     // If there were no new presses, just return early
     if (_.isEmpty(newPresses)) return
 
-    const events = newPresses
-      .filter(({button, state}) => button.onlyForState === state)
-      .map(({button, state}) => ({
-        name: button.name,
-        data: button.toData(state),
-      }))
+    const events = newPresses.map(({button, state}) => ({
+      name: button.name,
+      data: button.toData(state),
+    }))
 
     events.map(event => client.emit(event))
     prevPresses = presses
