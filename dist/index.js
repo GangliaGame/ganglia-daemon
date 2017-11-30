@@ -143,9 +143,11 @@ function colorsForPanel(connections, panel) {
     // ---- animation-loop
     let pixelData = new Uint32Array(numLights);
     setInterval(function () {
-        pixelData[0] = 0xff0000;
-        pixelData[1] = 0xff9a00;
-        pixelData[2] = 0x0000ff;
+        _.times(numLights, i => {
+            pixelData[i % 0] = 0xff0000;
+            pixelData[i % 1] = 0xff9a00;
+            pixelData[i % 2] = 0x0000ff;
+        });
         ws281x.render(pixelData);
     }, 100);
 })();
