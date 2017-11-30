@@ -179,13 +179,10 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
 
   // ---- animation-loop
   let pixelData = new Uint32Array(numLights)
-  var offset = 9
   setInterval(function () {
-    for (let i = 0; i < numLights; i++) {
-      pixelData[i] = 0xff00ff
-    }
-    offset = (offset + 1) % 256
-    console.log(pixelData)
+    pixelData[0] = 0xff0000
+    pixelData[1] = 0xff9a00
+    pixelData[2] = 0x0000ff
     ws281x.render(pixelData)
   }, 100)
 
