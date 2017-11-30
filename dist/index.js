@@ -149,6 +149,7 @@ function colorsForPanel(connections, panel) {
         }
         pixelData[offset] = 0xffffff;
         offset = (offset + 1) % numLights;
+        console.log(pixelData);
         ws281x.render(pixelData);
     }, 100);
 })();

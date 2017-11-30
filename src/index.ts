@@ -187,6 +187,7 @@ function colorsForPanel(connections: Array<Connection>, panel: Panel | null): Ar
     pixelData[offset] = 0xffffff
 
     offset = (offset + 1) % numLights
+    console.log(pixelData)
     ws281x.render(pixelData)
   }, 100)
 
