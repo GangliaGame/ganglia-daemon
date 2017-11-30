@@ -92,6 +92,7 @@ function colorsForPanel(connections, panel) {
     });
     // Initialize lights
     const numLights = _.flatten(_.map(panels_1.panels, 'lightIndicies')).length;
+    console.log(`numLightss: ${numLights}`);
     ws281x.init(numLights);
     // Periodically check for new connections
     let prevConnections = getConnections();
@@ -141,14 +142,11 @@ function colorsForPanel(connections, panel) {
     console.log(`${colors.bold('Server')}: ${serverUrl}`);
     // ---- animation-loop
     let pixelData = new Uint32Array(numLights);
-    let offset = 0;
     setInterval(function () {
         let i = numLights;
         while (i--) {
-            pixelData[i] = 0;
+            pixelData[i] = 0xffffff;
         }
-        pixelData[offset] = 0xffffff;
-        offset = (offset + 1) % numLights;
         console.log(pixelData);
         ws281x.render(pixelData);
     }, 100);
