@@ -44,7 +44,7 @@ class PanelController {
             return;
         }
         // Dispatch server events and change lights based on new connections
-        _.uniq(newConnections).forEach(({ color, panel }) => {
+        _.uniqBy(newConnections, 'color').forEach(({ color, panel }) => {
             let panelToUse;
             if (panel) {
                 // Connection added, use the panel it was added to
