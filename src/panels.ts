@@ -3,7 +3,7 @@ import { WireColor, Light, Panel, LightColor } from './types'
 
 class WeaponsPanel implements Panel {
   public readonly name = 'weapons'
-  public readonly pins = [11, 13, 15]
+  public readonly pins = [15, 13, 14] // pins installed in weird order
   public lights: Light[] = []
   public readonly lightIndicies = [0, 1, 2]
 
@@ -21,7 +21,7 @@ class WeaponsPanel implements Panel {
 
 class ShieldsPanel implements Panel {
   public readonly name = 'shields'
-  public readonly pins = [19, 21, 23]
+  public readonly pins = [21, 19, 23] // pins installed in weird order
   public lights: Light[] = []
   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
