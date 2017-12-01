@@ -35,7 +35,7 @@ const LightController_1 = require("./LightController");
                     return datum;
                 }
                 if (datum === 'red') {
-                    return colors.red(datum);
+                    return colors.red('RED');
                 }
                 if (datum === 'yellow') {
                     return colors.yellow(datum);

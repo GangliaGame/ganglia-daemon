@@ -40,7 +40,7 @@ import { LightController } from './LightController'
           return datum
         }
         if (datum === 'red') {
-          return colors.red(datum)
+          return colors.red('RED')
         }
         if (datum === 'yellow') {
           return colors.yellow(datum)
