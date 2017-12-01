@@ -43,9 +43,8 @@ export class PanelController {
 
   // Returns the colors of the wires plugged into panel
   private colorsForPanel(connections: Connection[], panel: Panel | null): WireColor[] {
-    return connections
+    return _.sortBy(connections, 'position')
       .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
-      .sort((a, b) => a.position! - b.position!)
       .map(connection => connection.color)
   }
 
