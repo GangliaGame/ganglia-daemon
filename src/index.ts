@@ -36,6 +36,7 @@ import { LightController } from './LightController'
         return data
       }
       return data.map((datum: any) => {
+        console.log(datum)
         if (datum === 'red') {
           return colors.red('RED')
         }
