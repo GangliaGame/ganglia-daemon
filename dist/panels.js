@@ -22,7 +22,7 @@ class WeaponsPanel {
 class ShieldsPanel {
     constructor() {
         this.name = 'shields';
-        this.pins = [19, 21, 23];
+        this.pins = [19, 23, 21];
         this.lights = [];
         this.lightIndicies = [5, 3, 4]; // hardware is reversed
     }
