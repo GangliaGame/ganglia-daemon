@@ -30,7 +30,7 @@ class ShieldsPanel implements Panel {
   }
 
   public updateLights(colors: WireColor[]): void {
-    console.log(colors)
+    colors.reverse()
     this.lights = colors.map((color, i) => ({
       index: this.lightIndicies[i],
       color: LightColor[color],
