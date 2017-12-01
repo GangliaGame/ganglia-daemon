@@ -65,5 +65,4 @@ import { LightController } from './LightController'
 
   process.on('SIGINT', teardownAndExitCleanly)
   process.on('SIGTERM', teardownAndExitCleanly)
-  process.on('SIGKILL', teardownAndExitCleanly)
 })()

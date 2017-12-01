@@ -57,6 +57,5 @@ const LightController_1 = require("./LightController");
     }
     process.on('SIGINT', teardownAndExitCleanly);
     process.on('SIGTERM', teardownAndExitCleanly);
-    process.on('SIGKILL', teardownAndExitCleanly);
 })();
 //# sourceMappingURL=index.js.map
