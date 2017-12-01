@@ -3,7 +3,7 @@ import * as colors from 'colors/safe'
 import { Client } from './client'
 import { panels } from './panels'
 import { buttons } from './buttons'
-import { Event } from './types'
+import { Event, WireColor } from './types'
 import { ButtonController } from './ButtonController'
 import { PanelController } from './PanelController'
 import { LightController } from './LightController'
@@ -36,9 +36,8 @@ import { LightController } from './LightController'
         return data
       }
       return data.map((datum: any) => {
-        console.log(datum)
         if (datum === 'red') {
-          return colors.red('RED')
+          return colors.red(datum)
         }
         if (datum === 'yellow') {
           return colors.yellow(datum)
