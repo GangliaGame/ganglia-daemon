@@ -56,7 +56,7 @@ class PropulsionPanel {
 class RepairsPanel {
     constructor() {
         this.name = 'repairs';
-        this.pins = [36, 38, 40];
+        this.pins = [38, 36, 40]; // pins installed in weird order
         this.lights = [];
         this.lightIndicies = [10, 9, 8]; // LEDs were installed backwards
     }
