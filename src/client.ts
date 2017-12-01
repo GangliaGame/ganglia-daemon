@@ -15,7 +15,6 @@ export class Client {
 
   public emit(event: Event) {
     const { name, data } = event
-    console.info(`${name} => ${JSON.stringify(data)}`)
     this.socket.emit(name, data)
   }
 

@@ -10,7 +10,6 @@ class Client {
     }
     emit(event) {
         const { name, data } = event;
-        console.info(`${name} => ${JSON.stringify(data)}`);
         this.socket.emit(name, data);
     }
     onConnect() {
