@@ -45,7 +45,7 @@ const LightController_1 = require("./LightController");
                 }
             });
         }
-        console.info(`${event.name} => ${JSON.stringify(colorize(event.data))}`);
+        console.info(`${event.name} => ${colorize(event.data)}`);
         client.emit(event);
         updateLights();
     }
