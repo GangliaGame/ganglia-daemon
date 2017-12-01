@@ -31,9 +31,6 @@ const LightController_1 = require("./LightController");
                 return data;
             }
             return data.map((datum) => {
-                if (typeof datum !== typeof String) {
-                    return datum;
-                }
                 if (datum === 'red') {
                     return colors.red('RED');
                 }
@@ -43,6 +40,7 @@ const LightController_1 = require("./LightController");
                 if (datum === 'blue') {
                     return colors.blue(datum);
                 }
+                return datum;
             });
         }
         console.info(`${event.name} => ${colorize(event.data)}`);

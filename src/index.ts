@@ -36,9 +36,6 @@ import { LightController } from './LightController'
         return data
       }
       return data.map((datum: any) => {
-        if (typeof datum !== typeof String) {
-          return datum
-        }
         if (datum === 'red') {
           return colors.red('RED')
         }
@@ -48,6 +45,7 @@ import { LightController } from './LightController'
         if (datum === 'blue') {
           return colors.blue(datum)
         }
+        return datum
       })
     }
     console.info(`${event.name} => ${colorize(event.data)}`)
