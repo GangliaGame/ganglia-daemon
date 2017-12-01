@@ -43,6 +43,7 @@ export class PanelController {
 
   // Returns the colors of the wires plugged into panel
   private colorsForPanel(connections: Connection[], panel: Panel | null): WireColor[] {
+    console.log(connections)
     return _.sortBy(connections, 'position')
       .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
       .map(connection => connection.color)
@@ -58,7 +59,7 @@ export class PanelController {
     }
 
     // Dispatch server events and change lights based on new connections
-    _.uniqBy(newConnections, 'color').forEach(({color, panel}) => {
+    newConnections.forEach(({color, panel}) => {
       let panelToUse: Panel
       if (panel) {
         // Connection added, use the panel it was added to
