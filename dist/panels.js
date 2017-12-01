@@ -32,7 +32,7 @@ class ShieldsPanel {
     updateLights(colors) {
         console.log(colors);
         this.lights = colors.map((color, i) => ({
-            index: this.lightIndicies[colors.length - i],
+            index: this.lightIndicies[i],
             color: types_1.LightColor[color],
         }));
     }
