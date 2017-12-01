@@ -21,7 +21,7 @@ class WeaponsPanel implements Panel {
 
 class ShieldsPanel implements Panel {
   public readonly name = 'shields'
-  public readonly pins = [19, 23, 21]
+  public readonly pins = [19, 21, 23]
   public lights: Light[] = []
   public readonly lightIndicies = [5, 3, 4] // hardware is reversed
 
@@ -30,9 +30,8 @@ class ShieldsPanel implements Panel {
   }
 
   public updateLights(colors: WireColor[]): void {
-    colors.reverse()
     this.lights = colors.map((color, i) => ({
-      index: this.lightIndicies[i],
+      index: this.lightIndicies[colors.length - i],
       color: LightColor[color],
     }))
   }

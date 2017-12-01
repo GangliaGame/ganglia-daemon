@@ -22,7 +22,7 @@ class WeaponsPanel {
 class ShieldsPanel {
     constructor() {
         this.name = 'shields';
-        this.pins = [19, 23, 21];
+        this.pins = [19, 21, 23];
         this.lights = [];
         this.lightIndicies = [5, 3, 4]; // hardware is reversed
     }
@@ -32,7 +32,7 @@ class ShieldsPanel {
     updateLights(colors) {
         colors.reverse();
         this.lights = colors.map((color, i) => ({
-            index: this.lightIndicies[i],
+            index: this.lightIndicies[colors.length - i],
             color: types_1.LightColor[color],
         }));
     }
