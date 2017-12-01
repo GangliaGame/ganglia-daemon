@@ -60,6 +60,7 @@ class PanelController {
                 if (!previousConnection) {
                     return;
                 }
+                console.log(previousConnection);
                 panelToUse = previousConnection.panel;
             }
             const allColors = this.colorsForPanel(connections, panelToUse);
