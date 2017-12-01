@@ -56,7 +56,6 @@ import { LightController } from './LightController'
   console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`)
   console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`)
   console.info(`${colors.bold('Server')}: ${client.url}\n`)
-  console.info(`${colors.cyan('Ganglia Daemon is reborn!\n')}`)
 
   function teardownAndExitCleanly() {
     lightController.teardown()
