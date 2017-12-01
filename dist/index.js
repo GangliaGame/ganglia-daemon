@@ -32,7 +32,7 @@ const LightController_1 = require("./LightController");
             }
             return data.map((datum) => {
                 if (datum === 'red') {
-                    return colors.red(datum);
+                    return colors.red('RED');
                 }
                 if (datum === 'yellow') {
                     return colors.yellow(datum);
@@ -43,7 +43,7 @@ const LightController_1 = require("./LightController");
                 return datum;
             });
         }
-        console.info(`${event.name} => ${JSON.stringify(colorize(event.data))}`);
+        console.info(`${event.name} => ${colorize(event.data)}`);
         client.emit(event);
         updateLights();
     }
