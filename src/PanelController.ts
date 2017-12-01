@@ -74,7 +74,6 @@ export class PanelController {
         if (!previousConnection) {
           return
         }
-        console.log(previousConnection)
         panelToUse = previousConnection.panel!
       }
       const allColors = this.colorsForPanel(connections, panelToUse)
@@ -103,8 +102,11 @@ export class PanelController {
     let position = null
     const panel = _.find(this.panels, ({name, pins}) => {
       return pins.some((p, i) => {
-        position = i
-        return Boolean(rpio.read(p))
+        const wireIsConnectedToPin = Boolean(rpio.read(p))
+        if (wireIsConnectedToPin) {
+          position = i
+        }
+        return wireIsConnectedToPin
       })
     }) || null
     return { panel, position }
