@@ -5,7 +5,7 @@ const types_1 = require("./types");
 class WeaponsPanel {
     constructor() {
         this.name = 'weapons';
-        this.pins = [15, 13, 14]; // pins installed in weird order
+        this.pins = [15, 13, 11]; // pins installed in weird order
         this.lights = [];
         this.lightIndicies = [0, 1, 2];
     }

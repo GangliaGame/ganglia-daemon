@@ -3,7 +3,7 @@ import { WireColor, Light, Panel, LightColor } from './types'
 
 class WeaponsPanel implements Panel {
   public readonly name = 'weapons'
-  public readonly pins = [15, 13, 14] // pins installed in weird order
+  public readonly pins = [15, 13, 11] // pins installed in weird order
   public lights: Light[] = []
   public readonly lightIndicies = [0, 1, 2]
 
