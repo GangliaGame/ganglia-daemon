@@ -32,7 +32,7 @@ const LightController_1 = require("./LightController");
             }
             return data.map((datum) => {
                 if (datum === 'red') {
-                    return colors.red('RED');
+                    return colors.red(datum);
                 }
                 if (datum === 'yellow') {
                     return colors.yellow(datum);
