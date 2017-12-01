@@ -17,11 +17,7 @@ export class PanelController {
   public readonly onEvent: EventHandler
   private prevConnections: Connection[] = []
 
-  constructor(
-    panels: Panel[],
-    eventHandler: EventHandler,
-    pollRateMsec = 250,
-  ) {
+  constructor(panels: Panel[], eventHandler: EventHandler, pollRateMsec = 250) {
     this.pollRateMsec = pollRateMsec
     this.onEvent = eventHandler
     this.panels = panels
@@ -49,6 +45,7 @@ export class PanelController {
   private colorsForPanel(connections: Connection[], panel: Panel | null): WireColor[] {
     return connections
       .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
+      .sort((a, b) => a.position! - b.position!)
       .map(connection => connection.color)
   }
 
@@ -95,22 +92,26 @@ export class PanelController {
     }
   }
 
-  private panelWireIsPluggedInto(pin: WirePin): Panel | null {
+  private whereIsWirePluggedIn(pin: WirePin): {position: number | null, panel: Panel | null} {
     // Set all wire pins to LOW
-    Object.values(wires).forEach(p => rpio.write(p, rpio.LOW))
+    Object.values(wires).forEach(w => rpio.write(w, rpio.LOW))
     // Set the we're testing in to HIGH
     rpio.write(pin, rpio.HIGH)
-    // Find the panel that the wire is plugged into
+    // Find the panel that the wire is plugged in and what position it is in (i.e. order)
+    let position = null
     const panel = _.find(this.panels, ({name, pins}) => {
-      return pins.some(p => Boolean(rpio.read(p)))
-    })
-    return panel || null
+      return pins.some((p, i) => {
+        position = i
+        return Boolean(rpio.read(p))
+      })
+    }) || null
+    return { panel, position }
   }
 
   private getConnections(): Connection[] {
     return _.map(wires, (pin: WirePin, color: WireColor) => {
-      const panel = this.panelWireIsPluggedInto(pin)
-      return { color, panel }
+      const { panel, position } = this.whereIsWirePluggedIn(pin)
+      return { color, panel, position }
     })
   }
 

@@ -34,6 +34,7 @@ class PanelController {
     colorsForPanel(connections, panel) {
         return connections
             .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
+            .sort((a, b) => a.position - b.position)
             .map(connection => connection.color);
     }
     poll() {
@@ -75,21 +76,25 @@ class PanelController {
             data: panel.toData(colors),
         };
     }
-    panelWireIsPluggedInto(pin) {
+    whereIsWirePluggedIn(pin) {
         // Set all wire pins to LOW
-        Object.values(wires).forEach(p => rpio.write(p, rpio.LOW));
+        Object.values(wires).forEach(w => rpio.write(w, rpio.LOW));
         // Set the we're testing in to HIGH
         rpio.write(pin, rpio.HIGH);
-        // Find the panel that the wire is plugged into
+        // Find the panel that the wire is plugged in and what position it is in (i.e. order)
+        let position = null;
         const panel = _.find(this.panels, ({ name, pins }) => {
-            return pins.some(p => Boolean(rpio.read(p)));
-        });
-        return panel || null;
+            return pins.some((p, i) => {
+                position = i;
+                return Boolean(rpio.read(p));
+            });
+        }) || null;
+        return { panel, position };
     }
     getConnections() {
         return _.map(wires, (pin, color) => {
-            const panel = this.panelWireIsPluggedInto(pin);
-            return { color, panel };
+            const { panel, position } = this.whereIsWirePluggedIn(pin);
+            return { color, panel, position };
         });
     }
 }

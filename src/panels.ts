@@ -23,7 +23,7 @@ class ShieldsPanel implements Panel {
   public readonly name = 'shields'
   public readonly pins = [19, 21, 23]
   public lights: Light[] = []
-  public readonly lightIndicies = [5, 4, 3] // hardware is reversed
+  public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
   public toData(colors: WireColor[]) {
     return colors
@@ -59,7 +59,7 @@ class RepairsPanel implements Panel {
   public readonly name = 'repairs'
   public readonly pins = [36, 38, 40]
   public lights: Light[] = []
-  public readonly lightIndicies = [10, 9, 8]
+  public readonly lightIndicies = [10, 9, 8] // LEDs were installed backwards
 
   public toData(colors: WireColor[]) {
     return colors.length

@@ -24,7 +24,7 @@ class ShieldsPanel {
         this.name = 'shields';
         this.pins = [19, 21, 23];
         this.lights = [];
-        this.lightIndicies = [5, 4, 3]; // hardware is reversed
+        this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
     toData(colors) {
         return colors;
@@ -58,7 +58,7 @@ class RepairsPanel {
         this.name = 'repairs';
         this.pins = [36, 38, 40];
         this.lights = [];
-        this.lightIndicies = [10, 9, 8];
+        this.lightIndicies = [10, 9, 8]; // LEDs were installed backwards
     }
     toData(colors) {
         return colors.length;

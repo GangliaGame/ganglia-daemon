@@ -34,6 +34,7 @@ export abstract class Panel {
 export interface Connection {
   color: WireColor
   panel: Panel | null
+  position: number | null
 }
 
 export interface Event {
