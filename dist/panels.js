@@ -24,12 +24,13 @@ class ShieldsPanel {
         this.name = 'shields';
         this.pins = [19, 21, 23];
         this.lights = [];
-        this.lightIndicies = [5, 3, 4];
+        this.lightIndicies = [5, 3, 4]; // hardware is reversed
     }
     toData(colors) {
         return colors;
     }
     updateLights(colors) {
+        colors.reverse();
         this.lights = colors.map((color, i) => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor[color],

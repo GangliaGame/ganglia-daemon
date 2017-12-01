@@ -23,13 +23,14 @@ class ShieldsPanel implements Panel {
   public readonly name = 'shields'
   public readonly pins = [19, 21, 23]
   public lights: Light[] = []
-  public readonly lightIndicies = [5, 3, 4]
+  public readonly lightIndicies = [5, 3, 4] // hardware is reversed
 
   public toData(colors: WireColor[]) {
     return colors
   }
 
-  public updateLights(colors: WireColor[]) {
+  public updateLights(colors: WireColor[]): void {
+    colors.reverse()
     this.lights = colors.map((color, i) => ({
       index: this.lightIndicies[i],
       color: LightColor[color],
