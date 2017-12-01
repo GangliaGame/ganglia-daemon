@@ -30,7 +30,6 @@ class ShieldsPanel implements Panel {
   }
 
   public updateLights(colors: WireColor[]): void {
-    colors.reverse()
     this.lights = colors.map((color, i) => ({
       index: this.lightIndicies[i],
       color: LightColor[color],
@@ -60,7 +59,7 @@ class RepairsPanel implements Panel {
   public readonly name = 'repairs'
   public readonly pins = [36, 38, 40]
   public lights: Light[] = []
-  public readonly lightIndicies = [8, 9, 10]
+  public readonly lightIndicies = [10, 9, 8]
 
   public toData(colors: WireColor[]) {
     return colors.length

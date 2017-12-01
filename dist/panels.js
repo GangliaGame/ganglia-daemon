@@ -30,7 +30,6 @@ class ShieldsPanel {
         return colors;
     }
     updateLights(colors) {
-        colors.reverse();
         this.lights = colors.map((color, i) => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor[color],
@@ -59,7 +58,7 @@ class RepairsPanel {
         this.name = 'repairs';
         this.pins = [36, 38, 40];
         this.lights = [];
-        this.lightIndicies = [8, 9, 10];
+        this.lightIndicies = [10, 9, 8];
     }
     toData(colors) {
         return colors.length;
