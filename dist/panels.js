@@ -30,7 +30,6 @@ class ShieldsPanel {
         return colors;
     }
     updateLights(colors) {
-        colors.reverse();
         this.lights = colors.map((color, i) => ({
             index: this.lightIndicies[colors.length - i],
             color: types_1.LightColor[color],
