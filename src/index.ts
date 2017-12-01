@@ -22,12 +22,35 @@ import { LightController } from './LightController'
   const numLights = flatten(panels.map(p => p.lightIndicies)).length
   const lightController = new LightController(numLights)
 
+  // Update lights (all at once, since they are daisy-chained via PWM)
   function updateLights() {
     const allLights = flatten(panelController.panels.map(panel => panel.lights))
     lightController.setLights(allLights)
   }
 
+  // Dispatch event to client and update other state as needed
   function onEvent(event: Event) {
+    //
+    function colorize(data: any): any {
+      if (typeof data !== typeof Array) {
+        return data
+      }
+      return data.map((datum: any) => {
+        if (typeof datum !== typeof String) {
+          return datum
+        }
+        if (datum === 'red') {
+          return colors.red(datum)
+        }
+        if (datum === 'yellow') {
+          return colors.yellow(datum)
+        }
+        if (datum === 'blue') {
+          return colors.blue(datum)
+        }
+      })
+    }
+    console.info(`${event.name} => ${JSON.stringify(colorize(event.data))}`)
     client.emit(event)
     updateLights()
   }

@@ -18,11 +18,34 @@ const LightController_1 = require("./LightController");
     // Create a light controller
     const numLights = lodash_1.flatten(panels_1.panels.map(p => p.lightIndicies)).length;
     const lightController = new LightController_1.LightController(numLights);
+    // Update lights (all at once, since they are daisy-chained via PWM)
     function updateLights() {
         const allLights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
         lightController.setLights(allLights);
     }
+    // Dispatch event to client and update other state as needed
     function onEvent(event) {
+        //
+        function colorize(data) {
+            if (typeof data !== typeof Array) {
+                return data;
+            }
+            return data.map((datum) => {
+                if (typeof datum !== typeof String) {
+                    return datum;
+                }
+                if (datum === 'red') {
+                    return colors.red(datum);
+                }
+                if (datum === 'yellow') {
+                    return colors.yellow(datum);
+                }
+                if (datum === 'blue') {
+                    return colors.blue(datum);
+                }
+            });
+        }
+        console.info(`${event.name} => ${JSON.stringify(colorize(event.data))}`);
         client.emit(event);
         updateLights();
     }
