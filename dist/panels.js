@@ -24,7 +24,7 @@ class ShieldsPanel {
         this.name = 'shields';
         this.pins = [19, 21, 23];
         this.lights = [];
-        this.lightIndicies = [3, 4, 5];
+        this.lightIndicies = [5, 3, 4];
     }
     toData(colors) {
         return colors;

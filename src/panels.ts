@@ -23,7 +23,7 @@ class ShieldsPanel implements Panel {
   public readonly name = 'shields'
   public readonly pins = [19, 21, 23]
   public lights: Light[] = []
-  public readonly lightIndicies = [3, 4, 5]
+  public readonly lightIndicies = [5, 3, 4]
 
   public toData(colors: WireColor[]) {
     return colors
