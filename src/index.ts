@@ -32,8 +32,8 @@ import { LightController } from './LightController'
   function onEvent(event: Event) {
     //
     function colorize(data: any): any {
-    console.log(data)
-    console.log(typeof data, typeof Array)
+    // console.log(data)
+    // console.log(typeof data, typeof Array)
       if (typeof data !== 'array') {
         return data
       }
