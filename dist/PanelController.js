@@ -87,7 +87,7 @@ class PanelController {
             return pins.some((p, i) => {
                 const wireIsConnectedToPin = Boolean(rpio.read(p));
                 if (wireIsConnectedToPin) {
-                    console.log('position!!', i);
+                    console.log(`position = ${i} (${pins[i]})`);
                     position = i;
                 }
                 return wireIsConnectedToPin;
