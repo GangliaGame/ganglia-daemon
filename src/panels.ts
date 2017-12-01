@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { WireColor, Light, Panel, LightColor } from './types'
+import { Panel, ColorPosition, Light, LightColor } from './types'
 
 class WeaponsPanel implements Panel {
   public readonly name = 'weapons'
@@ -7,15 +7,17 @@ class WeaponsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [0, 1, 2]
 
-  public toData(colors: WireColor[]) {
-    return colors
+  public toData(colorPositions: ColorPosition[]) {
+    return _.map(colorPositions, 'color')
   }
 
-  public updateLights(colors: WireColor[]): void {
-    this.lights = colors.map((color, i) => ({
-      index: this.lightIndicies[i],
-      color: LightColor[color],
-    }))
+  public updateLights(colorPositions: ColorPosition[]): void {
+    this.lights = colorPositions
+      .filter(({position}) => position !==  null)
+      .map(({color, position}) => ({
+        index: this.lightIndicies[position!],
+        color: LightColor[color],
+      }))
   }
 }
 
@@ -25,15 +27,17 @@ class ShieldsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
-  public toData(colors: WireColor[]) {
-    return colors
+  public toData(colorPositions: ColorPosition[]) {
+    return _.map(colorPositions, 'color')
   }
 
-  public updateLights(colors: WireColor[]): void {
-    this.lights = colors.map((color, i) => ({
-      index: this.lightIndicies[i],
-      color: LightColor[color],
-    }))
+  public updateLights(colorPositions: ColorPosition[]): void {
+    this.lights = colorPositions
+      .filter(({position}) => position !==  null)
+      .map(({color, position}) => ({
+        index: this.lightIndicies[position!],
+        color: LightColor[color],
+      }))
   }
 }
 
@@ -43,12 +47,12 @@ class PropulsionPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [6, 7]
 
-  public toData(colors: WireColor[]) {
-    return colors.length
+  public toData(colorPositions: ColorPosition[]) {
+    return colorPositions.length
   }
 
-  public updateLights(colors: WireColor[]) {
-    this.lights = _.times(colors.length, i => ({
+  public updateLights(colorPositions: ColorPosition[]) {
+    this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.purple,
     }))
@@ -61,12 +65,12 @@ class RepairsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [10, 9, 8] // LEDs were installed backwards
 
-  public toData(colors: WireColor[]) {
-    return colors.length
+  public toData(colorPositions: ColorPosition[]) {
+    return colorPositions.length
   }
 
-  public updateLights(colors: WireColor[]): void {
-    this.lights = _.times(colors.length, i => ({
+  public updateLights(colorPositions: ColorPosition[]): void {
+    this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.green,
     }))
@@ -79,12 +83,12 @@ class CommunicationsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [11]
 
-  public toData(colors: WireColor[]) {
-    return colors.length > 0
+  public toData(colorPositions: ColorPosition[]) {
+    return colorPositions.length > 0
   }
 
-  public updateLights(colors: WireColor[]): void {
-    this.lights = _.times(colors.length, i => ({
+  public updateLights(colorPositions: ColorPosition[]): void {
+    this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.red,
     }))

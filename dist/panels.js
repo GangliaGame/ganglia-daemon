@@ -9,12 +9,14 @@ class WeaponsPanel {
         this.lights = [];
         this.lightIndicies = [0, 1, 2];
     }
-    toData(colors) {
-        return colors;
+    toData(colorPositions) {
+        return _.map(colorPositions, 'color');
     }
-    updateLights(colors) {
-        this.lights = colors.map((color, i) => ({
-            index: this.lightIndicies[i],
+    updateLights(colorPositions) {
+        this.lights = colorPositions
+            .filter(({ position }) => position !== null)
+            .map(({ color, position }) => ({
+            index: this.lightIndicies[position],
             color: types_1.LightColor[color],
         }));
     }
@@ -26,12 +28,14 @@ class ShieldsPanel {
         this.lights = [];
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
-    toData(colors) {
-        return colors;
+    toData(colorPositions) {
+        return _.map(colorPositions, 'color');
     }
-    updateLights(colors) {
-        this.lights = colors.map((color, i) => ({
-            index: this.lightIndicies[i],
+    updateLights(colorPositions) {
+        this.lights = colorPositions
+            .filter(({ position }) => position !== null)
+            .map(({ color, position }) => ({
+            index: this.lightIndicies[position],
             color: types_1.LightColor[color],
         }));
     }
@@ -43,11 +47,11 @@ class PropulsionPanel {
         this.lights = [];
         this.lightIndicies = [6, 7];
     }
-    toData(colors) {
-        return colors.length;
+    toData(colorPositions) {
+        return colorPositions.length;
     }
-    updateLights(colors) {
-        this.lights = _.times(colors.length, i => ({
+    updateLights(colorPositions) {
+        this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.purple,
         }));
@@ -60,11 +64,11 @@ class RepairsPanel {
         this.lights = [];
         this.lightIndicies = [10, 9, 8]; // LEDs were installed backwards
     }
-    toData(colors) {
-        return colors.length;
+    toData(colorPositions) {
+        return colorPositions.length;
     }
-    updateLights(colors) {
-        this.lights = _.times(colors.length, i => ({
+    updateLights(colorPositions) {
+        this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.green,
         }));
@@ -77,11 +81,11 @@ class CommunicationsPanel {
         this.lights = [];
         this.lightIndicies = [11];
     }
-    toData(colors) {
-        return colors.length > 0;
+    toData(colorPositions) {
+        return colorPositions.length > 0;
     }
-    updateLights(colors) {
-        this.lights = _.times(colors.length, i => ({
+    updateLights(colorPositions) {
+        this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.red,
         }));

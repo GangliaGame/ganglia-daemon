@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import * as rpio from 'rpio'
-import { WirePin, WireColor, Wire, Panel, Connection, Event } from './types'
+import { WirePin, WireColor, Wire, Panel, ColorPosition, Connection, Event } from './types'
 
 const wires: Wire = {
   red: 3,
@@ -42,10 +42,10 @@ export class PanelController {
   }
 
   // Returns the colors of the wires plugged into panel
-  private colorsForPanel(connections: Connection[], panel: Panel | null): WireColor[] {
+  private colorPositions(connections: Connection[], panel: Panel | null): ColorPosition[] {
     return _.sortBy(connections, 'position')
       .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
-      .map(connection => connection.color)
+      .map(({color, position}) => ({color, position}))
   }
 
   private poll() {
@@ -56,8 +56,6 @@ export class PanelController {
     if (_.isEmpty(newConnections)) {
       return
     }
-
-    console.log(JSON.stringify(newConnections, null, 2))
 
     // Dispatch server events and change lights based on new connections
     newConnections.forEach(({color, panel}) => {
@@ -76,9 +74,9 @@ export class PanelController {
         }
         panelToUse = previousConnection.panel!
       }
-      const allColors = this.colorsForPanel(connections, panelToUse)
-      const event = this.eventForPanelWithColors(panelToUse, allColors)
-      panelToUse.updateLights(allColors)
+      const colorPositions = this.colorPositions(connections, panelToUse)
+      const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions)
+      panelToUse.updateLights(colorPositions)
       this.onEvent(event)
     })
 
@@ -86,10 +84,10 @@ export class PanelController {
   }
 
   // Create an event based on the panel and wires
-  private eventForPanelWithColors(panel: Panel, colors: WireColor[]): Event {
+  private eventForPanelWithColorPositions(panel: Panel, colorPositions: ColorPosition[]): Event {
     return {
       name: panel.name,
-      data: panel.toData(colors),
+      data: panel.toData(colorPositions),
     }
   }
 

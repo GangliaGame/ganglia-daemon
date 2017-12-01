@@ -27,14 +27,17 @@ export abstract class Panel {
   public readonly pins: Pin[]
   public lights: Light[]
   public readonly lightIndicies: LightIndex[]
-  public abstract updateLights(colors: WireColor[]): void
-  public abstract toData(colors: WireColor[]): any
+  public abstract updateLights(colorPositions: ColorPosition[]): void
+  public abstract toData(colorPositions: ColorPosition[]): any
 }
 
-export interface Connection {
-  color: WireColor
-  panel: Panel | null
+export interface ColorPosition {
   position: number | null
+  color: WireColor
+}
+
+export interface Connection extends ColorPosition {
+  panel: Panel | null
 }
 
 export interface Event {

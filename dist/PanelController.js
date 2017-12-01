@@ -31,10 +31,10 @@ class PanelController {
         });
     }
     // Returns the colors of the wires plugged into panel
-    colorsForPanel(connections, panel) {
+    colorPositions(connections, panel) {
         return _.sortBy(connections, 'position')
             .filter(conn => conn.panel && panel && conn.panel.name === panel.name)
-            .map(connection => connection.color);
+            .map(({ color, position }) => ({ color, position }));
     }
     poll() {
         const connections = this.getConnections();
@@ -43,7 +43,6 @@ class PanelController {
         if (_.isEmpty(newConnections)) {
             return;
         }
-        console.log(JSON.stringify(newConnections, null, 2));
         // Dispatch server events and change lights based on new connections
         newConnections.forEach(({ color, panel }) => {
             let panelToUse;
@@ -62,18 +61,18 @@ class PanelController {
                 }
                 panelToUse = previousConnection.panel;
             }
-            const allColors = this.colorsForPanel(connections, panelToUse);
-            const event = this.eventForPanelWithColors(panelToUse, allColors);
-            panelToUse.updateLights(allColors);
+            const colorPositions = this.colorPositions(connections, panelToUse);
+            const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions);
+            panelToUse.updateLights(colorPositions);
             this.onEvent(event);
         });
         this.prevConnections = connections;
     }
     // Create an event based on the panel and wires
-    eventForPanelWithColors(panel, colors) {
+    eventForPanelWithColorPositions(panel, colorPositions) {
         return {
             name: panel.name,
-            data: panel.toData(colors),
+            data: panel.toData(colorPositions),
         };
     }
     whereIsWirePluggedIn(pin) {
