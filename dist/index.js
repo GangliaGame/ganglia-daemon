@@ -27,7 +27,9 @@ const LightController_1 = require("./LightController");
     function onEvent(event) {
         //
         function colorize(data) {
-            if (typeof data !== typeof Array) {
+            console.log(data);
+            console.log(typeof data, typeof Array);
+            if (typeof data !== 'array') {
                 return data;
             }
             return data.map((datum) => {

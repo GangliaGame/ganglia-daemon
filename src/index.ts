@@ -32,7 +32,9 @@ import { LightController } from './LightController'
   function onEvent(event: Event) {
     //
     function colorize(data: any): any {
-      if (typeof data !== typeof Array) {
+    console.log(data)
+    console.log(typeof data, typeof Array)
+      if (typeof data !== 'array') {
         return data
       }
       return data.map((datum: any) => {
