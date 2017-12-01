@@ -57,7 +57,7 @@ class PropulsionPanel implements Panel {
 
 class RepairsPanel implements Panel {
   public readonly name = 'repairs'
-  public readonly pins = [38, 36, 40] // pins installed in weird order
+  public readonly pins = [38, 40, 36] // pins installed in weird order
   public lights: Light[] = []
   public readonly lightIndicies = [10, 9, 8] // LEDs were installed backwards
 
