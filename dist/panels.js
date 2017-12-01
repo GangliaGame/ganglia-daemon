@@ -24,7 +24,7 @@ class ShieldsPanel {
         this.name = 'shields';
         this.pins = [19, 21, 23];
         this.lights = [];
-        this.lightIndicies = [5, 3, 4]; // hardware is reversed
+        this.lightIndicies = [5, 4, 3]; // hardware is reversed
     }
     toData(colors) {
         return colors;
