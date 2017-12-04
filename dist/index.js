@@ -10,7 +10,7 @@ const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
     // Create a client to interact with the server
-    const client = new client_1.Client(process.env.GANGLIA_SERVER_URL || 'http://ganglia-server.herokuapp.com');
+    const client = new client_1.Client(process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com');
     // Create a panel controller to manage plugging and unplugging wires into panels
     const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent);
     // Create a button controller to manage button presses

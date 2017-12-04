@@ -10,7 +10,7 @@ import { LightController } from './LightController'
 
 (function main() {
   // Create a client to interact with the server
-  const client = new Client(process.env.GANGLIA_SERVER_URL || 'http://ganglia-server.herokuapp.com')
+  const client = new Client(process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com')
 
   // Create a panel controller to manage plugging and unplugging wires into panels
   const panelController = new PanelController(panels, onEvent)
