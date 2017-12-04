@@ -8,13 +8,6 @@ class WeaponsPanel {
         this.pins = [15, 13, 11]; // pins installed in weird order
         this.lights = [];
         this.lightIndicies = [0, 1, 2];
-        // This is to ensure stable color positions
-        // It's mostly redundant with lightIndicies. Should be refactored.
-        this.lightIndexMap = {
-            red: 0,
-            yellow: 1,
-            blue: 2,
-        };
     }
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
@@ -23,7 +16,7 @@ class WeaponsPanel {
         this.lights = colorPositions
             .filter(({ position }) => position !== null)
             .map(({ color, position }) => ({
-            index: this.lightIndexMap[color],
+            index: this.lightIndicies[position],
             color: types_1.LightColor[color],
         }));
     }
@@ -34,13 +27,6 @@ class ShieldsPanel {
         this.pins = [21, 19, 23]; // pins installed in weird order
         this.lights = [];
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
-        // This is to ensure stable color positions
-        // It's mostly redundant with lightIndicies. Should be refactored.
-        this.lightIndexMap = {
-            red: 5,
-            yellow: 4,
-            blue: 3,
-        };
     }
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
@@ -49,7 +35,7 @@ class ShieldsPanel {
         this.lights = colorPositions
             .filter(({ position }) => position !== null)
             .map(({ color, position }) => ({
-            index: this.lightIndexMap[color],
+            index: this.lightIndicies[position],
             color: types_1.LightColor[color],
         }));
     }

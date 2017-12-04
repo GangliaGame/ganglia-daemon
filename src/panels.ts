@@ -7,14 +7,6 @@ class WeaponsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [0, 1, 2]
 
-  // This is to ensure stable color positions
-  // It's mostly redundant with lightIndicies. Should be refactored.
-  private readonly lightIndexMap = {
-    red: 0,
-    yellow: 1,
-    blue: 2,
-  }
-
   public toData(colorPositions: ColorPosition[]) {
     return _.map(colorPositions, 'color')
   }
@@ -23,7 +15,7 @@ class WeaponsPanel implements Panel {
     this.lights = colorPositions
       .filter(({position}) => position !==  null)
       .map(({color, position}) => ({
-        index: this.lightIndexMap[color],
+        index: this.lightIndicies[position!],
         color: LightColor[color],
       }))
   }
@@ -35,14 +27,6 @@ class ShieldsPanel implements Panel {
   public lights: Light[] = []
   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
-  // This is to ensure stable color positions
-  // It's mostly redundant with lightIndicies. Should be refactored.
-  private readonly lightIndexMap = {
-    red: 5,
-    yellow: 4,
-    blue: 3,
-  }
-
   public toData(colorPositions: ColorPosition[]) {
     return _.map(colorPositions, 'color')
   }
@@ -51,7 +35,7 @@ class ShieldsPanel implements Panel {
     this.lights = colorPositions
       .filter(({position}) => position !==  null)
       .map(({color, position}) => ({
-        index: this.lightIndexMap[color],
+        index: this.lightIndicies[position!],
         color: LightColor[color],
       }))
   }
