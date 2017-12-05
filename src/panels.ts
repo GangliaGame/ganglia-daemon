@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { Panel, ColorPosition, Light, LightColor } from './types'
+import { Panel, ColorPosition, LightColor } from './types'
 import * as rpio from 'rpio'
 
 class WeaponsPanel extends Panel {
