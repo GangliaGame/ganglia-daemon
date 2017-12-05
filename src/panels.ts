@@ -29,7 +29,7 @@ class WeaponsPanel extends Panel {
 
 class ShieldsPanel extends Panel {
   public readonly name = 'shields'
-  public readonly pins = [21, 19, 23] //
+  public readonly pins = [21, 23, 19] //
   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
   public toData(colorPositions: ColorPosition[]) {
