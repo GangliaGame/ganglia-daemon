@@ -20,7 +20,7 @@ class ButtonController {
     setup() {
         // Set up button pins for reading
         this.buttons.forEach(({ pin }) => {
-            rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+            rpio.open(pin, rpio.INPUT, rpio.PULL_DOWN);
         });
     }
     poll() {
