@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rpio = require("rpio");
 const _ = require("lodash");
 function isButtonPressed(button) {
+    console.log(`read: ${button.pin} = ${rpio.read(button.pin)}`);
     return rpio.read(button.pin) ? true : false;
 }
 class ButtonController {
