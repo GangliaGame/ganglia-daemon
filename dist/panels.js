@@ -113,10 +113,6 @@ class CommunicationsPanel extends types_1.Panel {
 }
 const panels = [
     new WeaponsPanel(),
-    new ShieldsPanel(),
-    new PropulsionPanel(),
-    new RepairsPanel(),
-    new CommunicationsPanel(),
 ];
 exports.panels = panels;
 //# sourceMappingURL=panels.js.map

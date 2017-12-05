@@ -114,10 +114,10 @@ class CommunicationsPanel extends Panel {
 
 const panels: Panel[] = [
   new WeaponsPanel(),
-  new ShieldsPanel(),
-  new PropulsionPanel(),
-  new RepairsPanel(),
-  new CommunicationsPanel(),
+  // new ShieldsPanel(),
+  // new PropulsionPanel(),
+  // new RepairsPanel(),
+  // new CommunicationsPanel(),
 ]
 
 export { panels }
