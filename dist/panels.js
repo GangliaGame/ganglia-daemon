@@ -32,7 +32,7 @@ class ShieldsPanel extends types_1.Panel {
     constructor() {
         super(...arguments);
         this.name = 'shields';
-        this.pins = [21, 19, 23];
+        this.pins = [21, 19, 23]; //
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
     toData(colorPositions) {
