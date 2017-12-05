@@ -29,29 +29,29 @@ class WeaponsPanel extends types_1.Panel {
         }));
     }
 }
-// class ShieldsPanel extends Panel {
-//   public readonly name = 'shields'
-//   public readonly pins = [19, 21, 23]
-//   public lights: Light[] = []
-//   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
-//
-//   public toData(colorPositions: ColorPosition[]) {
-//     return _.map(colorPositions, 'color')
-//   }
-//
-//   public setButtonLight(colorPositions: ColorPosition[]) {
-//     return
-//   }
-//
-//   public update(colorPositions: ColorPosition[]): void {
-//     this.lights = colorPositions
-//       .filter(({position}) => position !==  null)
-//       .map(({color, position}) => ({
-//         index: this.lightIndicies[position!],
-//         color: LightColor[color],
-//       }))
-//   }
-// }
+class ShieldsPanel extends types_1.Panel {
+    constructor() {
+        super(...arguments);
+        this.name = 'shields';
+        this.pins = [19, 21, 23];
+        this.lights = [];
+        this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
+    }
+    toData(colorPositions) {
+        return _.map(colorPositions, 'color');
+    }
+    setButtonLight(colorPositions) {
+        return;
+    }
+    update(colorPositions) {
+        this.lights = colorPositions
+            .filter(({ position }) => position !== null)
+            .map(({ color, position }) => ({
+            index: this.lightIndicies[position],
+            color: types_1.LightColor[color],
+        }));
+    }
+}
 //
 // class PropulsionPanel extends Panel {
 //   public readonly name = 'propulsion'
@@ -114,6 +114,7 @@ class WeaponsPanel extends types_1.Panel {
 // }
 const panels = [
     new WeaponsPanel(),
+    new ShieldsPanel(),
 ];
 exports.panels = panels;
 //# sourceMappingURL=panels.js.map

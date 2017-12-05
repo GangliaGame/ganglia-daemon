@@ -28,29 +28,29 @@ class WeaponsPanel extends Panel {
   }
 }
 
-// class ShieldsPanel extends Panel {
-//   public readonly name = 'shields'
-//   public readonly pins = [19, 21, 23]
-//   public lights: Light[] = []
-//   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
-//
-//   public toData(colorPositions: ColorPosition[]) {
-//     return _.map(colorPositions, 'color')
-//   }
-//
-//   public setButtonLight(colorPositions: ColorPosition[]) {
-//     return
-//   }
-//
-//   public update(colorPositions: ColorPosition[]): void {
-//     this.lights = colorPositions
-//       .filter(({position}) => position !==  null)
-//       .map(({color, position}) => ({
-//         index: this.lightIndicies[position!],
-//         color: LightColor[color],
-//       }))
-//   }
-// }
+class ShieldsPanel extends Panel {
+  public readonly name = 'shields'
+  public readonly pins = [19, 21, 23]
+  public lights: Light[] = []
+  public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
+
+  public toData(colorPositions: ColorPosition[]) {
+    return _.map(colorPositions, 'color')
+  }
+
+  public setButtonLight(colorPositions: ColorPosition[]) {
+    return
+  }
+
+  public update(colorPositions: ColorPosition[]): void {
+    this.lights = colorPositions
+      .filter(({position}) => position !==  null)
+      .map(({color, position}) => ({
+        index: this.lightIndicies[position!],
+        color: LightColor[color],
+      }))
+  }
+}
 //
 // class PropulsionPanel extends Panel {
 //   public readonly name = 'propulsion'
@@ -114,7 +114,7 @@ class WeaponsPanel extends Panel {
 
 const panels: Panel[] = [
   new WeaponsPanel(),
-  // new ShieldsPanel(),
+  new ShieldsPanel(),
   // new PropulsionPanel(),
   // new RepairsPanel(),
   // new CommunicationsPanel(),
