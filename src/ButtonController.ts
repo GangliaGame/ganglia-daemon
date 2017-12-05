@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import { Button, ButtonState, Event, Press } from './types'
 
 function isButtonPressed(button: Button): boolean {
-  return rpio.read(button.pin) ? false : true
+  return rpio.read(button.pin) ? true : false
 }
 
 export class ButtonController {
