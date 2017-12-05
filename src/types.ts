@@ -27,7 +27,8 @@ export abstract class Panel {
   public readonly pins: Pin[]
   public lights: Light[]
   public readonly lightIndicies: LightIndex[]
-  public abstract updateLights(colorPositions: ColorPosition[]): void
+  public readonly buttonLightPins: Pin[]
+  public abstract update(colorPositions: ColorPosition[]): void
   public abstract toData(colorPositions: ColorPosition[]): any
 }
 

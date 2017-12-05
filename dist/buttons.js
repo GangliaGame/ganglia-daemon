@@ -3,17 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buttons = [
     {
         name: 'fire',
-        pin: 8,
+        pin: 36,
         toData: (state) => state === 'pressed' ? 'start' : 'stop',
     },
     {
         name: 'move-up',
-        pin: 16,
+        pin: 38,
         toData: (state) => state === 'pressed' ? 'start' : 'stop',
     },
     {
         name: 'move-down',
-        pin: 18,
+        pin: 40,
         toData: (state) => state === 'pressed' ? 'start' : 'stop',
     },
 ];

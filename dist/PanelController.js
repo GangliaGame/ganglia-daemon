@@ -24,7 +24,12 @@ class PanelController {
             rpio.open(pin, rpio.OUTPUT, rpio.LOW);
             rpio.pud(pin, rpio.PULL_DOWN);
         });
-        // Set up all panel pins for reading
+        // Set up button light pins for writing
+        _.flatten(_.map(this.panels, 'buttonLightPins')).forEach(pin => {
+            rpio.open(pin, rpio.OUTPUT, rpio.LOW);
+            rpio.pud(pin, rpio.PULL_DOWN);
+        });
+        // Set up all panel wire pins for reading
         _.flatten(_.map(this.panels, 'pins')).forEach(pin => {
             rpio.open(pin, rpio.INPUT);
             rpio.pud(pin, rpio.PULL_DOWN);
@@ -63,7 +68,7 @@ class PanelController {
             }
             const colorPositions = this.colorPositions(connections, panelToUse);
             const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions);
-            panelToUse.updateLights(colorPositions);
+            panelToUse.update(colorPositions);
             this.onEvent(event);
         });
         this.prevConnections = connections;

@@ -15,37 +15,19 @@ const LightController_1 = require("./LightController");
     const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent);
     // Create a button controller to manage button presses
     const buttonController = new ButtonController_1.ButtonController(buttons_1.buttons, onEvent);
-    // Create a light controller
+    // Create a light controller for the wire/panel LEDs
     const numLights = lodash_1.flatten(panels_1.panels.map(p => p.lightIndicies)).length;
     const lightController = new LightController_1.LightController(numLights);
     // Update lights (all at once, since they are daisy-chained via PWM)
-    function updateLights() {
+    function updatePanelLights() {
         const allLights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
         lightController.setLights(allLights);
     }
     // Dispatch event to client and update other state as needed
     function onEvent(event) {
-        //
-        function colorize(data) {
-            if (!Array.isArray(data)) {
-                return data;
-            }
-            return data.map((datum) => {
-                if (datum === 'red') {
-                    return colors.red(datum);
-                }
-                if (datum === 'yellow') {
-                    return colors.yellow(datum);
-                }
-                if (datum === 'blue') {
-                    return colors.blue(datum);
-                }
-                return datum;
-            });
-        }
-        console.info(`${event.name} => ${colorize(event.data)}`);
+        console.info(`${event.name} => ${event.data}`);
         client.emit(event);
-        updateLights();
+        updatePanelLights();
     }
     console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`);

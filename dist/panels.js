@@ -2,17 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = require("lodash");
 const types_1 = require("./types");
-class WeaponsPanel {
+const rpio = require("rpio");
+class WeaponsPanel extends types_1.Panel {
     constructor() {
+        super(...arguments);
         this.name = 'weapons';
-        this.pins = [15, 13, 11]; // pins installed in weird order
+        this.pins = [11, 13, 15];
         this.lights = [];
         this.lightIndicies = [0, 1, 2];
+        this.buttonLightPins = [24];
     }
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
     }
-    updateLights(colorPositions) {
+    update(colorPositions) {
+        const isButtonLit = colorPositions.length > 0;
+        _.forEach(this.buttonLightPins, pin => {
+            rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
+        });
+        // Set LED lights for later batch-update
         this.lights = colorPositions
             .filter(({ position }) => position !== null)
             .map(({ color, position }) => ({
@@ -21,17 +29,21 @@ class WeaponsPanel {
         }));
     }
 }
-class ShieldsPanel {
+class ShieldsPanel extends types_1.Panel {
     constructor() {
+        super(...arguments);
         this.name = 'shields';
-        this.pins = [21, 19, 23]; // pins installed in weird order
+        this.pins = [19, 21, 23];
         this.lights = [];
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
     }
-    updateLights(colorPositions) {
+    setButtonLight(colorPositions) {
+        return;
+    }
+    update(colorPositions) {
         this.lights = colorPositions
             .filter(({ position }) => position !== null)
             .map(({ color, position }) => ({
@@ -40,51 +52,59 @@ class ShieldsPanel {
         }));
     }
 }
-class PropulsionPanel {
+class PropulsionPanel extends types_1.Panel {
     constructor() {
+        super(...arguments);
         this.name = 'propulsion';
-        this.pins = [35, 37];
+        this.pins = [33, 35];
         this.lights = [];
         this.lightIndicies = [6, 7];
+        this.buttonLightPins = [26, 28];
     }
     toData(colorPositions) {
         return colorPositions.length;
     }
-    updateLights(colorPositions) {
+    update(colorPositions) {
+        const isButtonLit = colorPositions.length > 0;
+        _.forEach(this.buttonLightPins, pin => {
+            rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
+        });
         this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.purple,
         }));
     }
 }
-class RepairsPanel {
+class RepairsPanel extends types_1.Panel {
     constructor() {
+        super(...arguments);
         this.name = 'repairs';
-        this.pins = [38, 40, 36]; // pins installed in weird order
+        this.pins = [27, 29, 31];
         this.lights = [];
         this.lightIndicies = [10, 9, 8]; // LEDs were installed backwards
     }
     toData(colorPositions) {
         return colorPositions.length;
     }
-    updateLights(colorPositions) {
+    update(colorPositions) {
         this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.green,
         }));
     }
 }
-class CommunicationsPanel {
+class CommunicationsPanel extends types_1.Panel {
     constructor() {
+        super(...arguments);
         this.name = 'communications';
-        this.pins = [27];
+        this.pins = [37];
         this.lights = [];
         this.lightIndicies = [11];
     }
     toData(colorPositions) {
         return colorPositions.length > 0;
     }
-    updateLights(colorPositions) {
+    update(colorPositions) {
         this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.red,

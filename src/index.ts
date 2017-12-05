@@ -18,39 +18,21 @@ import { LightController } from './LightController'
   // Create a button controller to manage button presses
   const buttonController = new ButtonController(buttons, onEvent)
 
-  // Create a light controller
+  // Create a light controller for the wire/panel LEDs
   const numLights = flatten(panels.map(p => p.lightIndicies)).length
   const lightController = new LightController(numLights)
 
   // Update lights (all at once, since they are daisy-chained via PWM)
-  function updateLights() {
+  function updatePanelLights() {
     const allLights = flatten(panelController.panels.map(panel => panel.lights))
     lightController.setLights(allLights)
   }
 
   // Dispatch event to client and update other state as needed
   function onEvent(event: Event) {
-    //
-    function colorize(data: any): any {
-      if (!Array.isArray(data)) {
-        return data
-      }
-      return data.map((datum: any) => {
-        if (datum === 'red') {
-          return colors.red(datum)
-        }
-        if (datum === 'yellow') {
-          return colors.yellow(datum)
-        }
-        if (datum === 'blue') {
-          return colors.blue(datum)
-        }
-        return datum
-      })
-    }
-    console.info(`${event.name} => ${colorize(event.data)}`)
+    console.info(`${event.name} => ${event.data}`)
     client.emit(event)
-    updateLights()
+    updatePanelLights()
   }
 
   console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`)
