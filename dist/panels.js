@@ -7,7 +7,7 @@ class WeaponsPanel extends types_1.Panel {
     constructor() {
         super(...arguments);
         this.name = 'weapons';
-        this.pins = [11, 13, 15];
+        this.pins = [15, 13, 11];
         this.lights = [];
         this.lightIndicies = [0, 1, 2];
         this.buttonLightPins = [24];
@@ -33,15 +33,12 @@ class ShieldsPanel extends types_1.Panel {
     constructor() {
         super(...arguments);
         this.name = 'shields';
-        this.pins = [19, 21, 23];
+        this.pins = [21, 19, 23];
         this.lights = [];
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
-    }
-    setButtonLight(colorPositions) {
-        return;
     }
     update(colorPositions) {
         this.lights = colorPositions

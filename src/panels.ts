@@ -4,7 +4,7 @@ import * as rpio from 'rpio'
 
 class WeaponsPanel extends Panel {
   public readonly name = 'weapons'
-  public readonly pins = [11, 13, 15]
+  public readonly pins = [15, 13, 11]
   public lights: Light[] = []
   public readonly lightIndicies = [0, 1, 2]
   public readonly buttonLightPins = [24]
@@ -30,16 +30,12 @@ class WeaponsPanel extends Panel {
 
 class ShieldsPanel extends Panel {
   public readonly name = 'shields'
-  public readonly pins = [19, 21, 23]
+  public readonly pins = [21, 19, 23]
   public lights: Light[] = []
   public readonly lightIndicies = [5, 4, 3] // LEDs were installed backwards
 
   public toData(colorPositions: ColorPosition[]) {
     return _.map(colorPositions, 'color')
-  }
-
-  public setButtonLight(colorPositions: ColorPosition[]) {
-    return
   }
 
   public update(colorPositions: ColorPosition[]): void {
