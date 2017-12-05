@@ -24,11 +24,12 @@ class PanelController {
             rpio.open(pin, rpio.OUTPUT, rpio.LOW);
             rpio.pud(pin, rpio.PULL_DOWN);
         });
-        // // Set up button light pins for writing
-        // _.flatten(_.map(this.panels, 'buttonLightPins')).forEach(pin => {
-        //   rpio.open(pin, rpio.OUTPUT, rpio.LOW)
-        //   rpio.pud(pin, rpio.PULL_DOWN)
-        // })
+        // Set up button light pins for writing
+        _.flatten(_.map(this.panels, 'buttonLightPins')).forEach(pin => {
+            console.log('connecting:', pin);
+            // rpio.open(pin, rpio.OUTPUT, rpio.LOW)
+            // rpio.pud(pin, rpio.PULL_DOWN)
+        });
         // Set up all panel wire pins for reading
         _.flatten(_.map(this.panels, 'pins')).forEach(pin => {
             rpio.open(pin, rpio.INPUT);
