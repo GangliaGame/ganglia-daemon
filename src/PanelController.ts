@@ -35,7 +35,8 @@ export class PanelController {
     })
 
     // Set up button light pins for writing
-    _.flatten(_.map(this.panels, 'buttonLightPins')).forEach(pin => {
+    _.flatten(this.panels.map(panel => panel.buttonLightPins))
+      .forEach(pin => {
       console.log('connecting:', pin)
       // rpio.open(pin, rpio.OUTPUT, rpio.LOW)
       // rpio.pud(pin, rpio.PULL_DOWN)
