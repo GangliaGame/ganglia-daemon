@@ -20,6 +20,7 @@ class ButtonController {
     setup() {
         // Set up button pins for reading
         this.buttons.forEach(({ pin }) => {
+            console.log(`setting pin ${pin} for INPUT`);
             rpio.open(pin, rpio.INPUT, rpio.PULL_DOWN);
         });
     }
