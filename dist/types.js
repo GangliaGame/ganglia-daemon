@@ -10,6 +10,12 @@ var LightColor;
     LightColor[LightColor["purple"] = 8388736] = "purple";
 })(LightColor = exports.LightColor || (exports.LightColor = {}));
 class Panel {
+    constructor() {
+        this.pins = [];
+        this.lights = [];
+        this.lightIndicies = [];
+        this.buttonLightPins = [];
+    }
 }
 exports.Panel = Panel;
 // export abstract class PolledController<T, E> {

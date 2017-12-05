@@ -24,10 +24,10 @@ export interface Light {
 
 export abstract class Panel {
   public readonly name: string
-  public readonly pins: Pin[]
-  public lights: Light[]
-  public readonly lightIndicies: LightIndex[]
-  public readonly buttonLightPins: Pin[]
+  public readonly pins: Pin[] = []
+  public lights: Light[] = []
+  public readonly lightIndicies: LightIndex[] = []
+  public readonly buttonLightPins: Pin[] = []
   public abstract update(colorPositions: ColorPosition[]): void
   public abstract toData(colorPositions: ColorPosition[]): any
 }

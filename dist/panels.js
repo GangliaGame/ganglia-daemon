@@ -8,7 +8,6 @@ class WeaponsPanel extends types_1.Panel {
         super(...arguments);
         this.name = 'weapons';
         this.pins = [15, 13, 11];
-        this.lights = [];
         this.lightIndicies = [0, 1, 2];
         this.buttonLightPins = [24];
     }
@@ -34,7 +33,6 @@ class ShieldsPanel extends types_1.Panel {
         super(...arguments);
         this.name = 'shields';
         this.pins = [21, 19, 23];
-        this.lights = [];
         this.lightIndicies = [5, 4, 3]; // LEDs were installed backwards
     }
     toData(colorPositions) {
@@ -49,69 +47,68 @@ class ShieldsPanel extends types_1.Panel {
         }));
     }
 }
-//
-// class PropulsionPanel extends Panel {
-//   public readonly name = 'propulsion'
-//   public readonly pins = [33, 35]
-//   public lights: Light[] = []
-//   public readonly lightIndicies = [6, 7]
-//   public readonly buttonLightPins = [26, 28]
-//
-//   public toData(colorPositions: ColorPosition[]) {
-//     return colorPositions.length
-//   }
-//
-//   public update(colorPositions: ColorPosition[]) {
-//     const isButtonLit = colorPositions.length > 0
-//     _.forEach(this.buttonLightPins, pin => {
-//       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
-//     })
-//
-//     this.lights = _.times(colorPositions.length, i => ({
-//       index: this.lightIndicies[i],
-//       color: LightColor.purple,
-//     }))
-//   }
-// }
-//
-// class RepairsPanel extends Panel {
-//   public readonly name = 'repairs'
-//   public readonly pins = [27, 29, 31]
-//   public lights: Light[] = []
-//   public readonly lightIndicies = [10, 9, 8] // LEDs were installed backwards
-//
-//   public toData(colorPositions: ColorPosition[]) {
-//     return colorPositions.length
-//   }
-//
-//   public update(colorPositions: ColorPosition[]): void {
-//     this.lights = _.times(colorPositions.length, i => ({
-//       index: this.lightIndicies[i],
-//       color: LightColor.green,
-//     }))
-//   }
-// }
-//
-// class CommunicationsPanel extends Panel {
-//   public readonly name = 'communications'
-//   public readonly pins = [37]
-//   public lights: Light[] = []
-//   public readonly lightIndicies = [11]
-//
-//   public toData(colorPositions: ColorPosition[]) {
-//     return colorPositions.length > 0
-//   }
-//
-//   public update(colorPositions: ColorPosition[]): void {
-//     this.lights = _.times(colorPositions.length, i => ({
-//       index: this.lightIndicies[i],
-//       color: LightColor.red,
-//     }))
-//   }
-// }
+class PropulsionPanel extends types_1.Panel {
+    constructor() {
+        super(...arguments);
+        this.name = 'propulsion';
+        this.pins = [33, 35];
+        this.lightIndicies = [6, 7];
+        this.buttonLightPins = [26, 28];
+    }
+    toData(colorPositions) {
+        return colorPositions.length;
+    }
+    update(colorPositions) {
+        const isButtonLit = colorPositions.length > 0;
+        _.forEach(this.buttonLightPins, pin => {
+            rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
+        });
+        this.lights = _.times(colorPositions.length, i => ({
+            index: this.lightIndicies[i],
+            color: types_1.LightColor.purple,
+        }));
+    }
+}
+class RepairsPanel extends types_1.Panel {
+    constructor() {
+        super(...arguments);
+        this.name = 'repairs';
+        this.pins = [27, 29, 31];
+        this.lightIndicies = [10, 9, 8]; // LEDs were installed backwards
+    }
+    toData(colorPositions) {
+        return colorPositions.length;
+    }
+    update(colorPositions) {
+        this.lights = _.times(colorPositions.length, i => ({
+            index: this.lightIndicies[i],
+            color: types_1.LightColor.green,
+        }));
+    }
+}
+class CommunicationsPanel extends types_1.Panel {
+    constructor() {
+        super(...arguments);
+        this.name = 'communications';
+        this.pins = [37];
+        this.lightIndicies = [11];
+    }
+    toData(colorPositions) {
+        return colorPositions.length > 0;
+    }
+    update(colorPositions) {
+        this.lights = _.times(colorPositions.length, i => ({
+            index: this.lightIndicies[i],
+            color: types_1.LightColor.red,
+        }));
+    }
+}
 const panels = [
     new WeaponsPanel(),
     new ShieldsPanel(),
+    new PropulsionPanel(),
+    new RepairsPanel(),
+    new CommunicationsPanel(),
 ];
 exports.panels = panels;
 //# sourceMappingURL=panels.js.map
