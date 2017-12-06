@@ -3,7 +3,6 @@ import * as _ from 'lodash'
 import { Button, ButtonState, Event, Press } from './types'
 
 function isButtonPressed(button: Button): boolean {
-  console.log(`read: ${button.pin} = ${rpio.read(button.pin)}`)
   return rpio.read(button.pin) ? true : false
 }
 
