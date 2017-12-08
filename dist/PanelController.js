@@ -21,7 +21,12 @@ class PanelController {
     }
     emitAll() {
         const connections = this.getConnections();
-        connections.forEach(c => this.processConnection(c, connections));
+        connections.forEach(({ color, panel }) => {
+            const colorPositions = this.colorPositions(connections, panel);
+            const event = this.eventForPanelWithColorPositions(panel, colorPositions);
+            panel.update(colorPositions, this.getGameState());
+            this.onEvent(event);
+        });
     }
     setup() {
         // Set up wire pins for writing
