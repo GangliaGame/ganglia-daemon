@@ -10,7 +10,7 @@ const ButtonController_1 = require("./ButtonController");
 const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
-    let gameState = 'start';
+    let gameState = 'before';
     function onGameStateChanged(state) {
         if (state === gameState)
             return;
@@ -31,7 +31,10 @@ const LightController_1 = require("./LightController");
     // Update lights (all at once, since they are daisy-chained via PWM)
     function updatePanelLights() {
         let lights = [];
-        if (gameState === 'over') {
+        if (gameState === 'before') {
+            // pass
+        }
+        else if (gameState === 'over') {
             lightController.startFlashingLights(types_1.LightColor.red);
         }
         else if (gameState === 'start') {

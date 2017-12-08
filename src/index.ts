@@ -10,7 +10,7 @@ import { LightController } from './LightController'
 
 (function main() {
 
-  let gameState: GameState = 'start'
+  let gameState: GameState = 'before'
 
   function onGameStateChanged(state: GameState) {
     if (state === gameState) return
@@ -36,7 +36,9 @@ import { LightController } from './LightController'
   // Update lights (all at once, since they are daisy-chained via PWM)
   function updatePanelLights() {
     let lights: Light[] = []
-    if (gameState === 'over') {
+    if (gameState === 'before') {
+      // pass
+    } else if (gameState === 'over') {
       lightController.startFlashingLights(LightColor.red)
     } else if (gameState === 'start') {
       lightController.stopFlashingLights()
