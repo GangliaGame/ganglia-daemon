@@ -36,7 +36,7 @@ class ShieldsPanel extends Panel {
     return _.map(colorPositions, 'color')
   }
 
-  public update(colorPositions: ColorPosition[], gameState: GameState): void {
+  public update(colorPositions: ColorPosition[]): void {
     this.lights = colorPositions
       .filter(({position}) => position !==  null)
       .map(({color, position}) => ({
@@ -56,8 +56,8 @@ class PropulsionPanel extends Panel {
     return colorPositions.length
   }
 
-  public update(colorPositions: ColorPosition[]) {
-    const isButtonLit = colorPositions.length > 0
+  public update(colorPositions: ColorPosition[], gameState: GameState) {
+    const isButtonLit = colorPositions.length > 0 && gameState === 'start'
     _.forEach(this.buttonLightPins, pin => {
       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
     })
@@ -78,7 +78,7 @@ class RepairsPanel extends Panel {
     return colorPositions.length
   }
 
-  public update(colorPositions: ColorPosition[], gameState: GameState): void {
+  public update(colorPositions: ColorPosition[]): void {
     this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.green,
@@ -95,7 +95,7 @@ class CommunicationsPanel extends Panel {
     return colorPositions.length > 0
   }
 
-  public update(colorPositions: ColorPosition[], gameState: GameState): void {
+  public update(colorPositions: ColorPosition[]): void {
     this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.red,
