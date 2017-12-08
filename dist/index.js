@@ -32,9 +32,10 @@ const LightController_1 = require("./LightController");
     function updatePanelLights() {
         let lights = [];
         if (gameState === 'over') {
-            lights = lodash_1.times(numLights, index => ({ index, color: types_1.LightColor.red }));
+            lightController.startFlashingLights(types_1.LightColor.red);
         }
-        else {
+        else if (gameState === 'start') {
+            lightController.stopFlashingLights();
             lights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
         }
         lightController.setLights(lights);

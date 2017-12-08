@@ -5,6 +5,8 @@ const ws281x = require('rpi-ws281x-native'); // tslint:disable-line
 class LightController {
     constructor(numLights) {
         this.lights = [];
+        this.lightsFlashingTimer = null;
+        this.lightsFlashingCounter = 0;
         this.numLights = numLights;
         this.setup();
     }
@@ -14,6 +16,22 @@ class LightController {
     }
     teardown() {
         ws281x.reset();
+    }
+    startFlashingLights(color, delay = 1000) {
+        this.lightsFlashingTimer = global.setInterval(() => {
+            this.lightsFlashingCounter += 1;
+            if (this.lightsFlashingCounter % 2 === 0) {
+                this.setLights(_.times(this.numLights, index => ({ index, color })));
+            }
+            else {
+                this.setLights([]);
+            }
+        }, delay);
+    }
+    stopFlashingLights() {
+        if (this.lightsFlashingTimer) {
+            global.clearInterval(this.lightsFlashingTimer);
+        }
     }
     updateLights() {
         const pixelData = new Uint32Array(this.numLights);

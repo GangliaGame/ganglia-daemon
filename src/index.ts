@@ -1,9 +1,9 @@
-import { times, flatten } from 'lodash'
+import { flatten } from 'lodash'
 import * as colors from 'colors/safe'
 import { Client } from './client'
 import { panels } from './panels'
 import { buttons } from './buttons'
-import { GameState, Event, LightColor } from './types'
+import { GameState, Event, LightColor, Light } from './types'
 import { ButtonController } from './ButtonController'
 import { PanelController } from './PanelController'
 import { LightController } from './LightController'
@@ -35,10 +35,11 @@ import { LightController } from './LightController'
 
   // Update lights (all at once, since they are daisy-chained via PWM)
   function updatePanelLights() {
-    let lights = []
+    let lights: Light[] = []
     if (gameState === 'over') {
-      lights = times(numLights, index => ({index, color: LightColor.red}))
-    } else {
+      lightController.startFlashingLights(LightColor.red)
+    } else if (gameState === 'start') {
+      lightController.stopFlashingLights()
       lights = flatten(panelController.panels.map(panel => panel.lights))
     }
     lightController.setLights(lights)
