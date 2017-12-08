@@ -5,14 +5,18 @@ const colors = require("colors/safe");
 const client_1 = require("./client");
 const panels_1 = require("./panels");
 const buttons_1 = require("./buttons");
+const types_1 = require("./types");
 const ButtonController_1 = require("./ButtonController");
 const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
     let gameState = 'start';
     function onGameStateChanged(state) {
+        if (state === gameState)
+            return;
         console.info('new game state: ', state);
         gameState = state;
+        updatePanelLights();
     }
     // Create a client to interact with the server
     const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com';
@@ -26,8 +30,14 @@ const LightController_1 = require("./LightController");
     const lightController = new LightController_1.LightController(numLights);
     // Update lights (all at once, since they are daisy-chained via PWM)
     function updatePanelLights() {
-        const allLights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
-        lightController.setLights(allLights);
+        let lights = [];
+        if (gameState === 'over') {
+            lights = lodash_1.times(numLights, index => ({ index, color: types_1.LightColor.red }));
+        }
+        else {
+            lights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
+        }
+        lightController.setLights(lights);
     }
     // Dispatch event to client and update other state as needed
     function onEvent(event) {

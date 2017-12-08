@@ -56,8 +56,8 @@ class PropulsionPanel extends Panel {
     return colorPositions.length
   }
 
-  public update(colorPositions: ColorPosition[], gameState: GameState) {
-    const isButtonLit = colorPositions.length > 0 && gameState === 'start'
+  public update(colorPositions: ColorPosition[]) {
+    const isButtonLit = colorPositions.length > 0 
     _.forEach(this.buttonLightPins, pin => {
       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
     })

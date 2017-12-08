@@ -1,9 +1,9 @@
-import { flatten } from 'lodash'
+import { times, flatten } from 'lodash'
 import * as colors from 'colors/safe'
 import { Client } from './client'
 import { panels } from './panels'
 import { buttons } from './buttons'
-import { GameState, Event } from './types'
+import { GameState, Event, LightColor } from './types'
 import { ButtonController } from './ButtonController'
 import { PanelController } from './PanelController'
 import { LightController } from './LightController'
@@ -13,8 +13,10 @@ import { LightController } from './LightController'
   let gameState: GameState = 'start'
 
   function onGameStateChanged(state: GameState) {
+    if (state === gameState) return
     console.info('new game state: ', state)
     gameState = state
+    updatePanelLights()
   }
 
   // Create a client to interact with the server
@@ -33,8 +35,13 @@ import { LightController } from './LightController'
 
   // Update lights (all at once, since they are daisy-chained via PWM)
   function updatePanelLights() {
-    const allLights = flatten(panelController.panels.map(panel => panel.lights))
-    lightController.setLights(allLights)
+    let lights = []
+    if (gameState === 'over') {
+      lights = times(numLights, index => ({index, color: LightColor.red}))
+    } else {
+      lights = flatten(panelController.panels.map(panel => panel.lights))
+    }
+    lightController.setLights(lights)
   }
 
   // Dispatch event to client and update other state as needed
