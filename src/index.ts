@@ -37,14 +37,14 @@ import { LightController } from './LightController'
   function updatePanelLights() {
     let lights: Light[] = []
     if (gameState === 'before') {
-      lightController.startFlashingLights(LightColor.green, 1000)
+      lightController.startFlashingLights(LightColor.green)
     } else if (gameState === 'over') {
       lightController.startFlashingLights(LightColor.red)
     } else if (gameState === 'start') {
       lightController.stopFlashingLights()
       lights = flatten(panelController.panels.map(panel => panel.lights))
+      lightController.setLights(lights)
     }
-    lightController.setLights(lights)
   }
 
   // Dispatch event to client and update other state as needed
