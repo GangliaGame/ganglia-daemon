@@ -32,7 +32,7 @@ const LightController_1 = require("./LightController");
     function updatePanelLights() {
         let lights = [];
         if (gameState === 'before') {
-            // pass
+            lightController.startFlashingLights(types_1.LightColor.red, 6, 1000000);
         }
         else if (gameState === 'over') {
             lightController.startFlashingLights(types_1.LightColor.red);

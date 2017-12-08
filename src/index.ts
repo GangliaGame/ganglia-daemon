@@ -37,7 +37,7 @@ import { LightController } from './LightController'
   function updatePanelLights() {
     let lights: Light[] = []
     if (gameState === 'before') {
-      // pass
+      lightController.startFlashingLights(LightColor.red, 6, 1000000)
     } else if (gameState === 'over') {
       lightController.startFlashingLights(LightColor.red)
     } else if (gameState === 'start') {
