@@ -13,7 +13,7 @@ class WeaponsPanel extends Panel {
   }
 
   public update(colorPositions: ColorPosition[], gameState: GameState): void {
-    const isButtonLit = colorPositions.length > 0 || gameState === 'over'
+    const isButtonLit = true
     _.forEach(this.buttonLightPins, pin => {
       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
     })
@@ -56,8 +56,8 @@ class PropulsionPanel extends Panel {
     return colorPositions.length
   }
 
-  public update(colorPositions: ColorPosition[]) {
-    const isButtonLit = colorPositions.length > 0 
+  public update(colorPositions: ColorPosition[], gameState: GameState) {
+    const isButtonLit = colorPositions.length > 0 && gameState === 'start'
     _.forEach(this.buttonLightPins, pin => {
       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
     })

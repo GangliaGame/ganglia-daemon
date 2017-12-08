@@ -15,7 +15,7 @@ class WeaponsPanel extends types_1.Panel {
         return _.map(colorPositions, 'color');
     }
     update(colorPositions, gameState) {
-        const isButtonLit = colorPositions.length > 0 || gameState === 'over';
+        const isButtonLit = true;
         _.forEach(this.buttonLightPins, pin => {
             rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
         });
@@ -58,8 +58,8 @@ class PropulsionPanel extends types_1.Panel {
     toData(colorPositions) {
         return colorPositions.length;
     }
-    update(colorPositions) {
-        const isButtonLit = colorPositions.length > 0;
+    update(colorPositions, gameState) {
+        const isButtonLit = colorPositions.length > 0 && gameState === 'start';
         _.forEach(this.buttonLightPins, pin => {
             rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
         });
