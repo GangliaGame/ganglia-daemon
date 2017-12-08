@@ -3,20 +3,34 @@ import * as colors from 'colors/safe'
 import { Client } from './client'
 import { panels } from './panels'
 import { buttons } from './buttons'
-import { Event } from './types'
+import { GameState, Event } from './types'
 import { ButtonController } from './ButtonController'
 import { PanelController } from './PanelController'
 import { LightController } from './LightController'
 
 (function main() {
+
+  let gameState: GameState = 'started'
+
+  function onGameStart() {
+    console.info('gamestart')
+    gameState = 'started'
+  }
+
+  function onGameOver() {
+    console.info('gameover')
+    gameState = 'over'
+  }
+
   // Create a client to interact with the server
-  const client = new Client(process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com')
+  const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com'
+  const client = new Client(url, onGameStart, onGameOver)
 
   // Create a panel controller to manage plugging and unplugging wires into panels
-  const panelController = new PanelController(panels, onEvent)
+  const panelController = new PanelController(panels, onEvent, () => gameState)
 
   // Create a button controller to manage button presses
-  const buttonController = new ButtonController(buttons, onEvent)
+  const buttonController = new ButtonController(buttons, onEvent, () => gameState)
 
   // Create a light controller for the wire/panel LEDs
   const numLights = flatten(panels.map(p => p.lightIndicies)).length

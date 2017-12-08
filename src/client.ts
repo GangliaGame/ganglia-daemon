@@ -6,9 +6,11 @@ export class Client {
   public readonly url: string
   private socket: SocketIOClient.Socket
 
-  constructor(url: string) {
+  constructor(url: string, onGameStart: () => void, onGameOver: () => void) {
     this.url = url
     this.socket = io(url, { reconnection: true })
+    this.socket.on('gamestart', onGameStart)
+    this.socket.on('gameover', onGameOver)
     this.socket.on('connect', this.onConnect.bind(this))
     this.socket.on('disconnect', this.onDisconnect.bind(this))
   }

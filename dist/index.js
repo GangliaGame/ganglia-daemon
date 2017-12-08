@@ -9,12 +9,22 @@ const ButtonController_1 = require("./ButtonController");
 const PanelController_1 = require("./PanelController");
 const LightController_1 = require("./LightController");
 (function main() {
+    let gameState = 'started';
+    function onGameStart() {
+        console.info('gamestart');
+        gameState = 'started';
+    }
+    function onGameOver() {
+        console.info('gameover');
+        gameState = 'over';
+    }
     // Create a client to interact with the server
-    const client = new client_1.Client(process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com');
+    const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com';
+    const client = new client_1.Client(url, onGameStart, onGameOver);
     // Create a panel controller to manage plugging and unplugging wires into panels
-    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent);
+    const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent, () => gameState);
     // Create a button controller to manage button presses
-    const buttonController = new ButtonController_1.ButtonController(buttons_1.buttons, onEvent);
+    const buttonController = new ButtonController_1.ButtonController(buttons_1.buttons, onEvent, () => gameState);
     // Create a light controller for the wire/panel LEDs
     const numLights = lodash_1.flatten(panels_1.panels.map(p => p.lightIndicies)).length;
     const lightController = new LightController_1.LightController(numLights);

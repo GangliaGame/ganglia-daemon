@@ -6,16 +6,17 @@ function isButtonPressed(button) {
     return rpio.read(button.pin) ? true : false;
 }
 class ButtonController {
-    constructor(buttons, eventHandler, pollRateMsec = 50) {
+    constructor(buttons, eventHandler, getGameState) {
+        this.pollRateMsec = 50;
         this.prevPresses = [];
-        this.pollRateMsec = pollRateMsec;
+        this.getGameState = getGameState;
         this.onEvent = eventHandler;
         this.buttons = buttons;
         this.setup();
         // Get initial pressed (before code started)
         this.prevPresses = this.getPresses();
         // Begin polling for button connections
-        setInterval(this.poll.bind(this), pollRateMsec);
+        setInterval(this.poll.bind(this), this.pollRateMsec);
     }
     setup() {
         // Set up button pins for reading

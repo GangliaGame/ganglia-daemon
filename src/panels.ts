@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { Panel, ColorPosition, LightColor } from './types'
+import { Panel, ColorPosition, LightColor, GameState } from './types'
 import * as rpio from 'rpio'
 
 class WeaponsPanel extends Panel {
@@ -12,8 +12,8 @@ class WeaponsPanel extends Panel {
     return _.map(colorPositions, 'color')
   }
 
-  public update(colorPositions: ColorPosition[]): void {
-    const isButtonLit = colorPositions.length > 0
+  public update(colorPositions: ColorPosition[], gameState: GameState): void {
+    const isButtonLit = colorPositions.length > 0 || gameState === 'over'
     _.forEach(this.buttonLightPins, pin => {
       rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW)
     })
@@ -36,7 +36,7 @@ class ShieldsPanel extends Panel {
     return _.map(colorPositions, 'color')
   }
 
-  public update(colorPositions: ColorPosition[]): void {
+  public update(colorPositions: ColorPosition[], gameState: GameState): void {
     this.lights = colorPositions
       .filter(({position}) => position !==  null)
       .map(({color, position}) => ({
@@ -78,7 +78,7 @@ class RepairsPanel extends Panel {
     return colorPositions.length
   }
 
-  public update(colorPositions: ColorPosition[]): void {
+  public update(colorPositions: ColorPosition[], gameState: GameState): void {
     this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.green,
@@ -95,7 +95,7 @@ class CommunicationsPanel extends Panel {
     return colorPositions.length > 0
   }
 
-  public update(colorPositions: ColorPosition[]): void {
+  public update(colorPositions: ColorPosition[], gameState: GameState): void {
     this.lights = _.times(colorPositions.length, i => ({
       index: this.lightIndicies[i],
       color: LightColor.red,

@@ -8,15 +8,16 @@ const wires = {
     yellow: 7,
 };
 class PanelController {
-    constructor(panels, eventHandler, pollRateMsec = 250) {
+    constructor(panels, eventHandler, getGameState) {
+        this.pollRateMsec = 250;
         this.panels = [];
         this.prevConnections = [];
-        this.pollRateMsec = pollRateMsec;
+        this.getGameState = getGameState;
         this.onEvent = eventHandler;
         this.panels = panels;
         this.setup();
         // Begin polling for wire connections
-        setInterval(this.poll.bind(this), pollRateMsec);
+        setInterval(this.poll.bind(this), this.pollRateMsec);
     }
     setup() {
         // Set up wire pins for writing
@@ -68,7 +69,7 @@ class PanelController {
             }
             const colorPositions = this.colorPositions(connections, panelToUse);
             const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions);
-            panelToUse.update(colorPositions);
+            panelToUse.update(colorPositions, this.getGameState());
             this.onEvent(event);
         });
         this.prevConnections = connections;

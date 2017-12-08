@@ -1,6 +1,6 @@
 import * as rpio from 'rpio'
 import * as _ from 'lodash'
-import { Button, ButtonState, Event, Press } from './types'
+import { Button, ButtonState, Event, Press, GameState } from './types'
 
 function isButtonPressed(button: Button): boolean {
   return rpio.read(button.pin) ? true : false
@@ -8,13 +8,14 @@ function isButtonPressed(button: Button): boolean {
 
 export class ButtonController {
 
-  public readonly pollRateMsec: number
+  public readonly pollRateMsec: number = 50
   public readonly buttons: Button[]
   public readonly onEvent: (event: Event) => void
   private prevPresses: Press[] = []
+  private getGameState: () => GameState
 
-  constructor(buttons: Button[], eventHandler: (event: Event) => void, pollRateMsec = 50) {
-    this.pollRateMsec = pollRateMsec
+  constructor(buttons: Button[], eventHandler: (event: Event) => void, getGameState: () => GameState) {
+    this.getGameState = getGameState
     this.onEvent = eventHandler
     this.buttons = buttons
     this.setup()
@@ -22,7 +23,7 @@ export class ButtonController {
     // Get initial pressed (before code started)
     this.prevPresses = this.getPresses()
     // Begin polling for button connections
-    setInterval(this.poll.bind(this), pollRateMsec)
+    setInterval(this.poll.bind(this), this.pollRateMsec)
   }
 
   private setup(): void {

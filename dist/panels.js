@@ -14,8 +14,8 @@ class WeaponsPanel extends types_1.Panel {
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
     }
-    update(colorPositions) {
-        const isButtonLit = colorPositions.length > 0;
+    update(colorPositions, gameState) {
+        const isButtonLit = colorPositions.length > 0 || gameState === 'over';
         _.forEach(this.buttonLightPins, pin => {
             rpio.write(pin, isButtonLit ? rpio.HIGH : rpio.LOW);
         });
@@ -38,7 +38,7 @@ class ShieldsPanel extends types_1.Panel {
     toData(colorPositions) {
         return _.map(colorPositions, 'color');
     }
-    update(colorPositions) {
+    update(colorPositions, gameState) {
         this.lights = colorPositions
             .filter(({ position }) => position !== null)
             .map(({ color, position }) => ({
@@ -79,7 +79,7 @@ class RepairsPanel extends types_1.Panel {
     toData(colorPositions) {
         return colorPositions.length;
     }
-    update(colorPositions) {
+    update(colorPositions, gameState) {
         this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.green,
@@ -96,7 +96,7 @@ class CommunicationsPanel extends types_1.Panel {
     toData(colorPositions) {
         return colorPositions.length > 0;
     }
-    update(colorPositions) {
+    update(colorPositions, gameState) {
         this.lights = _.times(colorPositions.length, i => ({
             index: this.lightIndicies[i],
             color: types_1.LightColor.red,

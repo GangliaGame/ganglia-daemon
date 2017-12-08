@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import * as rpio from 'rpio'
-import { WirePin, WireColor, Wire, Panel, ColorPosition, Connection, Event } from './types'
+import { WirePin, WireColor, Wire, Panel, ColorPosition, Connection, Event, GameState } from './types'
 
 const wires: Wire = {
   red: 3,
@@ -12,19 +12,20 @@ type EventHandler = (event: Event) => void
 
 export class PanelController {
 
-  public readonly pollRateMsec: number
+  public readonly pollRateMsec: number = 250
   public readonly panels: Panel[] = []
   public readonly onEvent: EventHandler
   private prevConnections: Connection[] = []
+  private getGameState: () => GameState
 
-  constructor(panels: Panel[], eventHandler: EventHandler, pollRateMsec = 250) {
-    this.pollRateMsec = pollRateMsec
+  constructor(panels: Panel[], eventHandler: EventHandler, getGameState: () => GameState) {
+    this.getGameState = getGameState
     this.onEvent = eventHandler
     this.panels = panels
     this.setup()
 
     // Begin polling for wire connections
-    setInterval(this.poll.bind(this), pollRateMsec)
+    setInterval(this.poll.bind(this), this.pollRateMsec)
   }
 
   private setup(): void {
@@ -82,7 +83,7 @@ export class PanelController {
       }
       const colorPositions = this.colorPositions(connections, panelToUse)
       const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions)
-      panelToUse.update(colorPositions)
+      panelToUse.update(colorPositions, this.getGameState())
       this.onEvent(event)
     })
 

@@ -1,3 +1,5 @@
+export type GameState = 'started' | 'over'
+
 export type WireColor = 'red' | 'blue' | 'yellow'
 
 export type WirePin = 3 | 5 | 7
@@ -28,7 +30,7 @@ export abstract class Panel {
   public lights: Light[] = []
   public readonly lightIndicies: LightIndex[] = []
   public readonly buttonLightPins: Pin[] = []
-  public abstract update(colorPositions: ColorPosition[]): void
+  public abstract update(colorPositions: ColorPosition[], gameState: GameState): void
   public abstract toData(colorPositions: ColorPosition[]): any
 }
 
@@ -51,7 +53,7 @@ export type ButtonState = 'pressed' | 'released'
 export interface Button {
   name: string
   pin: Pin
-  toData: (state: ButtonState) => any
+  toData: (buttonState: ButtonState) => any
 }
 
 export interface Press {
