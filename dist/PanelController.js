@@ -22,6 +22,9 @@ class PanelController {
     emitAll() {
         const connections = this.getConnections();
         connections.forEach(({ color, panel }) => {
+            if (panel === null) {
+                return;
+            }
             const colorPositions = this.colorPositions(connections, panel);
             const event = this.eventForPanelWithColorPositions(panel, colorPositions);
             panel.update(colorPositions, this.getGameState());
