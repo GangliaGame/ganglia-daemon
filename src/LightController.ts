@@ -38,6 +38,7 @@ export class LightController {
   }
 
   public stopFlashingLights() {
+    this.lightsFlashingCounter = 0
     if (this.lightsFlashingTimer) {
       global.clearInterval(this.lightsFlashingTimer)
     }

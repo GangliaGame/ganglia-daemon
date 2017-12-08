@@ -32,6 +32,7 @@ class LightController {
         this.lightsFlashingTimer = global.setInterval(op, delay);
     }
     stopFlashingLights() {
+        this.lightsFlashingCounter = 0;
         if (this.lightsFlashingTimer) {
             global.clearInterval(this.lightsFlashingTimer);
         }
