@@ -15,8 +15,8 @@ const LightController_1 = require("./LightController");
         if (state === gameState)
             return;
         console.info('new game state: ', state);
-        updatePanelLights();
         gameState = state;
+        updatePanelLights();
     }
     // Create a client to interact with the server
     const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com';

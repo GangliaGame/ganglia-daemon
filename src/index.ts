@@ -15,8 +15,8 @@ import { LightController } from './LightController'
   function onGameStateChanged(state: GameState) {
     if (state === gameState) return
     console.info('new game state: ', state)
-    updatePanelLights()
     gameState = state
+    updatePanelLights()
   }
 
   // Create a client to interact with the server
