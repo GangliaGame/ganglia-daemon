@@ -28,6 +28,11 @@ export class PanelController {
     setInterval(this.poll.bind(this), this.pollRateMsec)
   }
 
+  public emitAll() {
+    const connections = this.getConnections()
+    connections.forEach(c => this.processConnection(c, connections))
+  }
+
   private setup(): void {
     // Set up wire pins for writing
     Object.values(wires).forEach(pin => {
@@ -65,29 +70,31 @@ export class PanelController {
     }
 
     // Dispatch server events and change lights based on new connections
-    newConnections.forEach(({color, panel}) => {
-      let panelToUse: Panel
-      if (panel) {
-        // Connection added, use the panel it was added to
-        panelToUse = panel
-      } else {
-        // Connection removed, find the panel it was previously connected to and remove it
-        const previousConnection = this.prevConnections.find((conn: Connection) => conn.color === color)
-        // If the previous connection doesn't exist, it's because
-        // it was plugged in before the daemon was started. That's fine,
-        // just skip it!
-        if (!previousConnection) {
-          return
-        }
-        panelToUse = previousConnection.panel!
-      }
-      const colorPositions = this.colorPositions(connections, panelToUse)
-      const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions)
-      panelToUse.update(colorPositions, this.getGameState())
-      this.onEvent(event)
-    })
-
+    newConnections.forEach(c => this.processConnection(c, connections))
     this.prevConnections = connections
+  }
+
+  private processConnection(connection: Connection, connections: Connection[]) {
+    const {color, panel} = connection
+    let panelToUse: Panel
+    if (panel) {
+      // Connection added, use the panel it was added to
+      panelToUse = panel
+    } else {
+      // Connection removed, find the panel it was previously connected to and remove it
+      const previousConnection = this.prevConnections.find((conn: Connection) => conn.color === color)
+      // If the previous connection doesn't exist, it's because
+      // it was plugged in before the daemon was started. That's fine,
+      // just skip it!
+      if (!previousConnection) {
+        return
+      }
+      panelToUse = previousConnection.panel!
+    }
+    const colorPositions = this.colorPositions(connections, panelToUse)
+    const event = this.eventForPanelWithColorPositions(panelToUse, colorPositions)
+    panelToUse.update(colorPositions, this.getGameState())
+    this.onEvent(event)
   }
 
   // Create an event based on the panel and wires

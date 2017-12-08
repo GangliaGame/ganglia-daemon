@@ -13,10 +13,15 @@ import { LightController } from './LightController'
   let gameState: GameState = 'before'
 
   function onGameStateChanged(state: GameState) {
-    if (state === gameState) return
+    if (state === gameState) {
+      return
+    }
     console.info('new game state: ', state)
     gameState = state
     updatePanelLights()
+    if (gameState === 'start') {
+      panelController.emitAll()
+    }
   }
 
   // Create a client to interact with the server
