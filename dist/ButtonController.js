@@ -9,7 +9,6 @@ class ButtonController {
     constructor(buttons, eventHandler, getGameState) {
         this.pollRateMsec = 50;
         this.prevPresses = [];
-        this.getGameState = getGameState;
         this.onEvent = eventHandler;
         this.buttons = buttons;
         this.setup();

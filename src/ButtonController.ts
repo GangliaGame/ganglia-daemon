@@ -12,10 +12,8 @@ export class ButtonController {
   public readonly buttons: Button[]
   public readonly onEvent: (event: Event) => void
   private prevPresses: Press[] = []
-  private getGameState: () => GameState
 
   constructor(buttons: Button[], eventHandler: (event: Event) => void, getGameState: () => GameState) {
-    this.getGameState = getGameState
     this.onEvent = eventHandler
     this.buttons = buttons
     this.setup()
