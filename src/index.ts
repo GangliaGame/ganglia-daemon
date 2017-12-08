@@ -19,14 +19,11 @@ import { LightController } from './LightController'
     console.info('new game state: ', state)
     gameState = state
     updatePanelLights()
-    if (gameState === 'start') {
-      panelController.emitAll()
-    }
   }
 
   // Create a client to interact with the server
   const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com'
-  const client = new Client(url, onGameStateChanged)
+  const client = new Client(url, onGameStateChanged, () => panelController.emitAll())
 
   // Create a panel controller to manage plugging and unplugging wires into panels
   const panelController = new PanelController(panels, onEvent, () => gameState)

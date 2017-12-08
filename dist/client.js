@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const io = require("socket.io-client");
 class Client {
-    constructor(url, onGameStateChanged) {
+    constructor(url, onGameStateChanged, onFrontendReady) {
         this.url = url;
         this.socket = io(url, { reconnection: true });
-        // this.socket.on('frontend-connected', onFrontendConnected)
+        this.socket.on('frontend-ready', onFrontendReady);
         this.socket.on('state', onGameStateChanged);
         this.socket.on('connect', this.onConnect.bind(this));
         this.socket.on('disconnect', this.onDisconnect.bind(this));

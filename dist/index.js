@@ -18,13 +18,10 @@ const LightController_1 = require("./LightController");
         console.info('new game state: ', state);
         gameState = state;
         updatePanelLights();
-        if (gameState === 'start') {
-            panelController.emitAll();
-        }
     }
     // Create a client to interact with the server
     const url = process.env.GANGLIA_SERVER_URL || 'http://server.toomanycaptains.com';
-    const client = new client_1.Client(url, onGameStateChanged);
+    const client = new client_1.Client(url, onGameStateChanged, () => panelController.emitAll());
     // Create a panel controller to manage plugging and unplugging wires into panels
     const panelController = new PanelController_1.PanelController(panels_1.panels, onEvent, () => gameState);
     // Create a button controller to manage button presses

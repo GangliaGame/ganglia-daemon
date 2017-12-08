@@ -6,10 +6,10 @@ export class Client {
   public readonly url: string
   private socket: SocketIOClient.Socket
 
-  constructor(url: string, onGameStateChanged: (state: GameState) => void) {
+  constructor(url: string, onGameStateChanged: (state: GameState) => void, onFrontendReady: () => void) {
     this.url = url
     this.socket = io(url, { reconnection: true })
-    // this.socket.on('frontend-connected', onFrontendConnected)
+    this.socket.on('frontend-ready', onFrontendReady)
     this.socket.on('state', onGameStateChanged)
     this.socket.on('connect', this.onConnect.bind(this))
     this.socket.on('disconnect', this.onDisconnect.bind(this))
