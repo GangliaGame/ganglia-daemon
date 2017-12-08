@@ -26,12 +26,12 @@ export class LightController {
   public startFlashingLights(color: LightColor, limit = this.numLights, delay = 750) {
     this.stopFlashingLights()
     const op = () => {
-      this.lightsFlashingCounter += 1
       if (this.lightsFlashingCounter % 2 === 0) {
         this.setLights(_.times(limit, index => ({index, color})))
       } else {
         this.setLights([])
       }
+      this.lightsFlashingCounter += 1
     }
     op()
     this.lightsFlashingTimer = global.setInterval(op, delay)
