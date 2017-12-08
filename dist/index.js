@@ -12,10 +12,10 @@ const LightController_1 = require("./LightController");
 (function main() {
     let gameState = 'before';
     function onGameStateChanged(state) {
-        updatePanelLights();
         if (state === gameState)
             return;
         console.info('new game state: ', state);
+        updatePanelLights();
         gameState = state;
     }
     // Create a client to interact with the server
@@ -32,7 +32,7 @@ const LightController_1 = require("./LightController");
     function updatePanelLights() {
         let lights = [];
         if (gameState === 'before') {
-            lightController.startFlashingLights(types_1.LightColor.green);
+            lightController.startFlashingLights(types_1.LightColor.green, 6, 100000);
         }
         else if (gameState === 'over') {
             lightController.startFlashingLights(types_1.LightColor.red);
@@ -40,8 +40,8 @@ const LightController_1 = require("./LightController");
         else if (gameState === 'start') {
             lightController.stopFlashingLights();
             lights = lodash_1.flatten(panelController.panels.map(panel => panel.lights));
+            lightController.setLights(lights);
         }
-        lightController.setLights(lights);
     }
     // Dispatch event to client and update other state as needed
     function onEvent(event) {
@@ -52,6 +52,7 @@ const LightController_1 = require("./LightController");
     console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`);
     console.info(`${colors.bold('Server')}: ${client.url}\n`);
+    updatePanelLights();
     function teardownAndExitCleanly() {
         lightController.teardown();
         process.nextTick(() => process.exit(0));

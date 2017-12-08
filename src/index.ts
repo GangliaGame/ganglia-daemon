@@ -13,9 +13,9 @@ import { LightController } from './LightController'
   let gameState: GameState = 'before'
 
   function onGameStateChanged(state: GameState) {
-    updatePanelLights()
     if (state === gameState) return
     console.info('new game state: ', state)
+    updatePanelLights()
     gameState = state
   }
 
@@ -37,7 +37,7 @@ import { LightController } from './LightController'
   function updatePanelLights() {
     let lights: Light[] = []
     if (gameState === 'before') {
-      lightController.startFlashingLights(LightColor.green)
+      lightController.startFlashingLights(LightColor.green, 6, 100000)
     } else if (gameState === 'over') {
       lightController.startFlashingLights(LightColor.red)
     } else if (gameState === 'start') {
@@ -57,6 +57,7 @@ import { LightController } from './LightController'
   console.info(`\n${colors.bold('Wire poll rate')}: ${1000 / panelController.pollRateMsec} Hz`)
   console.info(`${colors.bold('Button poll rate')}: ${1000 / buttonController.pollRateMsec} Hz`)
   console.info(`${colors.bold('Server')}: ${client.url}\n`)
+  updatePanelLights()
 
   function teardownAndExitCleanly() {
     lightController.teardown()
