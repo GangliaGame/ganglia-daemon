@@ -23,7 +23,7 @@ export class LightController {
     ws281x.reset()
   }
 
-  public startFlashingLights(color: LightColor, delay = 1000) {
+  public startFlashingLights(color: LightColor, delay = 750) {
     this.lightsFlashingTimer = global.setInterval(() => {
       this.lightsFlashingCounter += 1
       if (this.lightsFlashingCounter % 2 === 0) {
