@@ -1,16 +1,15 @@
 import * as io from 'socket.io-client'
-import { Event } from './types'
+import { GameState, Event } from './types'
 
 export class Client {
 
   public readonly url: string
   private socket: SocketIOClient.Socket
 
-  constructor(url: string, onGameStart: () => void, onGameOver: () => void) {
+  constructor(url: string, onGameStateChanged: (state: GameState) => void) {
     this.url = url
     this.socket = io(url, { reconnection: true })
-    this.socket.on('gamestart', onGameStart)
-    this.socket.on('gameover', onGameOver)
+    this.socket.on('state', onGameStateChanged)
     this.socket.on('connect', this.onConnect.bind(this))
     this.socket.on('disconnect', this.onDisconnect.bind(this))
   }

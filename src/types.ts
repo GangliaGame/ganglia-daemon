@@ -1,4 +1,4 @@
-export type GameState = 'started' | 'over'
+export type GameState = 'start' | 'over'
 
 export type WireColor = 'red' | 'blue' | 'yellow'
 
