@@ -44,7 +44,8 @@ class PanelController {
     }
     poll() {
         const connections = this.getConnections();
-        const newConnections = _.differenceWith(connections, this.prevConnections, _.isEqual);
+        const newConnections = connections;
+        // const newConnections = _.differenceWith(connections, this.prevConnections, _.isEqual)
         // If there were no new connections, just return early
         if (_.isEmpty(newConnections)) {
             return;
